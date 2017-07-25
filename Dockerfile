@@ -44,6 +44,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 
 # Build using non-root user 'vespabuilder'
 RUN useradd --create-home -s /bin/bash vespabuilder
+RUN echo "vespabuilder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 WORKDIR /home/vespabuilder
 USER vespabuilder
 
