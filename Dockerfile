@@ -42,11 +42,5 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
     echo "source /opt/rh/devtoolset-6/enable" > /etc/profile.d/devtoolset-6.sh && \
     echo "*          soft    nproc     32768" > /etc/security/limits.d/90-nproc.conf
 
-# Build using non-root user 'vespabuilder'
-RUN useradd --create-home -s /bin/bash vespabuilder
-RUN echo "vespabuilder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-WORKDIR /home/vespabuilder
-USER vespabuilder
-
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
