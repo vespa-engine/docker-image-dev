@@ -20,7 +20,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         llvm3.9-static \
         lz4-devel \
         make \
-        maven \
+        rh-maven33 \
         openssl \
         openssl-devel \
         perl \
@@ -40,6 +40,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         'vespa-zookeeper-c-client-devel >= 3.4.9-6' \
         zlib-devel && \
     yum clean all && \
+    scl enable rh-maven33 bash && \
     echo "source /opt/rh/devtoolset-6/enable" > /etc/profile.d/devtoolset-6.sh && \
     echo "*          soft    nproc     32768" > /etc/security/limits.d/90-nproc.conf
 
