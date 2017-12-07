@@ -11,6 +11,8 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         devtoolset-6-binutils \
         devtoolset-6-gcc-c++ \
         devtoolset-6-libatomic-devel \
+        flex \
+        bison \
         git \
         java-1.8.0-openjdk-devel \
         Judy-devel \
