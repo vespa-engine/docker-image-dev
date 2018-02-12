@@ -38,8 +38,6 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         valgrind \
         'vespa-boost-devel >= 1.59.0-7' \
         'vespa-cppunit-devel >= 1.12.1-7' \
-        'vespa-libtorrent-devel >= 1.0.11-7' \
-        'vespa-zookeeper-c-client-devel >= 3.4.9-7' \
         zlib-devel && \
     yum clean all && \
     echo "source /opt/rh/devtoolset-7/enable" >> /etc/profile.d/devtoolset-7.sh && \
