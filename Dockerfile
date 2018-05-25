@@ -22,7 +22,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         llvm3.9-static \
         lz4-devel \
         make \
-        rh-maven33 \
+        rh-maven35 \
         openssl \
         openssl-devel \
         perl \
@@ -42,7 +42,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
         zlib-devel && \
     yum clean all && \
     echo "source /opt/rh/devtoolset-7/enable" >> /etc/profile.d/devtoolset-7.sh && \
-    echo "source /opt/rh/rh-maven33/enable" >> /etc/profile.d/devtoolset-7.sh && \
+    echo "source /opt/rh/rh-maven35/enable" >> /etc/profile.d/devtoolset-7.sh && \
     echo "*          soft    nproc     32768" > /etc/security/limits.d/90-nproc.conf
 
 # Java requires proper locale for unicode
