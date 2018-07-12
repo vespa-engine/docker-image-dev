@@ -5,7 +5,7 @@ FROM centos:7
 RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vespa/vespa/repo/epel-7/group_vespa-vespa-epel-7.repo && \
     yum -y install epel-release && \
     yum -y install centos-release-scl && \
-    yum -y --enablerepo=epel-testing install git yum-utils
+    yum -y --enablerepo=epel-testing install git yum-utils ccache sudo
 
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
