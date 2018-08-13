@@ -10,7 +10,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "ac8b53179c27f71916fd4dc48852dad2f2e79764"
+ENV VESPA_SRC_REF "2c6e41499490c9414372f869ddb3b977d52a8a25"
 
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
     yum-builddep -y dist/vespa.spec && cd .. && rm -r vespa && \
