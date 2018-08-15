@@ -1,5 +1,9 @@
-### Vespa - The open big data serving engine
-Easily serve your big data - generate responses in milliseconds at any scale and with any traffic volume.
+## Docker image for Vespa development
+
+The Docker image definition for Vespa development. Use this image to build Vespa.
+https://hub.docker.com/r/vespaengine/vespa-dev/
+
+Commits to master will automatically trigger a new build and deployment on [Docker Cloud](https://cloud.docker.com/swarm/vespaengine/repository/docker/vespaengine/vespa-dev/general).
 
 Read more at the Vespa project [homepage](http://docs.vespa.ai).
 
