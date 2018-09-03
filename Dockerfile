@@ -14,13 +14,23 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "2c6e41499490c9414372f869ddb3b977d52a8a25"
+ENV VESPA_SRC_REF "5baad482446f664754aaa4ad422fa00a055470e6"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
     sed -e '/^BuildRequires:/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
     yum-builddep -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
+    curl -s "https://download.java.net/java/GA/jdk10/10.0.2/19aef61b38124481863b1413dce1855f/13/openjdk-10.0.2_linux-x64_bin.tar.gz" --output openjdk10.tar.gz && \
+    tar xf openjdk10.tar.gz -C /usr/local && \
+    rm openjdk10.tar.gz && \
+    mv /usr/local/jdk-10.0.2 /usr/local/jdk-10 && \
+    alternatives --install /usr/bin/java java /usr/local/jdk-10/bin/java 2 && \
+    alternatives --set java /usr/local/jdk-10/bin/java && \
+    alternatives --install /usr/bin/jar jar /usr/local/jdk-10/bin/jar 2 && \
+    alternatives --set jar /usr/local/jdk-10/bin/jar && \
+    alternatives --install /usr/bin/javac javac /usr/local/jdk-10/bin/javac 2 && \
+    alternatives --set javac /usr/local/jdk-10/bin/javac && \
     yum clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-7/enable" >> /etc/profile.d/enable-devtoolset-7.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
