@@ -5,19 +5,27 @@ FROM centos:7
 RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vespa/vespa/repo/epel-7/group_vespa-vespa-epel-7.repo && \
     yum -y install epel-release && \
     yum -y install centos-release-scl && \
-    yum -y --enablerepo=epel-testing install git yum-utils ccache sudo
+    yum -y --enablerepo=epel-testing install \
+        git \
+        yum-utils \
+        ccache \
+        sudo
 
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
 ENV VESPA_SRC_REF "2c6e41499490c9414372f869ddb3b977d52a8a25"
 
+# Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
-    yum-builddep -y dist/vespa.spec && cd .. && rm -r vespa && \
+    sed -e '/^BuildRequires:/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
+    yum-builddep -y dist/vespa.spec dist/vesparun.spec && \
+    cd .. && rm -r vespa && \
     yum clean all && rm -rf /var/cache/yum && \
-    echo "source /opt/rh/devtoolset-7/enable" >> /etc/profile.d/devtoolset-7.sh && \
-    echo "source /opt/rh/rh-maven35/enable" >> /etc/profile.d/devtoolset-7.sh && \
-    echo "*          soft    nproc     32768" > /etc/security/limits.d/90-nproc.conf
+    echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-7/enable" >> /etc/profile.d/enable-devtoolset-7.sh && \
+    echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
+    echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
+    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
