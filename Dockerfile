@@ -14,23 +14,17 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "344b478be6b3a5ff9419c2e857e763fdede5f010"
+ENV VESPA_SRC_REF "5f5228b66781153e2c89959795f0e6686a59aad0"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
     sed -e '/^BuildRequires:/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
     yum-builddep -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
-    curl -s "https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz" --output openjdk11.tar.gz && \
-    tar xf openjdk11.tar.gz -C /usr/local && \
-    rm openjdk11.tar.gz && \
-    mv /usr/local/jdk-11.0.1 /usr/local/jdk-11 && \
-    alternatives --install /usr/bin/java java /usr/local/jdk-11/bin/java 2 && \
-    alternatives --set java /usr/local/jdk-11/bin/java && \
-    alternatives --install /usr/bin/jar jar /usr/local/jdk-11/bin/jar 2 && \
-    alternatives --set jar /usr/local/jdk-11/bin/jar && \
-    alternatives --install /usr/bin/javac javac /usr/local/jdk-11/bin/javac 2 && \
-    alternatives --set javac /usr/local/jdk-11/bin/javac && \
+    yum-config-manager --enable cr && \
+    yum install -y java-11-openjdk-devel && \
+    alternatives --set java java-11-openjdk.x86_64 && \
+    alternatives --set javac java-11-openjdk.x86_64 && \
     yum clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-7/enable" >> /etc/profile.d/enable-devtoolset-7.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
