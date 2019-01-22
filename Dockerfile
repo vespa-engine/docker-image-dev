@@ -14,13 +14,15 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "2c6e41499490c9414372f869ddb3b977d52a8a25"
+ENV VESPA_SRC_REF "eb0b1134a66507e3bd8f09793c22cd824d01dff5"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
     sed -e '/^BuildRequires:/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
     yum-builddep -y --setopt="centos-sclo-rh-source.skip_if_unavailable=true" dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
+    alternatives --set java java-11-openjdk.x86_64 && \
+    alternatives --set javac java-11-openjdk.x86_64 && \
     yum clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-7/enable" >> /etc/profile.d/enable-devtoolset-7.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
