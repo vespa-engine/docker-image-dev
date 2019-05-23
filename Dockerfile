@@ -14,7 +14,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "c178d8a19da04a7bc8e3e2a13f373fdda27197bc"
+ENV VESPA_SRC_REF "af0d0d98e024c576f9088b3a30914448210b4301"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
@@ -24,7 +24,7 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     alternatives --set java java-11-openjdk.x86_64 && \
     alternatives --set javac java-11-openjdk.x86_64 && \
     yum clean all && rm -rf /var/cache/yum && \
-    echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-7/enable" >> /etc/profile.d/enable-devtoolset-7.sh && \
+    echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-8/enable" >> /etc/profile.d/enable-devtoolset-8.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
     echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
