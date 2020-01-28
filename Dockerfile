@@ -7,6 +7,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
     yum -y install centos-release-scl && \
     yum -y --enablerepo=epel-testing install \
         git \
+        jq \
         yum-utils \
         ccache \
         sudo
