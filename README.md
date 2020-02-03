@@ -3,7 +3,7 @@
 The Docker image definition for Vespa development. Use this image to build Vespa.
 https://hub.docker.com/r/vespaengine/vespa-dev/
 
-Commits to master will automatically trigger a new build and deployment on [Docker Cloud](https://cloud.docker.com/swarm/vespaengine/repository/docker/vespaengine/vespa-dev/general).
+Commits to master will automatically trigger a new build and deployment on [Docker Hub](https://hub.docker.com/repository/docker/vespaengine/vespa-dev/builds).
 
 Read more at the Vespa project [homepage](http://docs.vespa.ai).
 
