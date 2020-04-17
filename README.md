@@ -113,7 +113,7 @@ and sets environment variables needed for building Vespa.
     cd $HOME/git/docker-image-dev/dev/centos7
     docker build -t vespaengine/vespa-dev-centos7:latest .
 
-Use this for testing or if the Docker image (for any reason) is not available from Docker Hub.
+Use this for testing if doing changes to the Docker image.
 
 
 ### Build Vespa
@@ -131,7 +131,7 @@ Use this for testing or if the Docker image (for any reason) is not available fr
 ##### Build Java modules
 
     cd $HOME/git/vespa
-    ./bootstrap.sh full
+    ./bootstrap.sh java
     mvn clean install --threads 1C -DskipJavadoc -DskipTests
 
 ##### Build C++ modules
@@ -146,7 +146,7 @@ Set the number of compilation threads (-j argument) to the number of CPU cores +
 
     make install/fast
 
-Default install directory is $HOME/vespa (VESPA_HOME).
+Default install directory is $HOME/vespa ($VESPA_HOME).
 
 
 ### Run unit tests
@@ -186,6 +186,3 @@ Note that the system test scrips are already in your PATH inside the Docker cont
     cd $HOME/git/system-test/tests/search/basicsearch
     runtest.sh basic_search.rb
 
-Note that if you run a system test that compiles a Java bundle the Vespa version must be specified as well:
-
-    runtest.sh basic_search.rb --vespa-version=7-SNAPSHOT
