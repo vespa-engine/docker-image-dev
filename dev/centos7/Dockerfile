@@ -25,7 +25,7 @@ RUN yum -y clean all && \
         emacs \
         man-db \
         hunspell-en && \
-    (source /opt/rh/devtoolset-8/enable && \
+    (source /opt/rh/devtoolset-9/enable && \
      source /opt/rh/rh-ruby23/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder)
 
