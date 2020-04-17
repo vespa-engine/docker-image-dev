@@ -99,6 +99,10 @@ Second, run docker create with the -v option to mount the volume directory as th
 
 #### Configure the Docker container
 
+Ensure you have an SSH key before running the configure-container.sh script.
+If not, use the following guide
+[to generate a new SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+
     mkdir -p $HOME/git
     cd $HOME/git
     git clone git@github.com:vespa-engine/docker-image-dev.git
