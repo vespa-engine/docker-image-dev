@@ -122,23 +122,23 @@ Use this for testing if doing changes to the Docker image.
 
 ### Build Vespa
 
-##### SSH into the container
+#### SSH into the container
 
     ssh -A 127.0.0.1 -p 3334
 
-##### Checkout Vespa repo
+#### Checkout Vespa repo
 
     mkdir -p $HOME/git
     cd $HOME/git
     git clone git@github.com:vespa-engine/vespa.git
 
-##### Build Java modules
+#### Build Java modules
 
     cd $HOME/git/vespa
     ./bootstrap.sh java
     mvn clean install --threads 1C -DskipJavadoc -DskipTests
 
-##### Build C++ modules
+#### Build C++ modules
 
     cd $HOME/git/vespa
     ./bootstrap-cmake.sh -u .
@@ -146,7 +146,7 @@ Use this for testing if doing changes to the Docker image.
 
 Set the number of compilation threads (-j argument) to the number of CPU cores + 1.
 
-##### Install modules
+#### Install modules
 
     make install/fast
 
@@ -155,37 +155,37 @@ Default install directory is $HOME/vespa ($VESPA_HOME).
 
 ### Run unit tests
 
-##### Test all Java modules
+#### Test all Java modules
 
     mvn test --threads 1C
 
-##### Test specific Java module (e.g. container-search)
+#### Test specific Java module (e.g. container-search)
 
     mvn test --threads 1C -pl container-search
 
-##### Test all C++ modules
+#### Test all C++ modules
 
     ctest -j 9
 
-##### Test specific C++ module (e.g. searchlib)
+#### Test specific C++ module (e.g. searchlib)
 
     ctest -j 9 -R "^searchlib_"
 
 
 ### Run system tests
 
-##### Checkout system-test repo
+#### Checkout system-test repo
 
     cd $HOME/git
     git clone git@github.com:vespa-engine/system-test.git
 
 Note that the system test scrips are already in your PATH inside the Docker container.
 
-##### Start nodeserver in one terminal
+#### Start nodeserver in one terminal
 
     nodeserver.sh
 
-##### Run system test in another terminal
+#### Run system test in another terminal
 
     cd $HOME/git/system-test/tests/search/basicsearch
     runtest.sh basic_search.rb
