@@ -141,7 +141,7 @@ Use this for testing if doing changes to the Docker image.
 #### Build C++ modules
 
     cd $HOME/git/vespa
-    ./bootstrap-cmake.sh -u .
+    cmake3 .
     make -j 9
 
 Set the number of compilation threads (-j argument) to the number of CPU cores + 1.
