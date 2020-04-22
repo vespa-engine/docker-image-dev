@@ -141,7 +141,7 @@ Use this for testing if doing changes to the Docker image.
 #### Build C++ modules
 
     cd $HOME/git/vespa
-    ./bootstrap-cmake.sh -u .
+    cmake3 .
     make -j 9
 
 Set the number of compilation threads (-j argument) to the number of CPU cores + 1.
@@ -190,3 +190,21 @@ Note that the system test scrips are already in your PATH inside the Docker cont
     cd $HOME/git/system-test/tests/search/basicsearch
     runtest.sh basic_search.rb
 
+
+### Use CLion or IntelliJ via X11 forwarding from macOS
+
+#### Install XQuartz for macOS
+XQuartz is a version of the X.Org X Window System for macOS. Download
+[here](https://www.xquartz.org/).
+
+#### Configure sshd inside container to use ipv4
+Set ```AddressFamily inet``` inside ```/etc/ssh/sshd_config``` and restart sshd:
+
+    sudo kill -HUP <sshd-pid>
+
+#### ssh into container with X11 forwarding
+Open a XQuartz terminal and run:
+
+    ssh -Y -A 127.0.0.1 -p 3334
+
+Then start CLion or IntelliJ from this terminal.
