@@ -25,7 +25,9 @@ RUN yum -y clean all && \
         emacs \
         man-db \
         hunspell-en && \
-    yum -y install devtoolset-9-gdb && \
+    yum -y --setopt=skip_missing_names_on_install=False install \
+        devtoolset-9-gdb \
+        devtoolset-9-libasan-devel && \
     (source /opt/rh/devtoolset-9/enable && \
      source /opt/rh/rh-ruby23/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder) && \
