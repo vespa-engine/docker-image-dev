@@ -30,7 +30,7 @@ RUN yum -y clean all && \
         devtoolset-9-libasan-devel && \
     (source /opt/rh/devtoolset-9/enable && \
      source /opt/rh/rh-ruby23/enable && \
-     gem install libxml-ruby gnuplot distribution test-unit builder) && \
+     gem install libxml-ruby:3.1 gnuplot distribution test-unit builder) && \
     yum clean all --enablerepo=\*
 
 STOPSIGNAL SIGRTMIN+3
