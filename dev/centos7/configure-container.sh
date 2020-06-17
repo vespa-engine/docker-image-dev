@@ -34,7 +34,7 @@ docker exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 'export LC_CTYPE=en_US.UTF-8' \
 'export LC_ALL=en_US.UTF-8' \
 'export VESPA_HOME=\$HOME/vespa' \
-'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin' \
+'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin:/opt/vespa-deps/bin' \
 'export PATH' \
 'export MAVEN_OPTS=\"-Xms128m -Xmx1024m\"' \
 'alias ctest=ctest3' \
