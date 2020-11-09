@@ -24,6 +24,7 @@ RUN yum -y clean all && \
         vim \
         emacs \
         man-db \
+        man-pages \
         hunspell-en && \
     yum -y --setopt=skip_missing_names_on_install=False install \
         devtoolset-9-gdb \
