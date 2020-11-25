@@ -43,4 +43,4 @@ docker exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 "grep -q '.docker_profile' ~/.bash_profile || echo 'test -f ~/.docker_profile && source ~/.docker_profile || true' >> ~/.bash_profile"
 
 # Adjust ccache max size
-docker exec -u "$(id -u):$(id -g)" -it $container_name bash -c "ccache -M 10G"
+docker exec -u "$(id -u):$(id -g)" -it $container_name bash -c "ccache -M 20G"
