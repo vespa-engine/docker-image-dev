@@ -5,7 +5,7 @@
 echo "Run vespanode start, arguments are $NODE_SERVER_OPTS"
 
 . ./.bash_profile
-. ./.bashrc
+test -f .bashrc && . ./.bashrc
 
 vespa-remove-index -force && echo indexes removed
 vespa-configserver-remove-state -force

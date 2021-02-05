@@ -7,16 +7,17 @@ echo "Make vespanode image start"
 
 cd
 
-rsync -aHvSx /mnt/.bashrc .bashrc
+test -f /mnt/.bashrc && rsync -aHvSx /mnt/.bashrc .bashrc
 rsync -aHvSx /mnt/.bash_profile .bash_profile
 if test -f /mnt/.docker_profile
 then
     rsync -aHvSx /mnt/.docker_profile .docker_profile
 fi
-rsync -aHvSx --delete --exclude /run-vespanode.sh /mnt/bin/ bin/
+mkdir -p bin
+test -d /mnt/bin && rsync -aHvSx --delete --exclude /run-vespanode.sh /mnt/bin/ bin/
 rsync -aHvSx /mnt2/run-vespanode.sh bin/run-vespanode.sh
-rsync -aHvSx /mnt/vespa/ vespa/
-rsync -aHvSx /mnt/.vespa/ .vespa/
+rsync -aHvSx --exclude /conf/vespa/tls/ /mnt/vespa/ vespa/
+test -d /mnt/.vespa && rsync -aHvSx /mnt/.vespa/ .vespa/
 mkdir -p git
 rsync -aHvSx --delete --exclude /.git/ /mnt/git/system-test/ git/system-test/
 rsync -aHvSx --delete /mnt/.m2/ .m2/
@@ -24,11 +25,39 @@ rsync -aHvSx --delete /mnt/.m2/ .m2/
 set +x
 set +e
 . ./.bash_profile
-. ./.bashrc
+test -f .bashrc && . ./.bashrc
 set -e
 set -x
 vespa-remove-index -force && echo indexes removed
 vespa-configserver-remove-state -force
+
+# Auto generate cert and key
+if ! test -d .vespa
+then
+    nodeserver.sh &
+    PID=$!
+    sleep 3
+    kill -9 $PID
+fi
+
+if ! test -d vespa/conf/vespa/tls
+then
+    # Setup the Vespa TLS config
+    mkdir -p vespa/conf/vespa/tls
+    cat << EOF > vespa/conf/vespa/tls/tls_config.json
+{
+    "disable-hostname-validation": true,
+    "files": {
+        "ca-certificates": "/home/$USER/vespa/conf/vespa/tls/ca.pem",
+        "certificates": "/home/$USER/vespa/conf/vespa/tls/host.pem",
+        "private-key": "/home/$USER/vespa/conf/vespa/tls/host.key"
+    }
+}
+EOF
+    cp -a .vespa/system_test_certs/ca.pem vespa/conf/vespa/tls
+    cp -a .vespa/system_test_certs/host.pem vespa/conf/vespa/tls
+    cp -a .vespa/system_test_certs/host.key vespa/conf/vespa/tls
+fi
 
 # Workaround for tmpfs-mode not working for docker service mounts.
 # Default seems to be existing mode in underlying directory.
