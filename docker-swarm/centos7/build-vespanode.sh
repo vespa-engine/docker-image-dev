@@ -75,7 +75,7 @@ if docker run \
   /mnt2/build-vespanode-in-container.sh
 then
   echo "Made vespanode image"
-  docker commit --change 'CMD [ "bin/run-vespanode.sh" ]' $BUILD_CONTAINER_NAME $DOCKER_NEW_IMAGE
+  docker commit --change 'CMD [ "bash", "-lc", "bin/run-vespanode.sh" ]' $BUILD_CONTAINER_NAME $DOCKER_NEW_IMAGE
 else
   echo "Failed creating vespanode image"
 fi

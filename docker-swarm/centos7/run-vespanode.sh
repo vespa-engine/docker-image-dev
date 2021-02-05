@@ -4,9 +4,6 @@
 # Run vespanode as service task using docker swarm.
 echo "Run vespanode start, arguments are $NODE_SERVER_OPTS"
 
-. ./.bash_profile
-test -f .bashrc && . ./.bashrc
-
 vespa-remove-index -force && echo indexes removed
 vespa-configserver-remove-state -force
 echo "Initial cleanup done"
