@@ -29,6 +29,9 @@ RUN yum -y clean all && \
     yum -y --setopt=skip_missing_names_on_install=False install \
         devtoolset-9-gdb \
         devtoolset-9-libasan-devel && \
+    yum -y --setopt=skip_missing_names_on_install=False install \
+        kdesdk-kcachegrind \
+        graphviz && \
     (source /opt/rh/devtoolset-9/enable && \
      source /opt/rh/rh-ruby27/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
