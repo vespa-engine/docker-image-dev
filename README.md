@@ -46,10 +46,8 @@ Make sure Docker can be executed without sudo for the scripts in this guide to w
     sudo groupadd docker
     sudo usermod -aG docker $(id -un)
     sudo systemctl restart docker
-    newgrp docker
-
-Perform a new ssh login to the host.
-
+    
+Log out and login again; or run `newgrp docker` command to continue.
 
 ### Setup the Docker container
 
