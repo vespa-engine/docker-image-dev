@@ -130,10 +130,18 @@ Use this for testing if doing changes to the Docker image.
     mkdir -p $HOME/git
     cd $HOME/git
     git clone git@github.com:vespa-engine/vespa.git
+    cd $HOME/git/vespa
 
+#### Clean up old state (if using a long lived docker volume)
+    
+If you are persisting data from a previous container, clean out old state to ensure that the latest version
+of build tools will be used:
+
+    git clean -fdx
+    ccache --clear
+    
 #### Build Java modules
 
-    cd $HOME/git/vespa
     ./bootstrap.sh java
     mvn clean install --threads 1C -DskipJavadoc -DskipTests
 
