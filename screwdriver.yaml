@@ -1,0 +1,86 @@
+# Copyright Verizon Media. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+
+shared:
+  image: docker.ouroath.com:4443/vespa/base-ylinux7:latest
+  secrets:
+    - DOCKER_HUB_DEPLOY_KEY
+
+  annotations:
+    screwdriver.cd/cpu: HIGH
+    screwdriver.cd/ram: HIGH
+    screwdriver.cd/disk: HIGH
+    screwdriver.cd/timeout: 30
+    screwdriver.cd/dockerEnabled: true
+    screwdriver.cd/dockerCpu: TURBO
+    screwdriver.cd/dockerRam: TURBO
+
+  environment:
+    USER_SHELL_BIN: bash
+    DOCKER_HOST: 'localhost:2375'
+
+  annotations:
+    inspect: &inspect
+      inspect: |
+        set -x
+        env | grep -v TOKEN
+        cat /proc/cpuinfo
+        cat /proc/meminfo
+        df -h
+        uname -a
+
+    install-deps: &install-deps
+      install-deps: |
+        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+        yum install -y docker-ce docker-ce-cli containerd.io
+        docker system info
+
+    build: &build
+      build: |
+        cd $CONTAINER_DIR
+        docker build --tag $CONTAINER_IMAGE:$CONTAINER_VERSION docker.io/vespaengine/pipeline:latest .
+
+    publish: &publish
+      publish: |
+        if [[ -z $SD_PULL_REQUEST ]]; then
+          set +x
+          docker login --username aressem --password "$DOCKER_HUB_DEPLOY_KEY"
+          set -x
+
+          docker push $CONTAINER_IMAGE:$CONTAINER_VERSION
+        fi
+
+    teardown-inspect: &teardown-inspect
+      teardown-inspect: |
+        docker image ls
+        df -h
+
+jobs:
+  publish-build-centos7:
+    sourcePaths: ["screwdriver.yaml", "build/centos7"]
+    requires: [~pr, ~commit]
+    environment:
+      CONTAINER_DIR: 'build/centos7'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos7'
+      CONTAINER_VERSION: 'latest'
+
+    steps:
+      - *inspect
+      - *install-deps
+      - *build
+      - *publish
+      - *teardown-inspect
+
+  publish-dev-centos7:
+    sourcePaths: ["screwdriver.yaml", "dev/centos7"]
+    requires: [~pr, ~commit, publish-build-centos7]
+    environment:
+      CONTAINER_DIR: 'dev/centos7'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos7'
+      CONTAINER_VERSION: 'latest'
+
+    steps:
+      - *inspect
+      - *install-deps
+      - *build
+      - *publish
+      - *teardown-inspect
