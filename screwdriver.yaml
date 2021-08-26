@@ -36,7 +36,7 @@ shared:
     build: &build
       build: |
         cd $CONTAINER_DIR
-        docker build --tag $CONTAINER_IMAGE:$CONTAINER_VERSION docker.io/vespaengine/pipeline:latest .
+        docker build --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
 
     publish: &publish
       publish: |
