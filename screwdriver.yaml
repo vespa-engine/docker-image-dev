@@ -1,7 +1,7 @@
 # Copyright Verizon Media. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
 shared:
-  image: docker.ouroath.com:4443/vespa/base-ylinux7:latest
+  image: vespaengine/vespa-pipeline:latest
   secrets:
     - DOCKER_HUB_DEPLOY_KEY
 
