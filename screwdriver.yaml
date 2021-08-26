@@ -5,6 +5,10 @@ shared:
   secrets:
     - DOCKER_HUB_DEPLOY_KEY
 
+  environment:
+    USER_SHELL_BIN: bash
+    DOCKER_HOST: 'localhost:2375'
+
   annotations:
     screwdriver.cd/cpu: HIGH
     screwdriver.cd/ram: HIGH
@@ -14,11 +18,6 @@ shared:
     screwdriver.cd/dockerCpu: TURBO
     screwdriver.cd/dockerRam: TURBO
 
-  environment:
-    USER_SHELL_BIN: bash
-    DOCKER_HOST: 'localhost:2375'
-
-  annotations:
     inspect: &inspect
       inspect: |
         set -x
