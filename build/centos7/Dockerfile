@@ -28,7 +28,10 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-10/enable" >> /etc/profile.d/enable-devtoolset-10.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
-    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
+    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf && \
+    (curl -sSL https://golang.org/dl/go1.17.1.linux-amd64.tar.gz | tar -C /usr/local -xz)
+
+ENV PATH="${PATH}:/usr/local/go/bin"
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8

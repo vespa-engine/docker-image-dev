@@ -54,7 +54,7 @@ shared:
 
 jobs:
   publish-build-centos7:
-    sourcePaths: ["screwdriver.yaml", "build/centos7"]
+    sourcePaths: ["screwdriver.yaml", "build/centos7/"]
     requires: [~pr, ~commit]
     environment:
       CONTAINER_DIR: 'build/centos7'
@@ -69,7 +69,7 @@ jobs:
       - *teardown-inspect
 
   publish-dev-centos7:
-    sourcePaths: ["screwdriver.yaml", "dev/centos7"]
+    sourcePaths: ["screwdriver.yaml", "dev/centos7/"]
     requires: [~pr, ~commit, publish-build-centos7]
     environment:
       CONTAINER_DIR: 'dev/centos7'
