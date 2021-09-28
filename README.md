@@ -143,7 +143,7 @@ of build tools will be used:
 #### Build Java modules
 
     ./bootstrap.sh java
-    mvn clean install --threads 1C -DskipJavadoc -DskipTests
+    mvn clean install --threads 1C -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -DskipTests
 
 #### Build C++ modules
 
