@@ -1,4 +1,4 @@
-# Copyright Verizon Media. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+# Copyright Yahoo. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
 VESPANODE_HOSTS_ACTIVE_OTHER:=$(shell me=$$(hostname); docker node ls --filter "node.label=enable-$$USER-vespanode=true" --format '{{.Hostname}}' | while read name; do test $$name != $$me && echo $$name; done)
 VESPANODE_HOSTS_ALL:=$(shell docker node ls --format '{{.Hostname}}')
