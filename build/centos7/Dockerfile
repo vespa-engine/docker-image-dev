@@ -22,6 +22,8 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}-/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
     yum-builddep -y --setopt="centos-sclo-rh-source.skip_if_unavailable=true" dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
+    yum remove -y java-11-openjdk java-11-openjdk-devel java-11-openjdk-headless && \
+    yum install -y java-11-openjdk-11.0.12.0.7 java-11-openjdk-devel-11.0.12.0.7 java-11-openjdk-headless-11.0.12.0.7 && \
     alternatives --set java java-11-openjdk.x86_64 && \
     alternatives --set javac java-11-openjdk.x86_64 && \
     yum clean all && rm -rf /var/cache/yum && \
