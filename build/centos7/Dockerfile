@@ -15,7 +15,7 @@ RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/g/vesp
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "6f2afaf38233f5e2f1dac7df87e301351d34ca88"
+ENV VESPA_SRC_REF "ff9dc689b13da2841e8cccd29b02405d6719328f"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
@@ -27,11 +27,9 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     yum clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-10/enable" >> /etc/profile.d/enable-devtoolset-10.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
+    echo -e "#!/bin/bash\nsource /opt/rh/rh-git227/enable" >> /etc/profile.d/enable-rh-git227.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
-    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf && \
-    (curl -sSL https://golang.org/dl/go1.17.1.linux-amd64.tar.gz | tar -C /usr/local -xz)
-
-ENV PATH="${PATH}:/usr/local/go/bin"
+    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
