@@ -29,7 +29,8 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-git227/enable" >> /etc/profile.d/enable-rh-git227.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
-    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
+    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf && \
+    go env -w GOPROXY="https://proxy.golang.org,direct"
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
