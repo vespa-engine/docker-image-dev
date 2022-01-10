@@ -27,12 +27,12 @@ RUN yum -y clean all && \
         man-pages \
         hunspell-en && \
     yum -y --setopt=skip_missing_names_on_install=False install \
-        devtoolset-10-gdb \
-        devtoolset-10-libasan-devel && \
+        devtoolset-11-gdb \
+        devtoolset-11-libasan-devel && \
     yum -y --setopt=skip_missing_names_on_install=False install \
         kdesdk-kcachegrind \
         graphviz && \
-    (source /opt/rh/devtoolset-10/enable && \
+    (source /opt/rh/devtoolset-11/enable && \
      source /opt/rh/rh-ruby27/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
     yum clean all --enablerepo=\* && \
