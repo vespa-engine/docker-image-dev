@@ -25,7 +25,7 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     alternatives --set java java-11-openjdk.x86_64 && \
     alternatives --set javac java-11-openjdk.x86_64 && \
     yum clean all && rm -rf /var/cache/yum && \
-    echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-10/enable" >> /etc/profile.d/enable-devtoolset-10.sh && \
+    echo -e "#!/bin/bash\nsource /opt/rh/devtoolset-11/enable" >> /etc/profile.d/enable-devtoolset-11.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-maven35/enable" >> /etc/profile.d/enable-rh-maven35.sh && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-git227/enable" >> /etc/profile.d/enable-rh-git227.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
