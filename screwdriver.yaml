@@ -60,7 +60,20 @@ jobs:
       CONTAINER_DIR: 'build/centos7'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos7'
       CONTAINER_VERSION: 'latest'
+    steps:
+      - *inspect
+      - *install-deps
+      - *build
+      - *publish
+      - *teardown-inspect
 
+  publish-build-centos-stream8:
+    sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
+    requires: [~pr, ~commit]
+    environment:
+      CONTAINER_DIR: 'build/centos-stream8'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos-stream8'
+      CONTAINER_VERSION: 'latest'
     steps:
       - *inspect
       - *install-deps
@@ -75,7 +88,20 @@ jobs:
       CONTAINER_DIR: 'dev/centos7'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos7'
       CONTAINER_VERSION: 'latest'
+    steps:
+      - *inspect
+      - *install-deps
+      - *build
+      - *publish
+      - *teardown-inspect
 
+  publish-dev-centos-stream8:
+    sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
+    requires: [~pr, ~commit, ~publish-build-centos-stream8]
+    environment:
+      CONTAINER_DIR: 'dev/centos-stream8'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos-stream8'
+      CONTAINER_VERSION: 'latest'
     steps:
       - *inspect
       - *install-deps
