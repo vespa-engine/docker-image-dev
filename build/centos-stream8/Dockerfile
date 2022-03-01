@@ -2,10 +2,12 @@
 FROM quay.io/centos/centos:stream8
 
 # Needed to build vespa
-RUN dnf -y install dnf-plugins-core && \
+RUN dnf -y install epel-release && \
+    dnf -y install \
+      dnf-plugins-core \
+      dnf-plugin-ovl && \
     dnf -y copr enable @vespa/vespa centos-stream-8 && \
     dnf config-manager --enable powertools && \
-    dnf -y install epel-release && \
     dnf -y install \
         git \
         jq \

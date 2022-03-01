@@ -3,9 +3,6 @@ FROM docker.io/vespaengine/vespa-build-centos-stream8:latest
 
 ENV container docker
 
-# Fixes a problem with Rpmdb checksum cache conflicts: https://github.com/CentOS/sig-cloud-instance-images/issues/15
-RUN dnf -y install dnf-plugin-ovl
-
 # Install sshd, man-db, nice-to-have packages and system test dependencies
 RUN dnf -y clean all && \
     dnf -y update && \
@@ -30,7 +27,8 @@ RUN dnf -y clean all && \
     dnf -y install \
         gcc-toolset-11-annobin-plugin-gcc \
         gcc-toolset-11-gdb \
-        gcc-toolset-11-libasan-devel && \
+        gcc-toolset-11-libasan-devel \
+        gcc-toolset-11-libtsan-devel && \
     dnf -y install \
         kdesdk-kcachegrind \
         graphviz && \
