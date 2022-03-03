@@ -6,9 +6,6 @@ ENV container docker
 # Install sshd, man-db, nice-to-have packages and system test dependencies
 RUN dnf -y clean all && \
     dnf -y update && \
-    sed -e '/^tsflags=/d' /etc/dnf/dnf.conf > /etc/dnf/dnf.conf.NEW && \
-    mv /etc/dnf/dnf.conf.NEW /etc/dnf/dnf.conf && \
-    dnf -y reinstall $(rpm -q -a | grep -v vespa) && \
     dnf -y module enable ruby:2.7 && \
     dnf -y install \
         openssh-server \
@@ -34,6 +31,7 @@ RUN dnf -y clean all && \
         graphviz && \
     (source /opt/rh/gcc-toolset-11/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
+    alternatives --set java $(alternatives --display java | grep 'java.*priority' | awk '{print $1}' | grep 'jdk-11') && \
     dnf clean all --enablerepo=\* 
 
 STOPSIGNAL SIGRTMIN+3
