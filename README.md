@@ -203,7 +203,7 @@ Vespa natively supports building and running C++ code instrumented using [saniti
 
 #### Building C++ code with sanitizers
 
-Pass the CMake variable `VESPA_USE_SANITIZER=sanitizer` to the CMake boostrap script, where `sanitizer`
+Pass the `VESPA_USE_SANITIZER=sanitizer` variable to CMake, where `sanitizer`
 must be one of the following:
 
 * `address` - instrument using [AddressSanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
