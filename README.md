@@ -211,11 +211,10 @@ must be one of the following:
 
 It's not possible to instrument with multiple sanitizers at the same time.
 
-Example using the `bootstrap-cmake.sh` script found in the Vespa root directory to build
-Vespa instrumented with ThreadSanitizer, running as an unprivileged user and building in-tree:
+Example for generating build-files that instrument Vespa using ThreadSanitizer:
 
 ```
-./bootstrap-cmake.sh -u . -DVESPA_USE_SANITIZER=thread
+cmake3 -DVESPA_USE_SANITIZER=thread .
 ```
 
 Note that vespamalloc is not built when sanitizers are configured, as both vespamalloc
