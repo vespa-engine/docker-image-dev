@@ -197,6 +197,77 @@ Note that the system test scrips are already in your PATH inside the Docker cont
     cd $HOME/git/system-test/tests/search/basicsearch
     runtest.sh basic_search.rb
 
+### Building and running Vespa with sanitizer instrumentation
+
+Vespa natively supports building and running C++ code instrumented using [sanitizers](https://github.com/google/sanitizers).
+
+#### Building C++ code with sanitizers
+
+Pass the CMake variable `VESPA_USE_SANITIZER=sanitizer` to the CMake boostrap script, where `sanitizer`
+must be one of the following:
+
+* `address` - instrument using [AddressSanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
+* `thread` - instrument using [ThreadSanitizer](https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual)
+
+It's not possible to instrument with multiple sanitizers at the same time.
+
+Example using the `bootstrap-cmake.sh` script found in the Vespa root directory to build
+Vespa instrumented with ThreadSanitizer, running as an unprivileged user and building in-tree:
+
+```
+./bootstrap-cmake.sh -u . -DVESPA_USE_SANITIZER=thread
+```
+
+Note that vespamalloc is not built when sanitizers are configured, as both vespamalloc
+and sanitizers will attempt to intercept/override default libc malloc API calls.
+
+#### Running instrumented unit tests
+
+Unit tests can be run as usual, both directly from the terminal and from within CLion.
+
+If a test is flaky (especially if it involves a rare race condition), it's often useful
+to be able to run one particular test in a loop until it fails. Both GTest and the sanitizers
+can be easily configured using environment variables.
+
+Example environment variables for running a single test case 100 times, immediately aborting
+if either the test fails or ThreadSanitizer detects a problem (here presented in CLion run
+configuration format):
+
+```
+GTEST_FILTER=MyFlakyTestSuite.my_flaky_test_case;GTEST_REPEAT=100;TSAN_OPTIONS=halt_on_error=1;GTEST_FAIL_FAST=1
+```
+
+Note that you cannot run an instrumented unit test under Valgrind.
+
+#### Running instrumented system tests
+
+As with unit tests, system tests can be run as usual with no extra setup needed.
+However, since system tests run with many instrumented processes simultaneously, it's
+useful to configure sanitizers to emit per-process error logs and to suppress known,
+benign warnings.
+
+Processes are launched in the context of the system test node server, so export
+any environment variables prior to launching it.
+
+Example (substitute paths with your own):
+
+```
+export TSAN_OPTIONS="suppressions=/home/myuser/git/vespa/tsan-suppressions.txt log_path=/home/myuser/tsan_logs/log"
+nodeserver.sh
+```
+
+##### Troubleshooting
+
+If processes emit fatal sanitizer warnings on startup, e.g:
+
+```
+==51385==FATAL: ThreadSanitizer: failed to intercept munmap
+```
+
+then this is usually a sign that there are traces of a previous (non-instrumented) vespamalloc
+build in your Vespa install tree. Vespa startup scripts will implicitly pick up and load
+Vespamalloc if it's present, regardless of instrumentation status. The easiest way to get
+around this is to wipe the install tree and re-run `make install`.
 
 ### Use CLion or IntelliJ via X11 forwarding from macOS
 
