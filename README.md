@@ -265,7 +265,7 @@ If processes emit fatal sanitizer warnings on startup, e.g:
 
 then this is usually a sign that there are traces of a previous (non-instrumented) vespamalloc
 build in your Vespa install tree. Vespa startup scripts will implicitly pick up and load
-Vespamalloc if it's present, regardless of instrumentation status. The easiest way to get
+vespamalloc if it's present, regardless of instrumentation status. The easiest way to get
 around this is to wipe the install tree and re-run `make install`.
 
 ### Use CLion or IntelliJ via X11 forwarding from macOS
