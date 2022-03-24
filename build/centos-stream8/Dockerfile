@@ -10,6 +10,8 @@ RUN dnf -y install epel-release && \
     dnf config-manager --enable powertools && \
     dnf -y install \
         git \
+        hostname \
+        iputils \
         jq \
         ccache \
         sudo
