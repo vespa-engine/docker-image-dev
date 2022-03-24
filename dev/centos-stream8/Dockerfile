@@ -8,6 +8,7 @@ RUN dnf -y clean all && \
     dnf -y update && \
     dnf -y module enable ruby:2.7 && \
     dnf -y install \
+        bind-utils \
         openssh-server \
         xorg-x11-xauth \
         libxml2-devel \
