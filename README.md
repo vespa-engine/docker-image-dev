@@ -57,6 +57,15 @@ Log out and login again; or run `sudo su - $USER` command to continue.
 
 #### Create the Docker container
 
+##### Remote debugging
+
+If you want to be able to attach a remote debugger (e.g. IntelliJ) to a process inside the container,
+you need to add port forwarding at this stage. It cannot be done after the container has been created.
+To allow debugging on port 5005, insert the following line in between the lines to the command in the
+appropriate section below:
+
+    -p 127.0.0.1:5005:5005 \
+
 ##### With explicit Docker volume (recommended for macOS)
 
 First, create a long lived Docker volume.
@@ -92,6 +101,7 @@ Second, run docker create with the -v option to mount the volume directory as th
         --name vespa-dev-centos7 \
         docker.io/vespaengine/vespa-dev-centos7:latest
 
+
 #### Start the Docker container
 
     docker start vespa-dev-centos7
@@ -124,6 +134,9 @@ Use this for testing if doing changes to the Docker image.
 #### SSH into the container
 
     ssh -A 127.0.0.1 -p 3334
+
+If the ssh command fails, see [SSH troubleshooting](#ssh-troubleshooting)
+
 
 #### Checkout Vespa repo
 
@@ -285,3 +298,32 @@ Open a XQuartz terminal and run:
     ssh -Y -A 127.0.0.1 -p 3334
 
 Then start CLion or IntelliJ from this terminal.
+
+
+### SSH troubleshooting
+
+If the ssh command fails, e.g. with the following message:
+
+`ssh kex_exchange_identification: Connection closed by remote host`
+
+then, execute an interactive shell on the container:
+
+    docker exec -it vespa-dev-centos7 /bin/bash
+
+Inside the shell, check if there are any host keys:
+
+    ls -l /etc/ssh
+
+If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
+
+    sudo ssh-keygen -A
+
+Then, start the ssh daemon:
+
+    $(which sshd)
+
+If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
+into the container again with the appropriate level of verbosity, e.g.
+
+    ssh -vvv -A 127.0.0.1 -p 3334
+
