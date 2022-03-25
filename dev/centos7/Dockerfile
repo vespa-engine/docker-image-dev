@@ -29,7 +29,8 @@ RUN yum -y clean all && \
     yum -y --setopt=skip_missing_names_on_install=False install \
         devtoolset-11-gdb \
         devtoolset-11-libasan-devel \
-        devtoolset-11-libtsan-devel && \
+        devtoolset-11-libtsan-devel \
+        devtoolset-11-libubsan-devel && \
     yum -y --setopt=skip_missing_names_on_install=False install \
         kdesdk-kcachegrind \
         graphviz && \

@@ -26,7 +26,8 @@ RUN dnf -y clean all && \
         gcc-toolset-11-annobin-plugin-gcc \
         gcc-toolset-11-gdb \
         gcc-toolset-11-libasan-devel \
-        gcc-toolset-11-libtsan-devel && \
+        gcc-toolset-11-libtsan-devel \
+        gcc-toolset-11-libubsan-devel && \
     dnf -y install \
         kdesdk-kcachegrind \
         graphviz && \
