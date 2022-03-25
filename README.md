@@ -135,6 +135,9 @@ Use this for testing if doing changes to the Docker image.
 
     ssh -A 127.0.0.1 -p 3334
 
+If the ssh command fails, see [SSH troubleshooting](#ssh-troubleshooting)
+
+
 #### Checkout Vespa repo
 
     mkdir -p $HOME/git
@@ -295,3 +298,32 @@ Open a XQuartz terminal and run:
     ssh -Y -A 127.0.0.1 -p 3334
 
 Then start CLion or IntelliJ from this terminal.
+
+
+### SSH troubleshooting
+
+If the ssh command fails, e.g. with the following message:
+
+`ssh kex_exchange_identification: Connection closed by remote host`
+
+then, execute an interactive shell on the container:
+
+    docker exec -it vespa-dev-centos7 /bin/bash
+
+Inside the shell, check if there are any host keys:
+
+    ls -l /etc/ssh
+
+It the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
+
+    sudo ssh-keygen -A
+
+Then, start the ssh daemon:
+
+    $(which sshd)
+
+If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
+into the container again with the appropriate level of verbosity, e.g.
+
+    ssh -vvv -A 127.0.0.1 -p 3334
+
