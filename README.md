@@ -314,7 +314,7 @@ Inside the shell, check if there are any host keys:
 
     ls -l /etc/ssh
 
-It the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
+If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
 
     sudo ssh-keygen -A
 
