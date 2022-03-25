@@ -57,6 +57,15 @@ Log out and login again; or run `sudo su - $USER` command to continue.
 
 #### Create the Docker container
 
+##### Remote debugging
+
+If you want to be able to attach a remote debugger (e.g. IntelliJ) to a process inside the container,
+you need to add port forwarding at this stage. It cannot be done after the container has been created.
+To allow debugging on port 5005, insert the following line in between the lines to the command in the
+appropriate section below:
+
+    -p 127.0.0.1:5005:5005 \
+
 ##### With explicit Docker volume (recommended for macOS)
 
 First, create a long lived Docker volume.
@@ -91,6 +100,7 @@ Second, run docker create with the -v option to mount the volume directory as th
         --privileged \
         --name vespa-dev-centos7 \
         docker.io/vespaengine/vespa-dev-centos7:latest
+
 
 #### Start the Docker container
 
