@@ -12,6 +12,7 @@ RUN dnf -y install epel-release && \
         git \
         hostname \
         iputils \
+        java-17-openjdk-devel \
         jq \
         ccache \
         sudo
@@ -27,7 +28,7 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     dnf -y module enable maven:3.6 && \
     dnf builddep -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
-    alternatives --set java $(alternatives --display java | grep "java.*priority" | awk '{print $1}' | grep "jdk-11") && \
+    alternatives --set java $(alternatives --display java | grep "java.*priority" | awk '{print $1}' | grep "jdk-17") && \
     dnf clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/gcc-toolset-11/enable" >> /etc/profile.d/enable-gcc-toolset-11.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
