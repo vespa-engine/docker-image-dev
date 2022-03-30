@@ -9,12 +9,13 @@ RUN dnf -y install epel-release && \
     dnf -y copr enable @vespa/vespa centos-stream-8 && \
     dnf config-manager --enable powertools && \
     dnf -y install \
+        ccache \
         git \
         hostname \
         iputils \
         java-17-openjdk-devel \
         jq \
-        ccache \
+        pinentry \
         sudo
 
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
