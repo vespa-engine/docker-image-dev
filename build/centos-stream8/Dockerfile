@@ -30,6 +30,7 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     dnf builddep -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
     alternatives --set java $(alternatives --display java | grep "java.*priority" | awk '{print $1}' | grep "jdk-17") && \
+    dnf swap -y maven-openjdk11 maven-openjdk17 && \
     dnf clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/gcc-toolset-11/enable" >> /etc/profile.d/enable-gcc-toolset-11.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
