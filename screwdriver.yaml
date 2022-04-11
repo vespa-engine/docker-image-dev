@@ -83,9 +83,20 @@ jobs:
 
           docker context list
           docker buildx ls
-          docker buildx build --progress plain --push --platform linux/amd64,linux/arm64 --tag local/image:latest .
 
+          # Fix auth
           set +x
-          skopeo login -u aressem -p "$DOCKER_HUB_DEPLOY_KEY" docker.io
+          BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
           set -x
-          skopeo copy --multi-arch all docker://local/image:latest docker://$CONTAINER_IMAGE:$CONTAINER_VERSION
+          mkdir -p ~/.docker
+          echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
+
+          docker buildx build --progress plain --push --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
+
+          #set +x
+          #skopeo login -u aressem -p "$DOCKER_HUB_DEPLOY_KEY" docker.io
+          #set -x
+          #skopeo copy --multi-arch all docker://local/image:latest docker://$CONTAINER_IMAGE:$CONTAINER_VERSION
+
+      - teardown-clean: |
+          rm -rf $HOME/.docker
