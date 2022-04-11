@@ -53,20 +53,6 @@ shared:
         df -h
 
 jobs:
-  publish-build-centos7:
-    sourcePaths: ["screwdriver.yaml", "build/centos7/"]
-    requires: [~pr, ~commit]
-    environment:
-      CONTAINER_DIR: 'build/centos7'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos7'
-      CONTAINER_VERSION: 'latest'
-    steps:
-      - *inspect
-      - *install-deps
-      - *build
-      - *publish
-      - *teardown-inspect
-
   publish-build-centos-stream8:
     sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
     requires: [~pr, ~commit]
@@ -85,31 +71,3 @@ jobs:
           docker context list
           docker buildx ls
           docker buildx build --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
-
-  publish-dev-centos7:
-    sourcePaths: ["screwdriver.yaml", "dev/centos7/"]
-    requires: [~pr, ~commit, ~publish-build-centos7]
-    environment:
-      CONTAINER_DIR: 'dev/centos7'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos7'
-      CONTAINER_VERSION: 'latest'
-    steps:
-      - *inspect
-      - *install-deps
-      - *build
-      - *publish
-      - *teardown-inspect
-
-  publish-dev-centos-stream8:
-    sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
-    requires: [~pr, ~commit, ~publish-build-centos-stream8]
-    environment:
-      CONTAINER_DIR: 'dev/centos-stream8'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos-stream8'
-      CONTAINER_VERSION: 'latest'
-    steps:
-      - *inspect
-      - *install-deps
-      - *build
-      - *publish
-      - *teardown-inspect
