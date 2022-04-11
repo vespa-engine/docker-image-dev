@@ -70,14 +70,18 @@ jobs:
           dnf install -y docker-ce-cli skopeo
 
           # Fix auth
-          mkdir -p ~/.docker
-          set +x
-          BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
-          echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
-          set -x
+          #mkdir -p ~/.docker
+          #set +x
+          #BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
+          #echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
+          #set -x
 
-          ls -la ~/.docker
-          cat ~/.docker/config.json
+          #ls -la ~/.docker
+          #cat ~/.docker/config.json
+
+          set +x
+          docker login -u aressem -p $DOCKER_HUB_DEPLOY_KEY
+          set -x
 
           cd $CONTAINER_DIR
           ls -al /certs/client
@@ -91,8 +95,8 @@ jobs:
           docker buildx create --name vespa-builder --driver docker-container --use
           docker buildx inspect --bootstrap
 
-          ls -la ~/.docker
-          cat ~/.docker/config.json
+          #ls -la ~/.docker
+          #cat ~/.docker/config.json
 
           docker context list
           docker buildx ls
