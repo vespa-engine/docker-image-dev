@@ -70,11 +70,11 @@ jobs:
           dnf install -y docker-ce-cli skopeo
 
           # Fix auth
+          mkdir -p ~/.docker
           set +x
           BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
           echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
           set -x
-          mkdir -p ~/.docker
 
           cd $CONTAINER_DIR
           ls -al /certs/client
