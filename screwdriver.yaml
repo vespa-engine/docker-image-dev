@@ -84,12 +84,6 @@ jobs:
           docker context list
           docker buildx ls
 
-          # Fix auth
-          set +x
-          BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
-          set -x
-          mkdir -p ~/.docker
-          echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
 
           docker buildx build --progress plain --push --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
 
