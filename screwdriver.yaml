@@ -92,6 +92,7 @@ jobs:
           docker buildx inspect --bootstrap
 
           ls -la ~/.docker
+          cat ~/.docker/config.json
 
           docker context list
           docker buildx ls
