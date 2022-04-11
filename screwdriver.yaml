@@ -77,9 +77,14 @@ jobs:
     steps:
       - *inspect
       - *install-deps
-      - *build
-      - *publish
-      - *teardown-inspect
+#      - *build
+#      - *publish
+      - build-multi-arch: |
+          cd $CONTAINER_DIR
+          docker buildx version
+          docker context list
+          docker buildx ls
+          docker buildx build --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
 
   publish-dev-centos7:
     sourcePaths: ["screwdriver.yaml", "dev/centos7/"]
