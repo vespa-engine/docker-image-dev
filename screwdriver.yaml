@@ -82,4 +82,4 @@ jobs:
           docker context list
           docker buildx ls
           #docker buildx build --push --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
-          docker buildx build --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
+          docker buildx build --progress plain --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
