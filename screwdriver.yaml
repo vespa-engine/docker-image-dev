@@ -54,6 +54,7 @@ shared:
 
 jobs:
   publish-build-centos-stream8:
+    image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
     requires: [~pr, ~commit]
     environment:
