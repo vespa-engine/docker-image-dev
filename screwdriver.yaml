@@ -77,6 +77,7 @@ jobs:
           set -x
 
           ls -la ~/.docker
+          cat ~/.docker/config.json
 
           cd $CONTAINER_DIR
           ls -al /certs/client
