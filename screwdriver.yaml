@@ -63,11 +63,11 @@ jobs:
       CONTAINER_VERSION: 'latest'
     steps:
       - *inspect
-      - *install-deps
 #      - *build
 #      - *publish
       - build-multi-arch: |
-          dnf install -y skopeo
+          dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+          dnf install -y docker-ce docker-ce-cli containerd.io skopeo
 
           cd $CONTAINER_DIR
           ls -al /certs/client
@@ -85,6 +85,7 @@ jobs:
           docker buildx ls
           docker buildx build --push --platform linux/amd64,linux/arm64 --tag local/image:latest .
 
-          #docker login -u "$USER_NAME" -p "$USER_PASSWORD"
-          # This should fail
+          set +x
+          #skopeo login -u aressem -p "$DOCKER_HUB_DEPLOY_KEY" docker.io
+          set -x
           skopeo copy --multi-arch all docker://local/image:latest docker://$CONTAINER_IMAGE:$CONTAINER_VERSION
