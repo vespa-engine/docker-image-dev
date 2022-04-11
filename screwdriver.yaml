@@ -67,9 +67,19 @@ jobs:
 #      - *publish
       - build-multi-arch: |
           cd $CONTAINER_DIR
+          ls -al /certs/client
+          docker info
+          docker version
+          #docker login -u "$USER_NAME" -p "$USER_PASSWORD"
           docker buildx version
-          docker context list
+          docker buildx install
+          unset DOCKER_HOST
+          docker context create vespa-context --docker "host=tcp://localhost:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"
+          docker context use vespa-context
           docker buildx create --name vespa-builder --driver docker-container --use
           docker buildx inspect --bootstrap
+
+          docker context list
           docker buildx ls
+          #docker buildx build --push --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
           docker buildx build --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
