@@ -76,6 +76,8 @@ jobs:
           echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
           set -x
 
+          ls -la ~/.docker
+
           cd $CONTAINER_DIR
           ls -al /certs/client
           docker info
@@ -87,6 +89,8 @@ jobs:
           docker context use vespa-context
           docker buildx create --name vespa-builder --driver docker-container --use
           docker buildx inspect --bootstrap
+
+          ls -la ~/.docker
 
           docker context list
           docker buildx ls
