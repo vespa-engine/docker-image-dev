@@ -69,6 +69,13 @@ jobs:
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           dnf install -y docker-ce-cli skopeo
 
+          # Fix auth
+          set +x
+          BASE64_AUTH=$(echo -n "aressem:$DOCKER_HUB_DEPLOY_KEY" | base64)
+          echo "{\"auths\": {\"docker.io\": {\"auth\": \"$BASE64_AUTH\"}}}" > ~/.docker/config.json
+          set -x
+          mkdir -p ~/.docker
+
           cd $CONTAINER_DIR
           ls -al /certs/client
           docker info
@@ -83,7 +90,6 @@ jobs:
 
           docker context list
           docker buildx ls
-
 
           docker buildx build --progress plain --push --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
 
