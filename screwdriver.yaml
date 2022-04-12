@@ -51,6 +51,7 @@ shared:
       teardown-inspect: |
         docker image ls
         df -h
+        rm -rf $HOME/.docker
 
 jobs:
   publish-build-centos7:
@@ -59,20 +60,6 @@ jobs:
     environment:
       CONTAINER_DIR: 'build/centos7'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos7'
-      CONTAINER_VERSION: 'latest'
-    steps:
-      - *inspect
-      - *install-deps
-      - *build
-      - *publish
-      - *teardown-inspect
-
-  publish-build-centos-stream8:
-    sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
-    requires: [~pr, ~commit]
-    environment:
-      CONTAINER_DIR: 'build/centos-stream8'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos-stream8'
       CONTAINER_VERSION: 'latest'
     steps:
       - *inspect
@@ -95,7 +82,45 @@ jobs:
       - *publish
       - *teardown-inspect
 
+  publish-build-centos-stream8:
+    image: quay.io/centos/centos:stream8
+    sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
+    requires: [~pr, ~commit]
+    environment:
+      CONTAINER_DIR: 'build/centos-stream8'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos-stream8'
+      CONTAINER_VERSION: 'latest'
+    steps:
+      - *inspect
+      - install-deps: &bcsc-install-deps |
+          dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+          dnf install -y docker-ce-cli
+      - build-multi-arch: &bcsc-build-multi-arch |
+          if [[ -z $SD_PULL_REQUEST ]]; then
+            set +x
+            docker login -u aressem -p $DOCKER_HUB_DEPLOY_KEY
+            set -x
+            DOCKER_BUILX_PUSH="--push"
+          fi
+
+          cd $CONTAINER_DIR
+          docker info
+          docker version
+          docker buildx version
+          docker buildx install
+
+          unset DOCKER_HOST
+          docker context create vespa-context --docker "host=tcp://localhost:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"
+          docker context use vespa-context
+
+          docker buildx create --name vespa-builder --driver docker-container --use
+          docker buildx inspect --bootstrap
+
+          docker buildx build --progress plain $DOCKER_BUILDX_PUSH --platform linux/amd64,linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
+      - *teardown-inspect
+
   publish-dev-centos-stream8:
+    image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
     requires: [~pr, ~commit, ~publish-build-centos-stream8]
     environment:
@@ -104,7 +129,6 @@ jobs:
       CONTAINER_VERSION: 'latest'
     steps:
       - *inspect
-      - *install-deps
-      - *build
-      - *publish
+      - install-deps:     *bcsc-install-deps
+      - build-multi-arch: *bcsc-build-multi-arch
       - *teardown-inspect
