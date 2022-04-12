@@ -100,7 +100,7 @@ jobs:
             set +x
             docker login -u aressem -p $DOCKER_HUB_DEPLOY_KEY
             set -x
-            DOCKER_BUILX_PUSH="--push"
+            DOCKER_BUILDX_PUSH="--push"
           fi
 
           cd $CONTAINER_DIR
