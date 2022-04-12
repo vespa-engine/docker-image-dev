@@ -83,6 +83,7 @@ jobs:
       - *teardown-inspect
 
   publish-build-centos-stream8:
+    image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
     requires: [~pr, ~commit]
     environment:
@@ -119,6 +120,7 @@ jobs:
       - *teardown-inspect
 
   publish-dev-centos-stream8:
+    image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
     requires: [~pr, ~commit, ~publish-build-centos-stream8]
     environment:
