@@ -221,6 +221,7 @@ must be one of the following:
 
 * `address` - instrument using [AddressSanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
 * `thread` - instrument using [ThreadSanitizer](https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual)
+* `undefined` - instrument using [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html)
 
 It's not possible to instrument with multiple sanitizers at the same time.
 
@@ -249,6 +250,11 @@ configuration format):
 GTEST_FILTER=MyFlakyTestSuite.my_flaky_test_case;GTEST_REPEAT=100;TSAN_OPTIONS=halt_on_error=1;GTEST_FAIL_FAST=1
 ```
 
+When setting your own `TSAN_OPTIONS` environment variable you may have to manually add the
+`suppressions` option and point it to the [tsan-suppressions.txt](https://github.com/vespa-engine/vespa/blob/master/tsan-suppressions.txt)
+file found in the Vespa source code root directory to avoid getting reports for already known false positives.
+This option is automatically set when running unit tests via CTest.
+
 Note that you cannot run an instrumented unit test under Valgrind.
 
 #### Running instrumented system tests
@@ -264,7 +270,7 @@ any environment variables prior to launching it.
 Example (substitute paths with your own):
 
 ```
-export TSAN_OPTIONS="suppressions=/home/myuser/git/vespa/tsan-suppressions.txt log_path=/home/myuser/tsan_logs/log"
+export TSAN_OPTIONS="suppressions=/home/myuser/git/vespa/tsan-suppressions.txt log_path=/home/myuser/tsan_logs/log history_size=7 detect_deadlocks=1 second_deadlock_stack=1"
 nodeserver.sh
 ```
 
