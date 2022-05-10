@@ -22,6 +22,7 @@ RUN yum -y clean all && \
         rh-ruby27-rubygem-net-telnet \
         nmap-ncat \
         vim \
+        wget \
         emacs \
         man-db \
         man-pages \
