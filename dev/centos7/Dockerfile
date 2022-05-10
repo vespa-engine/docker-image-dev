@@ -38,6 +38,11 @@ RUN yum -y clean all && \
     (source /opt/rh/devtoolset-11/enable && \
      source /opt/rh/rh-ruby27/enable && \
      gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
+    yum -y install python3-devel && \
+    (source /opt/rh/devtoolset-11/enable && \
+     source /opt/rh/rh-git227/enable && \
+     pip3 install --upgrade pip setuptools && \
+     pip3 install tensorflow==1.15.3 tf2onnx==1.9.2 ) && \
     yum clean all --enablerepo=\* && \
     echo -e "#!/bin/bash\nsource /opt/rh/rh-ruby27/enable" >> /etc/profile.d/enable-rh-ruby27.sh
 
