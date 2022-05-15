@@ -5,7 +5,9 @@ ENV container docker
 
 # Install sshd, man-db, nice-to-have packages and system test dependencies
 RUN dnf -y clean all && \
-    dnf -y update && \
+    dnf -y install 'dnf-command(versionlock)' && \
+    dnf versionlock llvm-libs && \
+    dnf -y --nobest update && \
     dnf -y module enable ruby:2.7 && \
     dnf -y install \
         bind-utils \
