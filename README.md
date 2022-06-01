@@ -17,6 +17,15 @@ Read more at the Vespa project [homepage](http://docs.vespa.ai).
 The project is covered by the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 
+## Vespa development on CentOS Stream 8
+CentOS Stream 8 is the officially supported OS for Vespa 8, the next major version.
+To build, unit test, and system test Vespa on CentOS Stream 8,
+please follow the guide in the next section, but replace **centos7** with **centos-stream8** in the commands.
+The exception is when configuring the docker container. In that case the script for CentOS 7 is still used:
+
+    $HOME/git/docker-image-dev/dev/centos7/configure-container.sh
+
+
 ## Vespa development on CentOS 7
 
 This guide describes how to build, unit test and system test Vespa on CentOS 7 using Docker.
