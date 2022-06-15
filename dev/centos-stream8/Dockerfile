@@ -14,6 +14,7 @@ RUN dnf -y clean all && \
         openssh-server \
         xorg-x11-xauth \
         libxml2-devel \
+        rsync \
         ruby \
         ruby-devel \
         rubygem-net-telnet \
