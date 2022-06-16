@@ -38,4 +38,7 @@ fixup_dir vespa/var/jdisc_container 1777
 fixup_dir vespa/var/vespa 1777
 fixup_dir vespa/var/zookeeper 1777
 
+# If vespa/var/db/vespa is tmpfs mounted then create logcontrol directory
+mkdir -p vespa/var/db/vespa/logcontrol
+
 nodeserver.sh $NODE_SERVER_OPTS
