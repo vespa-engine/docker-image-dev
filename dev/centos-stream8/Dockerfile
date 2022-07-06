@@ -33,6 +33,8 @@ RUN dnf -y clean all && \
 RUN source /opt/rh/gcc-toolset-11/enable && \
     (gem install ffi || true) && \
     cat /usr/local/lib64/gems/ruby/ffi-1.15.5/gem_make.out && \
+    cat /usr/local/lib64/gems/ruby/ffi-1.15.5/mkmf.log && \
+    cat /usr/local/share/gems/gems/ffi-1.15.5/ext/ffi_c/libffi.gnu.mk && \
     find /usr/local/lib64/gems/ruby/ffi-1.15.5
     
 STOPSIGNAL SIGRTMIN+3
