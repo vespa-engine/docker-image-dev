@@ -17,8 +17,17 @@ RUN dnf -y clean all && \
         rsync \
         ruby \
         ruby-devel \
-        rubygem-net-telnet \
+        rubygems \
         rubygems-devel \
+        rubygem-bigdecimal \
+        rubygem-builder \
+        rubygem-builder-doc \
+        rubygem-concurrent-ruby \
+        rubygem-concurrent-ruby-doc \
+        rubygem-parallel \
+        rubygem-parallel-doc \
+        rubygem-rexml \
+        rubygem-test-unit \
         nmap-ncat \
         vim \
         emacs \
@@ -35,7 +44,7 @@ RUN dnf -y clean all && \
         kdesdk-kcachegrind \
         graphviz && \
     (source /opt/rh/gcc-toolset-11/enable && \
-     gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
+     gem install ffi libxml-ruby) && \
     dnf clean all --enablerepo=\* 
 
 STOPSIGNAL SIGRTMIN+3
