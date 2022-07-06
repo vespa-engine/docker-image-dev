@@ -1,42 +1,41 @@
 # Copyright Yahoo. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 FROM docker.io/vespaengine/vespa-build-centos-stream8:latest
 
-ENV container docker
+RUN dnf install -y dnf-plugins-core && \
+    dnf install -y epel-release && \
+    dnf config-manager --add-repo https://edge.artifactory.ouroath.com:4443/artifactory/vespa-rpms/vespa-rpms.repo && \
+    dnf config-manager --enable powertools --enable epel && \
+    dnf clean --enablerepo=* all
 
-# Install sshd, man-db, nice-to-have packages and system test dependencies
-RUN dnf -y clean all && \
-    dnf -y module enable ruby:2.7 && \
-    dnf -y install \
+RUN dnf module enable -y ruby:3.0 && \
+    dnf install -y \
         bind-utils \
-        openssh-server \
-        xorg-x11-xauth \
+        gcc-toolset-11-annobin \
+        gcc-toolset-11-annobin-plugin-gcc \
+        gcc-toolset-11-gcc-c++ \
+        git \
+        hostname \
+        jq \
         libxml2-devel \
-        rsync \
+        lz4 \
+        make \
+        net-tools \
+        python3-devel \
+        redhat-rpm-config \
         ruby \
         ruby-devel \
-        rubygem-net-telnet \
         rubygems-devel \
-        nmap-ncat \
-        vim \
-        emacs \
-        man-db \
-        man-pages \
-        hunspell-en && \
-    dnf -y install \
-        gcc-toolset-11-annobin-plugin-gcc \
-        gcc-toolset-11-gdb \
-        gcc-toolset-11-libasan-devel \
-        gcc-toolset-11-libtsan-devel \
-        gcc-toolset-11-libubsan-devel && \
-    dnf clean all --enablerepo=\* 
+        rubygem-bigdecimal \
+        rubygem-builder \
+        rubygem-concurrent-ruby \
+        rubygem-parallel \
+        rubygem-rexml \
+        rubygem-test-unit \
+        sudo \
+        zstd \
+        $(if [[ -e /tmp/include/additional-packages.txt ]]; then echo $(cat /tmp/include/additional-packages.txt | xargs); fi) && \
+    dnf clean --enablerepo=* all
 
 RUN source /opt/rh/gcc-toolset-11/enable && \
-    (gem install ffi || true) && \
-    cat /usr/local/lib64/gems/ruby/ffi-1.15.5/gem_make.out && \
-    cat /usr/local/lib64/gems/ruby/ffi-1.15.5/mkmf.log && \
-    cat /usr/local/share/gems/gems/ffi-1.15.5/ext/ffi_c/libffi.gnu.mk && \
-    find /usr/local/lib64/gems/ruby/ffi-1.15.5
-    
-STOPSIGNAL SIGRTMIN+3
-
-CMD [ "/usr/sbin/init" ]
+    gem install ffi libxml-ruby && \
+    rm -rf /tmp/include
