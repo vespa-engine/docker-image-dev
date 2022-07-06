@@ -35,9 +35,12 @@ RUN dnf -y clean all && \
         kdesdk-kcachegrind \
         graphviz && \
     (source /opt/rh/gcc-toolset-11/enable && \
-     gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
+     gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby) && \
     dnf clean all --enablerepo=\* 
 
+RUN source /opt/rh/gcc-toolset-11/enable && \
+    ( gem install ffi || (cat /usr/local/lib64/gems/ruby/ffi-1.15.5/gem_make.out && false) )
+    
 STOPSIGNAL SIGRTMIN+3
 
 CMD [ "/usr/sbin/init" ]
