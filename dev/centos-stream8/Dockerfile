@@ -3,7 +3,6 @@ FROM docker.io/vespaengine/vespa-build-centos-stream8:latest
 
 RUN dnf install -y dnf-plugins-core && \
     dnf install -y epel-release && \
-    dnf config-manager --add-repo https://edge.artifactory.ouroath.com:4443/artifactory/vespa-rpms/vespa-rpms.repo && \
     dnf config-manager --enable powertools --enable epel && \
     dnf clean --enablerepo=* all
 
