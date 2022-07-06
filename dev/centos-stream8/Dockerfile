@@ -5,9 +5,6 @@ ENV container docker
 
 # Install sshd, man-db, nice-to-have packages and system test dependencies
 RUN dnf -y clean all && \
-    dnf -y install 'dnf-command(versionlock)' && \
-    dnf versionlock llvm-libs && \
-    dnf -y --nobest update && \
     dnf -y module enable ruby:2.7 && \
     dnf -y install \
         bind-utils \
@@ -31,15 +28,12 @@ RUN dnf -y clean all && \
         gcc-toolset-11-libasan-devel \
         gcc-toolset-11-libtsan-devel \
         gcc-toolset-11-libubsan-devel && \
-    dnf -y install \
-        kdesdk-kcachegrind \
-        graphviz && \
-    (source /opt/rh/gcc-toolset-11/enable && \
-     gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby) && \
     dnf clean all --enablerepo=\* 
 
 RUN source /opt/rh/gcc-toolset-11/enable && \
-    ( gem install ffi || (cat /usr/local/lib64/gems/ruby/ffi-1.15.5/gem_make.out && false) )
+    (gem install ffi || true) && \
+    cat /usr/local/lib64/gems/ruby/ffi-1.15.5/gem_make.out && \
+    find /usr/local/lib64/gems/ruby/ffi-1.15.5
     
 STOPSIGNAL SIGRTMIN+3
 
