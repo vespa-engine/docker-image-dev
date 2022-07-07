@@ -8,17 +8,27 @@ RUN dnf -y clean all && \
     dnf -y install 'dnf-command(versionlock)' && \
     dnf versionlock llvm-libs && \
     dnf -y --nobest update && \
-    dnf -y module enable ruby:2.7 && \
+    dnf -y module enable ruby:3.0 && \
     dnf -y install \
         bind-utils \
         openssh-server \
         xorg-x11-xauth \
+        libffi-devel \
         libxml2-devel \
         rsync \
         ruby \
         ruby-devel \
-        rubygem-net-telnet \
+        rubygems \
         rubygems-devel \
+        rubygem-bigdecimal \
+        rubygem-builder \
+        rubygem-builder-doc \
+        rubygem-concurrent-ruby \
+        rubygem-concurrent-ruby-doc \
+        rubygem-parallel \
+        rubygem-parallel-doc \
+        rubygem-rexml \
+        rubygem-test-unit \
         nmap-ncat \
         vim \
         emacs \
@@ -35,7 +45,7 @@ RUN dnf -y clean all && \
         kdesdk-kcachegrind \
         graphviz && \
     (source /opt/rh/gcc-toolset-11/enable && \
-     gem install libxml-ruby gnuplot distribution test-unit builder concurrent-ruby ffi) && \
+     gem install ffi libxml-ruby) && \
     dnf clean all --enablerepo=\* 
 
 STOPSIGNAL SIGRTMIN+3
