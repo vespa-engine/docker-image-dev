@@ -85,7 +85,7 @@ jobs:
   publish-build-centos-stream8:
     image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
-    requires: [~commit]
+    requires: [~pr,~commit]
     environment:
       CONTAINER_DIR: 'build/centos-stream8'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos-stream8'
@@ -122,7 +122,7 @@ jobs:
   publish-dev-centos-stream8:
     image: quay.io/centos/centos:stream8
     sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
-    requires: [~pr, ~commit, ~publish-build-centos-stream8]
+    requires: [~commit, ~publish-build-centos-stream8]
     environment:
       CONTAINER_DIR: 'dev/centos-stream8'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos-stream8'
