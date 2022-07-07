@@ -53,7 +53,7 @@ RUN source /opt/rh/gcc-toolset-11/enable && \
     /usr/bin/ruby -I /usr/share/rubygems  extconf.rb  && \
     cat Makefile && \
     pwd && \
-    tar zcvf $SD_ARTIFACTS_DIR/ffi.tgz . && \
+    tar zcvf /root/ffi.tgz . && \
     make --debug  && \
     rm -rf /tmp/include
 

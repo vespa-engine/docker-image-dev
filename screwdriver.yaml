@@ -117,6 +117,8 @@ jobs:
           docker buildx inspect --bootstrap
 
           docker buildx build --progress plain $DOCKER_BUILDX_PUSH --platform linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
+
+          docker run --rm -v $SD_ARTIFACTS_DIR:/artifacts --entrypoint bash $CONTAINER_IMAGE:$CONTAINER_VERSION -c "cp -a /root/ffi.tgz /artifacts"
       - *teardown-inspect
 
   publish-dev-centos-stream8:
