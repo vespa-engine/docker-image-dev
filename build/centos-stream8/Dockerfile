@@ -41,9 +41,14 @@ RUN dnf module enable -y ruby:3.0 && \
 
 RUN source /opt/rh/gcc-toolset-11/enable && \
     curl -O https://index.rubygems.org/gems/ffi-1.15.5.gem && \
+    file ffi-1.15.5.gem && \
     tar xvf ffi-1.15.5.gem && \
+    file metadata.gz && \
     gunzip metadata.gz && \
-    tar zxvf data.tar.gz && \
+    file data.tar.gz && \
+    gunzip data.tar.gz && \
+    file data.tar && \
+    tar xvf data.tar && \
     cd ext/ffi_c/ && \
     /usr/bin/ruby -I /usr/share/rubygems  extconf.rb  && \
     make --debug  && \
