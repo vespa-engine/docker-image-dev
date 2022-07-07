@@ -36,5 +36,28 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
     echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
 
+# Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
+RUN dnf -y module enable ruby:3.0 && \
+    dnf -y install \
+        gcc-toolset-11-annobin-plugin-gcc \
+        libffi-devel \
+        libxml2-devel \
+        ruby \
+        ruby-devel \
+        rubygems \
+        rubygems-devel \
+        rubygem-bigdecimal \
+        rubygem-builder \
+        rubygem-builder-doc \
+        rubygem-concurrent-ruby \
+        rubygem-concurrent-ruby-doc \
+        rubygem-parallel \
+        rubygem-parallel-doc \
+        rubygem-rexml \
+        rubygem-test-unit && \
+    (source /opt/rh/gcc-toolset-11/enable && \
+     gem install ffi libxml-ruby) && \
+    dnf clean all --enablerepo=\*
+
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
