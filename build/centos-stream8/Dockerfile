@@ -39,6 +39,7 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 RUN dnf -y module enable ruby:3.0 && \
     dnf -y install \
+        gcc-toolset-11-annobin-plugin-gcc \
         libffi-devel \
         libxml2-devel \
         ruby \
