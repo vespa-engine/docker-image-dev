@@ -58,5 +58,5 @@ RUN source /opt/rh/gcc-toolset-11/enable && \
     rm -rf /tmp/include
 
 FROM scratch as artifact
-COPY --from=build /root/ffi.tgz /ffi.tgz
+COPY --from=base /root/ffi.tgz /ffi.tgz
 
