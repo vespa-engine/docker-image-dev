@@ -13,22 +13,7 @@ RUN dnf -y clean all && \
         bind-utils \
         openssh-server \
         xorg-x11-xauth \
-        libffi-devel \
-        libxml2-devel \
         rsync \
-        ruby \
-        ruby-devel \
-        rubygems \
-        rubygems-devel \
-        rubygem-bigdecimal \
-        rubygem-builder \
-        rubygem-builder-doc \
-        rubygem-concurrent-ruby \
-        rubygem-concurrent-ruby-doc \
-        rubygem-parallel \
-        rubygem-parallel-doc \
-        rubygem-rexml \
-        rubygem-test-unit \
         nmap-ncat \
         vim \
         emacs \
@@ -44,8 +29,6 @@ RUN dnf -y clean all && \
     dnf -y install \
         kdesdk-kcachegrind \
         graphviz && \
-    (source /opt/rh/gcc-toolset-11/enable && \
-     gem install ffi libxml-ruby) && \
     dnf clean all --enablerepo=\* 
 
 STOPSIGNAL SIGRTMIN+3

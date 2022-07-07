@@ -13,7 +13,6 @@ RUN dnf -y install epel-release && \
         git \
         hostname \
         iputils \
-        java-17-openjdk-devel \
         jq \
         pinentry \
         sudo
@@ -30,11 +29,33 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
     alternatives --set java $(alternatives --display java | grep "java.*priority" | awk '{print $1}' | grep "jdk-17") && \
-    dnf swap -y maven-openjdk11 maven-openjdk17 && \
+    alternatives --set javac $(alternatives --display javac | grep "java.*priority" | awk '{print $1}' | grep "jdk-17") && \
     dnf clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/gcc-toolset-11/enable" >> /etc/profile.d/enable-gcc-toolset-11.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
     echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
+
+# Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
+RUN dnf -y module enable ruby:3.0 && \
+    dnf -y install \
+        libffi-devel \
+        libxml2-devel \
+        ruby \
+        ruby-devel \
+        rubygems \
+        rubygems-devel \
+        rubygem-bigdecimal \
+        rubygem-builder \
+        rubygem-builder-doc \
+        rubygem-concurrent-ruby \
+        rubygem-concurrent-ruby-doc \
+        rubygem-parallel \
+        rubygem-parallel-doc \
+        rubygem-rexml \
+        rubygem-test-unit && \
+    (source /opt/rh/gcc-toolset-11/enable && \
+     gem install ffi libxml-ruby) && \
+    dnf clean all --enablerepo=\*
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
