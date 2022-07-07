@@ -54,8 +54,9 @@ RUN source /opt/rh/gcc-toolset-11/enable && \
     cat Makefile && \
     pwd && \
     tar zcvf /root/ffi.tgz . && \
-    make --debug  && \
     rm -rf /tmp/include
+
+#make --debug  && \
 
 # Java requires proper locale for unicode
 ENV LANG en_US.UTF-8
