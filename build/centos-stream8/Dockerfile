@@ -51,6 +51,7 @@ RUN source /opt/rh/gcc-toolset-11/enable && \
     tar xvf data.tar && \
     cd ext/ffi_c/ && \
     /usr/bin/ruby -I /usr/share/rubygems  extconf.rb  && \
+    cat Makefile && \
     make --debug  && \
     rm -rf /tmp/include
 
