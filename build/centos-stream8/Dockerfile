@@ -40,7 +40,7 @@ RUN dnf module enable -y ruby:3.0 && \
 #$(if [[ -e /tmp/include/additional-packages.txt ]]; then echo $(cat /tmp/include/additional-packages.txt | xargs); fi) && \
 
 RUN source /opt/rh/gcc-toolset-11/enable && \
-    gem install ffi libxml-ruby && \
+    gem install ffi --debug --backtrace --verbose && \
     rm -rf /tmp/include
 
 # Java requires proper locale for unicode
