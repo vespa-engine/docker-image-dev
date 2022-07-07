@@ -13,6 +13,7 @@ RUN dnf -y install epel-release && \
         git \
         hostname \
         iputils \
+        java-17-openjdk-devel \
         jq \
         pinentry \
         sudo
