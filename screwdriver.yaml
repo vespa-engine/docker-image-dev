@@ -116,7 +116,7 @@ jobs:
           docker buildx create --name vespa-builder --driver docker-container --use
           docker buildx inspect --bootstrap
 
-          docker buildx build --progress plain $DOCKER_BUILDX_PUSH --platform linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION .
+          docker buildx build --progress plain $DOCKER_BUILDX_PUSH --platform linux/arm64 --tag $CONTAINER_IMAGE:$CONTAINER_VERSION --target=artifact --output type=local,dest=$SD_ARTIFACTS_DIR .
 
           docker run --platform linux/arm64 --rm -v $SD_ARTIFACTS_DIR:/artifacts --entrypoint bash $CONTAINER_IMAGE:$CONTAINER_VERSION -c "cp -a /root/ffi.tgz /artifacts"
       - *teardown-inspect
