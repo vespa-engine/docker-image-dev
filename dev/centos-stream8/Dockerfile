@@ -13,6 +13,7 @@ RUN dnf -y clean all && \
         bind-utils \
         openssh-server \
         xorg-x11-xauth \
+        libffi-devel \
         libxml2-devel \
         rsync \
         ruby \
