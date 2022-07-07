@@ -54,6 +54,7 @@ RUN source /opt/rh/gcc-toolset-11/enable && \
     cat Makefile && \
     pwd && \
     tar zcvf /root/ffi.tgz . && \
+    ls -lart /root && \
     rm -rf /tmp/include
 
 #make --debug  && \
