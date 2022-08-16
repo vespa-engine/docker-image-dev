@@ -11,9 +11,7 @@ RUN dnf -y install epel-release && \
     dnf -y install \
         ccache \
         git \
-        hostname \
         iputils \
-        java-17-openjdk-devel \
         jq \
         pinentry \
         sudo
@@ -21,7 +19,7 @@ RUN dnf -y install epel-release && \
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "283303382d058d1f2b1fa1ddd3f279e0fb4d2779"
+ENV VESPA_SRC_REF "cf579cd8d957b1bb2992d7a86830fbca3a64f82b"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
@@ -29,8 +27,8 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     dnf -y module enable maven:3.6 && \
     dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
-    alternatives --set java $(alternatives --display java | grep "java.*priority" | awk '{print $1}' | grep "jdk-17") && \
-    dnf swap -y maven-openjdk11 maven-openjdk17 && \
+    alternatives --set java java-17-openjdk.$(arch) && \
+    alternatives --set javac java-17-openjdk.$(arch) && \
     dnf clean all && rm -rf /var/cache/yum && \
     echo -e "#!/bin/bash\nsource /opt/rh/gcc-toolset-11/enable" >> /etc/profile.d/enable-gcc-toolset-11.sh && \
     echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
