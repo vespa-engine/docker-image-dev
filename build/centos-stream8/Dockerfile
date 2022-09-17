@@ -23,7 +23,7 @@ ENV VESPA_SRC_REF "28c60347ebd3953b542b34534eaf813820d2c0c3"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
-    sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}-/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
+    sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
     dnf -y module enable maven:3.6 && \
     dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
