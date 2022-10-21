@@ -8,6 +8,7 @@ echo "Make vespanode image start"
 cd
 
 test -f /mnt/.bashrc && rsync -aHvSx /mnt/.bashrc .bashrc
+test -d /mnt/.bashrc.d && rsync -aHvSx /mnt/.bashrc.d/ .bashrc.d/
 rsync -aHvSx /mnt/.bash_profile .bash_profile
 if test -f /mnt/.docker_profile
 then
