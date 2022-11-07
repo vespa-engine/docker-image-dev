@@ -60,6 +60,8 @@ EOF
     cp -a .vespa/system_test_certs/host.key vespa/conf/vespa/tls
 fi
 
+test -L vespa/tmp || ln -s var/tmp vespa/tmp
+
 # Workaround for tmpfs-mode not working for docker service mounts.
 # Default seems to be existing mode in underlying directory.
 mkdir -p vespa/logs/systemtests
