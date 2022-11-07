@@ -65,9 +65,9 @@ fi
 mkdir -p vespa/logs/systemtests
 chmod 1777 vespa/logs/systemtests || true
 chmod 1777 vespa/logs/vespa || true
-chmod 1777 vespa/tmp/vespa || true
-mkdir -p vespa/tmp/systemtests
-chmod 1777 vespa/tmp/systemtests || true
+chmod 1777 vespa/var/tmp/vespa || true
+mkdir -p vespa/var/tmp/systemtests
+chmod 1777 vespa/var/tmp/systemtests || true
 chmod 1777 vespa/var/db/vespa || true
 mkdir -p vespa/var/jdisc_container
 chmod 1777 vespa/var/jdisc_container || true

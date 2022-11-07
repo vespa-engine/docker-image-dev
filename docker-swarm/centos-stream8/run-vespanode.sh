@@ -31,8 +31,8 @@ fixup_dir()
 # Default seems to be existing mode in underlying directory.
 fixup_dir vespa/logs/systemtests 1777
 fixup_dir vespa/logs/vespa 1777
-fixup_dir vespa/tmp/vespa 1777
-fixup_dir vespa/tmp/systemtests 1777
+fixup_dir vespa/var/tmp/vespa 1777
+fixup_dir vespa/var/tmp/systemtests 1777
 fixup_dir vespa/var/db/vespa 1777
 fixup_dir vespa/var/jdisc_container 1777
 fixup_dir vespa/var/vespa 1777
