@@ -3,7 +3,42 @@
 
 # Build baseline base image for running vespa system tests using docker swarm.
 
-DEVIMAGE=vespaengine/vespa-dev-centos-stream8
+DEBUG_IMAGE=false
+
+args=`getopt d $*`
+if [ $? -ne 0 ]; then
+    echo "Usage: build-vespanode-baselinebase.sh [-d]" 1>&2
+    exit 1
+fi
+set -- $args
+while :; do
+    case "$1" in
+	-d) DEBUG_IMAGE=true; shift;;
+	--) shift; break;;
+    esac
+done
+
+if test $# -gt 0
+then
+    echo "Unexpected remaining arguments: $*" 1>&2
+    exit 1
+fi
+
+if $DEBUG_IMAGE
+then
+    # Prepare image with debuginfo packages for dependencies which are needed
+    # to properly handle stack backtraces and suppressions for some sanitizers.
+    DEVIMAGE=vespa-debug-dev-centos-stream8
+    if docker build -t $DEVIMAGE ../../debug-dev/centos-stream8
+    then
+	echo "Created $DEVIMAGE"
+    else
+	echo "Failed creating $DEVIMAGE" 1>&2
+	exit 1
+    fi
+else
+    DEVIMAGE=vespaengine/vespa-dev-centos-stream8
+fi
 
 CONTAINER_NAME=$USER-build-vespanode-baselinebase-centos-stream8
 BASELINEBASE_NAME=$USER-vespanode-baselinebase-centos-stream8
