@@ -19,7 +19,7 @@ RUN dnf -y install epel-release && \
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "1c4127aa5a88dd285a46bea9d860ac13cf18c687"
+ENV VESPA_SRC_REF "8f32428bb05196e8b6c9c3855864a9ec51dd250d"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
@@ -53,6 +53,8 @@ RUN dnf -y module enable ruby:3.0 && \
         rubygem-parallel-doc \
         rubygem-rexml \
         rubygem-test-unit && \
+    ( . /opt/rh/gcc-toolset-11/enable && \
+      /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh ) && \
     (source /opt/rh/gcc-toolset-11/enable && \
      gem install ffi libxml-ruby) && \
     dnf clean all --enablerepo=\*
