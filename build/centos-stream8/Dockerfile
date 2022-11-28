@@ -53,6 +53,8 @@ RUN dnf -y module enable ruby:3.0 && \
         rubygem-parallel-doc \
         rubygem-rexml \
         rubygem-test-unit && \
+    ( . /opt/rh/gcc-toolset-11/enable && \
+      /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh ) && \
     (source /opt/rh/gcc-toolset-11/enable && \
      gem install ffi libxml-ruby) && \
     dnf clean all --enablerepo=\*
