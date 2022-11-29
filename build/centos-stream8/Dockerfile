@@ -38,6 +38,8 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
 RUN dnf -y module enable ruby:3.0 && \
     dnf -y install \
         gcc-toolset-11-annobin-plugin-gcc \
+        gcc-toolset-11-libasan-devel \
+        gcc-toolset-11-libtsan-devel \
         libffi-devel \
         libxml2-devel \
         ruby \
