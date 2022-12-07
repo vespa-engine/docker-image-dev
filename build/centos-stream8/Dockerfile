@@ -19,7 +19,7 @@ RUN dnf -y install epel-release && \
 ENV GIT_REPO "https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF "8f32428bb05196e8b6c9c3855864a9ec51dd250d"
+ENV VESPA_SRC_REF "52cc33316f1ff1b10ddad3b38c7011afc769e091"
 
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
