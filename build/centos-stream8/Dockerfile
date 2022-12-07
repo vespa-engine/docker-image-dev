@@ -24,7 +24,7 @@ ENV VESPA_SRC_REF "8f32428bb05196e8b6c9c3855864a9ec51dd250d"
 # Install vespa build and runtime dependencies
 RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF && \
     sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec && \
-    dnf -y module enable maven:3.6 && \
+    dnf -y module enable maven:3.6 python39:3.9 python39-devel:3.9 && \
     dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec && \
     cd .. && rm -r vespa && \
     alternatives --set java java-17-openjdk.$(arch) && \
