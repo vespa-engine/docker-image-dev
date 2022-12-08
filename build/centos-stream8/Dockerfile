@@ -40,6 +40,7 @@ RUN dnf -y module enable ruby:3.0 && \
         gcc-toolset-11-annobin-plugin-gcc \
         gcc-toolset-11-libasan-devel \
         gcc-toolset-11-libtsan-devel \
+        gcc-toolset-11-libubsan-devel \
         libffi-devel \
         libxml2-devel \
         ruby \
