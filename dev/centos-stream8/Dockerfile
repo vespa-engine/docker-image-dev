@@ -19,11 +19,11 @@ RUN dnf -y clean all && \
         man-pages \
         hunspell-en && \
     dnf -y install \
-        gcc-toolset-11-annobin-plugin-gcc \
-        gcc-toolset-11-gdb \
-        gcc-toolset-11-libasan-devel \
-        gcc-toolset-11-libtsan-devel \
-        gcc-toolset-11-libubsan-devel && \
+        gcc-toolset-12-annobin-plugin-gcc \
+        gcc-toolset-12-gdb \
+        gcc-toolset-12-libasan-devel \
+        gcc-toolset-12-libtsan-devel \
+        gcc-toolset-12-libubsan-devel && \
     dnf -y install \
         kdesdk-kcachegrind \
         graphviz && \
