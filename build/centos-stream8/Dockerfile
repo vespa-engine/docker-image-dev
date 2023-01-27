@@ -30,9 +30,10 @@ RUN git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout
     alternatives --set java java-17-openjdk.$(arch) && \
     alternatives --set javac java-17-openjdk.$(arch) && \
     dnf clean all && rm -rf /var/cache/yum && \
-    echo -e "#!/bin/bash\nsource /opt/rh/gcc-toolset-12/enable" >> /etc/profile.d/enable-gcc-toolset-12.sh && \
-    echo -e "* soft nproc 409600\n* hard nproc 409600" > /etc/security/limits.d/99-nproc.conf && \
-    echo -e "* soft nofile 262144\n* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
+    printf '%s\n%s\n' "# gcc" "source /opt/rh/gcc-toolset-12/enable"  > /etc/profile.d/enable-gcc-toolset-12.sh && \
+    printf '%s\n%s\n' "* soft nproc 409600"  "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf && \
+    printf '%s\n%s\n' "* soft core 0"        "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf && \
+    printf '%s\n%s\n' "* soft nofile 262144" "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 RUN dnf -y module enable ruby:3.0 && \
