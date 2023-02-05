@@ -2,9 +2,7 @@
 
 ALMALINUX_VERSION=8
 
-cname="vespa-almalinux-${ALMALINUX_VERSION}"
-
-IMG="${cname}-build"
+IMG="vespaengine/vespa-build-almalinux-${ALMALINUX_VERSION}:latest"
 
 echo BUILDING: docker build --progress plain -t ${IMG} "$@" .
 docker build --progress plain -t ${IMG} "$@" .
