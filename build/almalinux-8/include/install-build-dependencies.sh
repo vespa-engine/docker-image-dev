@@ -4,7 +4,6 @@ set -xeu
 
 # Change git reference for a specific version of the vespa.spec file.
 # Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="66ab5019e94625935f4766e0caeed497dc31e2dd"
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Enable and install repositories
