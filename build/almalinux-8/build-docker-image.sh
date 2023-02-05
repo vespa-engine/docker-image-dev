@@ -6,5 +6,5 @@ cname="vespa-almalinux-${ALMALINUX_VERSION}"
 
 IMG="${cname}-build"
 
-echo BUILDING: docker build -t ${IMG} "$@" .
-docker build -t ${IMG} "$@" .
+echo BUILDING: docker build --progress plain -t ${IMG} "$@" .
+docker build --progress plain -t ${IMG} "$@" .
