@@ -9,10 +9,10 @@ container_name="${cname}-dev-${IDENT}"
 img="${cname}-dev:latest"
 
 vol="volume-${container_name}"
-docker volume list | grep -q $vol || docker volume create $vol
+docker volume ls | grep -q $vol || docker volume create $vol
 
 network_name=vespa-testing
-docker network list | grep -q $network_name || docker network create $network_name
+docker network ls | grep -q $network_name || docker network create $network_name
 
 myuname=$(id -un)
 
