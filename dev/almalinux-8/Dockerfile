@@ -23,8 +23,6 @@ RUN dnf -y install \
         graphviz && \
     dnf clean all --enablerepo=\* 
 
-ARG MYUSERNAME=myuser
-
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
 
 STOPSIGNAL SIGRTMIN+3
