@@ -144,6 +144,7 @@ jobs:
     steps:
       - *inspect
       - install-deps: &bcsc-install-deps |
+          dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           dnf install -y docker-ce-cli
       - build-multi-arch: &bcsc-build-multi-arch |
