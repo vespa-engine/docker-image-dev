@@ -13,12 +13,7 @@ RUN dnf -y install \
         emacs \
         man-db \
         man-pages \
-        hunspell-en && \
-    dnf -y install \
-        gcc-toolset-12-libasan-devel \
-        gcc-toolset-12-libtsan-devel \
-        gcc-toolset-12-libubsan-devel && \
-    dnf -y install \
+        hunspell-en \
         kdesdk-kcachegrind \
         graphviz && \
     dnf clean all --enablerepo=\* 
