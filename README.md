@@ -168,11 +168,11 @@ Set the number of compilation threads (-j argument) to the number of CPU cores +
 
 ##### Build and optimize for newer cpu architectures
 
-You can use the compiler flags -march= and -mtune= to cpu genration to build for. For details and options consult
-[gcc manual](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options)
-Below commands will setup build for instruction set available for the intel haswell cpu generation
-and optimize code generation for the even newer intel icelake cpu generation,
-but still use only instruction set available for haswell.
+You can use the compiler flags `-march=` and `-mtune=` to specify the CPU generation to build for. For details and options consult the
+[GCC manual](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options).
+The below command will setup building with the instruction set available on the Intel Haswell CPU generation
+and optimize code generation for the even newer Intel Icelake CPU generation,
+but still use only the instruction set available on Haswell.
 
     cmake3 -DVESPA_CPU_ARCH_FLAGS="-march=haswell -mtune=skylake" .
 
