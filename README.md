@@ -166,6 +166,16 @@ of build tools will be used:
 
 Set the number of compilation threads (-j argument) to the number of CPU cores + 1.
 
+##### Build and optimize for newer cpu architectures
+
+You can use the compiler flags -march= and -mtune= to cpu genration to build for. For details and options consult
+[gcc manual](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options)
+Below commands will setup build for instruction set available for the intel haswell cpu generation
+and optimize code generation for the even newer intel icelake cpu generation,
+but still use only instruction set available for haswell.
+
+    cmake3 -DVESPA_CPU_ARCH_FLAGS="-march=haswell -mtune=skylake" .
+
 #### Install modules
 
     make install/fast
