@@ -44,6 +44,7 @@ rm vespa.spec vesparun.spec
 
 #  Install extra compiler tools
 dnf -y install \
+    clang \
     gcc-toolset-12-annobin-plugin-gcc \
     gcc-toolset-12-libasan-devel \
     gcc-toolset-12-libtsan-devel \
