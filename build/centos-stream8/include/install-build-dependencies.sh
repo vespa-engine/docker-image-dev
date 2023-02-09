@@ -38,6 +38,7 @@ printf '%s\n%s\n' "* soft nofile 262144" "* hard nofile 262144"   > /etc/securit
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 dnf -y module enable ruby:3.0
 dnf -y install \
+    clang \
     gcc-toolset-12-annobin-plugin-gcc \
     gcc-toolset-12-libasan-devel \
     gcc-toolset-12-libtsan-devel \
