@@ -7,7 +7,8 @@ FORWARD_SSH_PORT=$((3900 + 10 * ${ALMALINUX_VERSION} + ${IDENT}))
 cname="vespa-almalinux-${ALMALINUX_VERSION}"
 container_name="${cname}-dev-${IDENT}"
 
-img="vespaengine/vespa-dev-almalinux-${ALMALINUX_VERSION}:latest"
+img="docker.io/vespaengine/vespa-dev-almalinux-${ALMALINUX_VERSION}:latest"
+docker pull $img
 
 vol="volume-${container_name}"
 docker volume ls | grep -q $vol || docker volume create $vol
