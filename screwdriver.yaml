@@ -56,7 +56,6 @@ shared:
 jobs:
   publish-build-centos7:
     sourcePaths: ["screwdriver.yaml", "build/centos7/"]
-    requires: [~pr, ~commit]
     environment:
       CONTAINER_DIR: 'build/centos7'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos7'
@@ -70,7 +69,6 @@ jobs:
 
   publish-dev-centos7:
     sourcePaths: ["screwdriver.yaml", "dev/centos7/"]
-    requires: [~pr, ~commit, ~publish-build-centos7]
     environment:
       CONTAINER_DIR: 'dev/centos7'
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos7'
