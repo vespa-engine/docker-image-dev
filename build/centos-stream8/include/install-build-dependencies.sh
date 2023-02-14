@@ -61,5 +61,7 @@ dnf -y install \
 ( . /opt/rh/gcc-toolset-12/enable && \
   /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh )
 
+patch /opt/rh/gcc-toolset-12/root/usr/include/c++/12/bits/stl_vector.h < /include/patch.stl_vector.h.diff
+
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
 dnf clean all --enablerepo='*'
