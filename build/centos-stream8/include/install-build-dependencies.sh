@@ -19,7 +19,7 @@ dnf -y install \
 GIT_REPO="https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="66ab5019e94625935f4766e0caeed497dc31e2dd"
+VESPA_SRC_REF="3458357e094c88c0562b7561f01698944a2998f6"
 
 # Install vespa build and runtime dependencies
 git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF
@@ -64,4 +64,5 @@ dnf -y install \
 patch /opt/rh/gcc-toolset-12/root/usr/include/c++/12/bits/stl_vector.h < /include/patch.stl_vector.h.diff
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
+python3.8 -m pip install pytest
 dnf clean all --enablerepo='*'
