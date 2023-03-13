@@ -43,7 +43,7 @@ RUN cd /opt/vespa-deps && ln -sf lib lib64
 
 # basic C++ developement:
 RUN apt-get -y install git
-RUN apt-get -y install gcc g++ gdb llvm
+RUN apt-get -y install gcc-12 'g\+\+-12' gdb llvm
 RUN apt-get -y install make cmake ccache
 RUN apt-get -y install bison flex
 
