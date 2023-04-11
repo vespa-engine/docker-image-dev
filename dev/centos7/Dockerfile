@@ -16,7 +16,6 @@ RUN yum -y clean all && \
         openssh-server \
         xorg-x11-xauth \
         libxml2-devel \
-        protobuf-devel \
         rh-ruby27-rubygems-devel \
         rh-ruby27-ruby-devel \
         rh-ruby27 \
