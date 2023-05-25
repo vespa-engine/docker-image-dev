@@ -1,0 +1,13 @@
+--- /opt/rh/gcc-toolset-12/root/usr/include/c++/12/x86_64-redhat-linux/bits/gthr-default.h	2022-09-14 17:00:09.000000000 +0000
++++ gthr-default.h	2023-05-25 12:00:28.513353273 +0000
+@@ -247,9 +247,7 @@
+ static inline int
+ __gthread_active_p (void)
+ {
+-  static void *const __gthread_active_ptr
+-    = __extension__ (void *) &GTHR_ACTIVE_PROXY;
+-  return __gthread_active_ptr != 0;
++  return 1;
+ }
+ 
+ #endif /* FreeBSD or Solaris */
