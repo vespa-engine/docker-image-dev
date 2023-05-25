@@ -62,7 +62,7 @@ dnf -y install \
   /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh )
 
 patch /opt/rh/gcc-toolset-12/root/usr/include/c++/12/bits/stl_vector.h < /include/patch.stl_vector.h.diff
-for f in `find /opt/rh/gcc-toolset-12/root/usr/include/c++/12/ -name gthr-default.h`; do patch $f /tmp/patch.gthr-default.h.diff; done
+for f in `find /opt/rh/gcc-toolset-12/root/usr/include/c++/12/ -name gthr-default.h`; do patch $f /include/patch.gthr-default.h.diff; done
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
 python3.9 -m pip install pytest
