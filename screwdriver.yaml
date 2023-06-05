@@ -13,6 +13,9 @@ shared:
     screwdriver.cd/ram: HIGH
     screwdriver.cd/disk: HIGH
     screwdriver.cd/timeout: 60
+    screwdriver.cd/dockerEnabled: true
+    screwdriver.cd/dockerCpu: TURBO
+    screwdriver.cd/dockerRam: TURBO
 
     inspect: &inspect
       inspect: |
