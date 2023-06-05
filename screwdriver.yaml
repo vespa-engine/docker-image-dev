@@ -26,7 +26,7 @@ shared:
     install-deps: &install-deps
       install-deps: |
         dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-        dnf install -y docker-ce-cli
+        dnf install -y --allowerasing docker-ce-cli
 
     build-and-publish: &build-and-publish
       build-and-publish: |
