@@ -25,48 +25,42 @@ shared:
 
     install-deps: &install-deps
       install-deps: |
-        # Install the multi-arch support
-        rm -f /usr/bin/qemu-*
-        podman run --rm --cap-add SYS_ADMIN docker.io/multiarch/qemu-user-static --reset -p yes
+        dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+        dnf install -y docker-ce-cli
 
-    build: &build
-      build: |
+    build-and-publish: &build-and-publish
+      build-and-publish: |
           IFS=',' read -r -a PARSED <<< "$CONTAINER_ARCH"
           PLATFORMS=$(for A in ${PARSED[@]}; do echo "linux/$A"; done | xargs | sed 's/\ /,/g')
-          buildah bud \
-            --file Dockerfile \
-            --jobs 2  \
-            --label "source_repo=$GIT_URL" \
-            --label "source_ref=$GIT_COMMIT" \
-            --label "build_url=$SD_BUILD_URL" \
-            --layers=false \
-            --manifest "$CONTAINER_IMAGE:$CONTAINER_TAG" \
-            --platform $PLATFORMS \
-            $CONTAINER_DIR
+          if [[ -z $SD_PULL_REQUEST ]]; then
+            set +x
+            docker login -u aressem -p $DOCKER_HUB_DEPLOY_KEY
+            set -x
+            DOCKER_BUILDX_PUSH="--push"
+          fi
 
-          buildah manifest inspect "$CONTAINER_IMAGE:$CONTAINER_TAG"
+          cd $CONTAINER_DIR
+          docker info
+          docker version
+          docker buildx version
+          docker buildx install
 
-    publish: &publish
-      publish: |
-        if [[ -z $SD_PULL_REQUEST ]]; then
-          set +x
-          buildah login --username aressem --password "$DOCKER_HUB_DEPLOY_KEY" docker.io
-          set -x
-
-          buildah manifest push --all --format v2s2 "$CONTAINER_IMAGE:$CONTAINER_TAG" "docker://$CONTAINER_IMAGE:$CONTAINER_TAG"
-        fi
+          unset DOCKER_HOST
+          docker context create vespa-context --docker "host=tcp://localhost:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"
+          docker context use vespa-context
+          docker buildx create --name vespa-builder --driver docker-container --use
+          docker buildx inspect --bootstrap
+          docker buildx build --progress plain $DOCKER_BUILDX_PUSH --platform $PLATFORMS --tag $CONTAINER_IMAGE:$CONTAINER_TAG .
 
     teardown-inspect: &teardown-inspect
       teardown-inspect: |
-        buildah images
         df -h
 
     common-steps: &common-steps
       steps:
         - *inspect
         - *install-deps
-        - *build
-        - *publish
+        - *build-and-publish
         - *teardown-inspect
 
 jobs:
