@@ -19,7 +19,7 @@ dnf -y install \
 GIT_REPO="https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="86aa89de7fb7764fed4450977376b7db7c5167fe"
+VESPA_SRC_REF="1eebf92aed23f94d1db6b32aafa9ce294283db45"
 
 # Install vespa build and runtime dependencies
 git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF
