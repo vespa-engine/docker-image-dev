@@ -9,6 +9,7 @@ shared:
     USER_SHELL_BIN: bash
 
   annotations:
+    screwdriver.cd/restrictPR: fork
     screwdriver.cd/cpu: HIGH
     screwdriver.cd/ram: HIGH
     screwdriver.cd/disk: HIGH
