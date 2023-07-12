@@ -66,4 +66,8 @@ for f in `find /opt/rh/gcc-toolset-12/root/usr/include/c++/12/ -name gthr-defaul
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
 python3.9 -m pip install pytest
+
+# Python 3.11 is pulled in as a transitive dependency of valgrind. This causes it to be set as default. We use 3.9 for now.
+alternatives --set python3 /usr/bin/python3.9
+
 dnf clean all --enablerepo='*'
