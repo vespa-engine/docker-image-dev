@@ -24,11 +24,12 @@ VESPA_SRC_REF="9d6df99dddf675207971db94c852fd3e8796e077"
 # Install vespa build and runtime dependencies
 git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF
 sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec
-dnf -y module enable maven:3.6
+dnf -y module enable maven:3.8
 dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec
 cd .. && rm -r vespa
 alternatives --set java java-17-openjdk.$(arch)
 alternatives --set javac java-17-openjdk.$(arch)
+dnf install -y maven-openjdk17
 dnf clean all && rm -rf /var/cache/yum
 printf '%s\n%s\n' "# gcc" "source /opt/rh/gcc-toolset-12/enable"  > /etc/profile.d/enable-gcc-toolset-12.sh
 printf '%s\n%s\n' "* soft nproc 409600"  "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
