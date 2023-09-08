@@ -53,6 +53,8 @@ dnf -y install \
 source /opt/rh/gcc-toolset-12/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
+dnf -y install vespa-toolset-12-meta
+
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 dnf -y module enable ruby:3.0
 dnf -y install \
