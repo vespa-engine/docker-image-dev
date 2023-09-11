@@ -211,6 +211,12 @@ Default install directory is $HOME/vespa ($VESPA_HOME).
 
 Note that the system test scrips are already in your PATH inside the Docker container.
 
+#### Copy feature flag overrides from system test repo
+
+Some system tests depend on feature flag overrides.
+
+    cp $HOME/git/system-test/docker/include/feature-flags.json $HOME/vespa/var/vespa/flag.db
+
 #### Start nodeserver in one terminal
 
     nodeserver.sh
