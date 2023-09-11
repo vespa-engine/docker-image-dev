@@ -40,6 +40,7 @@ printf '%s\n%s\n' "* soft nofile 262144" "* hard nofile 262144"   > /etc/securit
 dnf -y module enable ruby:3.0
 dnf -y install \
     clang \
+    gcc-toolset-13-libatomic-devel \
     gcc-toolset-12-annobin-plugin-gcc \
     gcc-toolset-12-libasan-devel \
     gcc-toolset-12-libtsan-devel \
