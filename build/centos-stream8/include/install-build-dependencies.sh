@@ -30,7 +30,7 @@ cd .. && rm -r vespa
 alternatives --set java java-17-openjdk.$(arch)
 alternatives --set javac java-17-openjdk.$(arch)
 dnf install -y maven-openjdk17
-dnf clean all && rm -rf /var/cache/yum
+
 printf '%s\n%s\n' "# gcc" "source /opt/rh/gcc-toolset-12/enable"  > /etc/profile.d/enable-gcc-toolset-12.sh
 printf '%s\n%s\n' "* soft nproc 409600"  "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n%s\n' "* soft core 0"        "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
@@ -62,8 +62,7 @@ dnf -y install \
 ( . /opt/rh/gcc-toolset-12/enable && \
   /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh )
 
-patch /opt/rh/gcc-toolset-12/root/usr/include/c++/12/bits/stl_vector.h < /include/patch.stl_vector.h.diff
-for f in `find /opt/rh/gcc-toolset-12/root/usr/include/c++/12/ -name gthr-default.h`; do patch $f /include/patch.gthr-default.h.diff; done
+dnf -y install vespa-toolset-12-meta
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
 python3.9 -m pip install pytest

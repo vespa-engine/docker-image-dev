@@ -1,6 +1,6 @@
 # Copyright Yahoo. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
-FROM almalinux:8.7
+FROM almalinux:8.8
 
 # Java requires proper locale for unicode
 ENV LANG C.UTF-8
