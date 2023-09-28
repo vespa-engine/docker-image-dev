@@ -116,7 +116,7 @@ If not, use the following guide
     cd $HOME/git
     git clone git@github.com:vespa-engine/docker-image-dev.git
     cd $HOME/git/docker-image-dev/dev/centos-stream8
-    ./configure-container.sh vespa-dev-centos-stream8
+    ./configure-container.sh docker vespa-dev-centos-stream8
 
 This adds yourself as user in the container, copies authorized keys to ensure ssh can be used,
 and sets environment variables needed for building Vespa.
