@@ -19,7 +19,9 @@ The project is covered by the [Apache License, Version 2.0](https://www.apache.o
 
 ## Vespa development on CentOS Stream 8
 
-This guide describes how to build, unit test and system test Vespa on CentOS Stream 8 using Docker.
+This guide describes how to build, unit test and system test Vespa on CentOS Stream 8 using Docker or Podman.
+Change from `docker` to `podman` in the commands below if using Podman.
+
 When doing Vespa development it is important that the turnaround time between code changes
 and running unit tests and system tests is short.
 [vespa-dev-centos-stream8](https://hub.docker.com/repository/docker/vespaengine/vespa-dev-centos-stream8)
@@ -35,9 +37,9 @@ Vespa can be executed directly from this directory when for instance running sys
 Make sure Docker has sufficient resources:
 
 Open Docker - Preferences - Resources and set:
-* CPUs to minimum 2. Use 8 or more for faster build times.
-* Memory size to minimum 8 GB. 16 GB is preferred.
-* Disk image size to 128 GB.
+* CPUs: Minimum 2. Use 8 or more for faster build times.
+* Memory: Minimum 8 GB. 16 GB or more is preferred.
+* Disk size: 128 GB.
 
 #### Docker on Linux
 
@@ -48,6 +50,23 @@ Make sure Docker can be executed without sudo for the scripts in this guide to w
     sudo systemctl restart docker
     
 Log out and login again; or run `sudo su - $USER` command to continue.
+
+#### Podman on macOS
+
+Install Podman Desktop:
+
+    brew install podman-desktop
+
+Create a new Podman Machine with sufficient resources (Preferences - Resources - Create new ...)
+* CPUs: Minimum 2. Use 8 or more for faster build times.
+* Memory: Minimum 8 GB. 16 GB or more is preferred.
+* Disk size: 128 GB.
+* Machine with root privileges: Enabled
+
+The Podman Machine can also be created using `podman machine init`:
+
+    podman machine init --cpus=8 --memory=16384 --disk-size=128 --rootful
+
 
 ### Setup the Docker container
 
