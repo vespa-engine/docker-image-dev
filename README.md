@@ -63,6 +63,11 @@ Create a new Podman Machine with sufficient resources (Preferences - Resources -
 * Disk size: 128 GB.
 * Machine with root privileges: Enabled
 
+The Podman Machine can also be created using `podman machine init`:
+
+    podman machine init --cpus=8 --memory=16384 --disk-size=128 --rootful
+
+
 ### Setup the Docker container
 
 #### Download the latest vespa-dev-centos-stream8 Docker image
