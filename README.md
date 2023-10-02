@@ -99,6 +99,7 @@ Second, create the container by mounting the volume as the home directory inside
         -p 127.0.0.1:3334:22 \
         -v volume-vespa-dev-centos-stream8:/home/$(id -un) \
         --privileged \
+        --pids-limit -1 \
         --name vespa-dev-centos-stream8 \
         docker.io/vespaengine/vespa-dev-centos-stream8:latest
 
@@ -117,6 +118,7 @@ Second, run docker create with the -v option to mount the volume directory as th
         -p 127.0.0.1:3334:22 \
         -v $HOME/volumes/vespa-dev-centos-stream8:/home/$(id -un) \
         --privileged \
+        --pids-limit -1 \
         --name vespa-dev-centos-stream8 \
         docker.io/vespaengine/vespa-dev-centos-stream8:latest
 
