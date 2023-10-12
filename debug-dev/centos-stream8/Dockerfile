@@ -6,7 +6,7 @@
 FROM docker.io/vespaengine/vespa-dev-centos-stream8:latest
 
 RUN dnf debuginfo-install -y --enablerepo=debuginfo \
-        $(rpm -q -a | grep '^vespa-' | sed -e 's,-[0-9].*,,') \
+        $(rpm -q -a --qf '%{name}\n' | grep -E '^vespa(-.*)?$') \
         glibc \
         libatomic \
         libffi \
