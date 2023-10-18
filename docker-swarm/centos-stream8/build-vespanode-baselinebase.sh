@@ -29,7 +29,7 @@ then
     # Prepare image with debuginfo packages for dependencies which are needed
     # to properly handle stack backtraces and suppressions for some sanitizers.
     DEVIMAGE=vespa-debug-dev-centos-stream8
-    if docker build -t $DEVIMAGE ../../debug-dev/centos-stream8
+    if docker build --progress=plain -t $DEVIMAGE ../../debug-dev/centos-stream8
     then
 	echo "Created $DEVIMAGE"
     else
