@@ -13,6 +13,7 @@ dnf -y install \
         iputils \
         jq \
         pinentry \
+        rpmdevtools \
         sudo
 
 
