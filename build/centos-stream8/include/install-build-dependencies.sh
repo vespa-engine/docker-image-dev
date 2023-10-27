@@ -71,4 +71,9 @@ python3.9 -m pip install pytest
 # Python 3.11 is pulled in as a transitive dependency of valgrind. This causes it to be set as default. We use 3.9 for now.
 alternatives --set python3 /usr/bin/python3.9
 
+
+# Install docker client  to avoid doing this in all pipelines.
+dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf -y install docker-ce docker-ce-cli containerd.io
+
 dnf clean all --enablerepo='*'
