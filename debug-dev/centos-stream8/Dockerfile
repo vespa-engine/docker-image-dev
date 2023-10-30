@@ -6,6 +6,7 @@
 FROM docker.io/vespaengine/vespa-dev-centos-stream8:latest
 
 RUN dnf debuginfo-install -y --enablerepo=debuginfo \
+        --setopt="docker-ce-stable-debuginfo.skip_if_unavailable=true" \
         $(rpm -q -a --qf '%{NAME}\n' | grep -E '^vespa(-.*)?$') \
         glibc \
         libatomic \
