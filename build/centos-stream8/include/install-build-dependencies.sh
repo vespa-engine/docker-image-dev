@@ -67,11 +67,6 @@ dnf -y install \
 dnf -y install vespa-toolset-12-meta
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
-python3.9 -m pip install pytest
-
-# Python 3.11 is pulled in as a transitive dependency of valgrind. This causes it to be set as default. We use 3.9 for now.
-alternatives --set python3 /usr/bin/python3.9
-
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
