@@ -20,7 +20,7 @@ dnf -y install \
 GIT_REPO="https://github.com/vespa-engine/vespa.git"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="90c59bfc313263a238c464b21221d1ede8bf997a"
+VESPA_SRC_REF="c2acf662cb1f58b076e2b901bee116a4fbd1603c"
 
 # Install vespa build and runtime dependencies
 git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF
@@ -67,11 +67,6 @@ dnf -y install \
 dnf -y install vespa-toolset-12-meta
 
 (source /opt/rh/gcc-toolset-12/enable && gem install ffi libxml-ruby)
-python3.9 -m pip install pytest
-
-# Python 3.11 is pulled in as a transitive dependency of valgrind. This causes it to be set as default. We use 3.9 for now.
-alternatives --set python3 /usr/bin/python3.9
-
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
