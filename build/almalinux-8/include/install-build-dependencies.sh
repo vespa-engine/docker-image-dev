@@ -5,7 +5,7 @@ set -xeu
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
-dnf -y copr enable @vespa/vespa epel-8
+dnf -y copr enable @vespa/vespa epel-8-$(arch)
 dnf config-manager --enable powertools
 
 # Java requires proper locale for unicode
