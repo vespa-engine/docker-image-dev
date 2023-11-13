@@ -24,7 +24,7 @@ dnf -y install \
     rpmdevtools \
     sudo
 
-GIT_REPO="https://github.com/vespa-engine/vespa.git"
+GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
 VESPA_SRC_REF="c2acf662cb1f58b076e2b901bee116a4fbd1603c"
