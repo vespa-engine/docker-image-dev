@@ -11,6 +11,9 @@ dnf config-manager --enable powertools
 # Java requires proper locale for unicode
 export LANG=C.UTF-8
 
+# Use newest packages
+dnf -y upgrade
+
 # Use newer maven
 dnf -y module enable maven:3.8
 
