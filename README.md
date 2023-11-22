@@ -3,12 +3,12 @@
 This repo contains Docker images for Vespa development on AlmaLinux 8 (Vespa 8) and CentOS 7 (Vespa 7).
 [vespa-build-almalinux-8](https://hub.docker.com/repository/docker/vespaengine/vespa-build-almalinux-8)
 is used for only building Vespa, while
-[vespa-dev-almalinux-8](https://hub.docker.com/repository/docker/vespaengine/vespa-dev-centos-stream8)
+[vespa-dev-almalinux-8](https://hub.docker.com/repository/docker/vespaengine/vespa-dev-almalinux-8)
 is used for active development of Vespa with building, unit testing and running of system tests.
-vespa-dev-centos-stream8 depends on vespa-build-centos-stream8. To pull the images:
+vespa-dev-almalinux-8 depends on vespa-build-almalinux-8. To pull the images:
 
-    docker pull docker.io/vespaengine/vespa-build-centos-stream8:latest
-    docker pull docker.io/vespaengine/vespa-dev-centos-stream8:latest
+    docker pull docker.io/vespaengine/vespa-build-almalinux-8:latest
+    docker pull docker.io/vespaengine/vespa-dev-almalinux-8:latest
 
 Commits to master will automatically trigger new builds and deployment on Docker Hub.
 
