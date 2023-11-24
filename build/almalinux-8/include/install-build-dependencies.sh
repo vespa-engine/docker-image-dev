@@ -34,7 +34,7 @@ dnf -y install http://mirror.centos.org/centos/8-stream/AppStream/${mycpu}/os/Pa
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="4c09bb8a361db8c22a105f24c100fe31153ba685"
+VESPA_SRC_REF="32687f7c3b0fba8916db5db24748477f17c79773"
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
@@ -56,7 +56,7 @@ dnf -y install \
     gcc-toolset-$gcc_version-libtsan-devel \
     gcc-toolset-$gcc_version-libubsan-devel
 
-source /opt/rh/gcc-toolset-$gcc_version/enable
+source /opt/rh/gcc-toolset/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
@@ -81,7 +81,6 @@ dnf -y install \
 # Compile two rubygems
 gem install ffi libxml-ruby
 
-printf '%s\n'  "# gcc"  "source /opt/rh/gcc-toolset-$gcc_version/enable"  > /etc/profile.d/enable-gcc-toolset-$gcc_version.sh
 printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
