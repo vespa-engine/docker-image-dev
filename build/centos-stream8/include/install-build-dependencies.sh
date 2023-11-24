@@ -20,7 +20,7 @@ dnf -y install \
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="4c09bb8a361db8c22a105f24c100fe31153ba685"
+VESPA_SRC_REF="32687f7c3b0fba8916db5db24748477f17c79773"
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
@@ -33,7 +33,6 @@ alternatives --set javac java-17-openjdk.$(arch)
 dnf install -y maven-openjdk17
 gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
 
-printf '%s\n%s\n' "# gcc" "source /opt/rh/gcc-toolset-$gcc_version/enable"  > /etc/profile.d/enable-gcc-toolset-$gcc_version.sh
 printf '%s\n%s\n' "* soft nproc 409600"  "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n%s\n' "* soft core 0"        "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n%s\n' "* soft nofile 262144" "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
@@ -60,10 +59,10 @@ dnf -y install \
     rubygem-parallel-doc \
     rubygem-rexml \
     rubygem-test-unit
-( . /opt/rh/gcc-toolset-$gcc_version/enable && \
+( . /opt/rh/gcc-toolset/enable && \
   /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh )
 
-(source /opt/rh/gcc-toolset-$gcc_version/enable && gem install ffi libxml-ruby)
+(source /opt/rh/gcc-toolset/enable && gem install ffi libxml-ruby)
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
