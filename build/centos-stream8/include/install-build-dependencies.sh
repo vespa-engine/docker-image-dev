@@ -22,12 +22,12 @@ GIT_REPO="https://github.com/vespa-engine/vespa.git"
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
 VESPA_SRC_REF="4c09bb8a361db8c22a105f24c100fe31153ba685"
 
-# Install vespa build and runtime dependencies
-git clone $GIT_REPO && cd vespa && git -c advice.detachedHead=false checkout $VESPA_SRC_REF
-sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}/d' -e 's/^Requires:/BuildRequires:/' dist/vespa.spec > dist/vesparun.spec
+# Fetch the RPM spec for vespa
+curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
+sed -e '/^BuildRequires:/d' -e '/^Requires: %{name}/d' -e 's/^Requires:/BuildRequires:/' vespa.spec > vesparun.spec
 dnf -y module enable maven:3.8
-dnf builddep --nobest -y dist/vespa.spec dist/vesparun.spec
-cd .. && rm -r vespa
+dnf builddep --nobest -y vespa.spec vesparun.spec
+rm -f vespa.spec vesparun.spec
 alternatives --set java java-17-openjdk.$(arch)
 alternatives --set javac java-17-openjdk.$(arch)
 dnf install -y maven-openjdk17
