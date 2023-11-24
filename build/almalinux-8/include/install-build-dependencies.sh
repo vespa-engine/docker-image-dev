@@ -51,16 +51,16 @@ rm -f vespa.spec vesparun.spec
 #  Install extra compiler tools
 dnf -y install \
     clang \
-    gcc-toolset-12-libatomic-devel \
-    gcc-toolset-12-annobin-plugin-gcc \
-    gcc-toolset-12-libasan-devel \
-    gcc-toolset-12-libtsan-devel \
-    gcc-toolset-12-libubsan-devel
+    gcc-toolset-13-libatomic-devel \
+    gcc-toolset-13-annobin-plugin-gcc \
+    gcc-toolset-13-libasan-devel \
+    gcc-toolset-13-libtsan-devel \
+    gcc-toolset-13-libubsan-devel
 
-source /opt/rh/gcc-toolset-12/enable
+source /opt/rh/gcc-toolset-13/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
-dnf -y install vespa-toolset-12-meta
+dnf -y install vespa-toolset-13-meta
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 dnf -y module enable ruby:3.1
@@ -84,7 +84,7 @@ dnf -y install \
 # Compile two rubygems
 gem install ffi libxml-ruby
 
-printf '%s\n'  "# gcc"  "source /opt/rh/gcc-toolset-12/enable"  > /etc/profile.d/enable-gcc-toolset-12.sh
+printf '%s\n'  "# gcc"  "source /opt/rh/gcc-toolset-13/enable"  > /etc/profile.d/enable-gcc-toolset-13.sh
 printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
