@@ -18,7 +18,7 @@ RUN dnf -y clean all && \
         man-db \
         man-pages \
         hunspell-en \
-        gcc-toolset-12-gdb \
+        gcc-toolset-13-gdb \
         kdesdk-kcachegrind \
         graphviz && \
     dnf clean all --enablerepo=\* 

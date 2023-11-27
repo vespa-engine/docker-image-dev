@@ -1,6 +1,6 @@
 ## Docker images for Vespa development
 
-This repo contains Docker images for Vespa development on AlmaLinux 8 (Vespa 8) and CentOS 7 (Vespa 7).
+This repo contains Docker images for Vespa development on AlmaLinux 8 (Vespa 8).
 [vespa-build-almalinux-8](https://hub.docker.com/repository/docker/vespaengine/vespa-build-almalinux-8)
 is used for only building Vespa, while
 [vespa-dev-almalinux-8](https://hub.docker.com/repository/docker/vespaengine/vespa-dev-almalinux-8)
@@ -370,8 +370,3 @@ into the container again with the appropriate level of verbosity, e.g.
 
     ssh -vvv -A 127.0.0.1 -p 3334
 
-
-## Vespa 7 development on CentOS 7
-CentOS 7 is the officially supported OS for Vespa 7, the previous major version of Vespa.
-To build, unit test, and system test Vespa on CentOS 7,
-please follow the guide for Vespa development on AlmaLinux 8, but replace **almalinux-8** with **centos7** in the commands.
