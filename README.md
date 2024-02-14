@@ -266,8 +266,8 @@ must be one of the following:
 * `address` - instrument using [AddressSanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
 * `thread` - instrument using [ThreadSanitizer](https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual)
 * `undefined` - instrument using [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html)
-
-It's not possible to instrument with multiple sanitizers at the same time.
+* `address,undefined` instrument using both AddressSanitizer and UndefinedBehaviorSanitizer.
+  This is the only supported option for using multiple sanitizers at the same time.
 
 Example for generating build-files that instrument Vespa using ThreadSanitizer:
 
