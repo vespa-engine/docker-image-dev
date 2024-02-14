@@ -129,7 +129,7 @@ Second, run docker create with the -v option to mount the volume directory as th
 
 #### Configure the Docker container
 
-Ensure you have an SSH key before running the configure-container.sh script.
+Ensure you have an SSH key before running the `configure-container.sh` script.
 If not, use the following guide
 [to generate a new SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
@@ -137,7 +137,14 @@ If not, use the following guide
     cd $HOME/git
     git clone git@github.com:vespa-engine/docker-image-dev.git
     cd $HOME/git/docker-image-dev/dev/almalinux-8
+
+If using Docker:
+
     ./configure-container.sh docker vespa-dev-almalinux-8
+
+Or, if using Podman:
+
+    ./configure-container.sh podman vespa-dev-almalinux-8
 
 This adds yourself as user in the container, copies authorized keys to ensure ssh can be used,
 and sets environment variables needed for building Vespa.
