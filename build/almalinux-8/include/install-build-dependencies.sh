@@ -34,7 +34,7 @@ dnf -y install http://mirror.centos.org/centos/8-stream/AppStream/${mycpu}/os/Pa
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="32687f7c3b0fba8916db5db24748477f17c79773"
+VESPA_SRC_REF="066e3b400457f921e93a36a11244a8a37390997a"
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
