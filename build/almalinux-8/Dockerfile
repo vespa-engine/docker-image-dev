@@ -7,6 +7,6 @@ ENV LANG C.UTF-8
 
 # Change git reference for a specific version of the vespa.spec file.
 # Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF="e5089bcb652f2d0deea4360e7b879f0eaa5745e7"
+ENV VESPA_SRC_REF="20cffbd712ea44b0db7912d2e9f151878a216957"
 
 RUN --mount=type=bind,target=/include/,source=include/,rw /bin/sh /include/install-build-dependencies.sh
