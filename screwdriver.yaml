@@ -68,26 +68,6 @@ shared:
         - *teardown-inspect
 
 jobs:
-  publish-build-centos-stream8:
-    sourcePaths: ["screwdriver.yaml", "build/centos-stream8/"]
-    requires: [~pr, ~commit]
-    environment:
-      CONTAINER_ARCH: "amd64,arm64"
-      CONTAINER_DIR: 'build/centos-stream8'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-centos-stream8'
-      CONTAINER_TAG: 'latest'
-    <<: *common-steps
-
-  publish-dev-centos-stream8:
-    sourcePaths: ["screwdriver.yaml", "dev/centos-stream8/"]
-    requires: [~pr, ~commit, ~publish-build-centos-stream8]
-    environment:
-      CONTAINER_ARCH: "amd64,arm64"
-      CONTAINER_DIR: 'dev/centos-stream8'
-      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-centos-stream8'
-      CONTAINER_TAG: 'latest'
-    <<: *common-steps
-
   publish-build-almalinux-8:
     sourcePaths: ["screwdriver.yaml", "build/almalinux-8/"]
     requires: [~pr, ~commit]

@@ -1,1 +1,0 @@
-../almalinux-8/configure-container.sh
