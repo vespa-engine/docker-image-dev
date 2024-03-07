@@ -18,6 +18,7 @@ dnf -y upgrade
 dnf -y module enable maven:3.8
 
 dnf -y install \
+    awscli \
     ccache \
     curl \
     git-core \
