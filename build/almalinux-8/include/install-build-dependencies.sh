@@ -26,6 +26,7 @@ dnf -y install \
     jq \
     pinentry \
     rpmdevtools \
+    ShellCheck \
     sudo
 
 # we need valgrind 3.22, available from CentOS stream 8 but not yet in almalinux 8
@@ -89,6 +90,9 @@ printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 dnf -y install docker-ce docker-ce-cli containerd.io
+
+# Env wrapper for git access via ssh
+cp -a /include/ssh-env-config.sh /usr/local/bin
 
 # Cleanup
 dnf clean all --enablerepo='*'
