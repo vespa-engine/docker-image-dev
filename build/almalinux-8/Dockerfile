@@ -2,8 +2,8 @@
 
 FROM almalinux:8
 
-# Java requires proper locale for unicode
-ENV LANG C.UTF-8
+# Java requires proper locale for unicode. Set container=docker to allow systemd in container mode.
+ENV LANG=C.UTF-8 container=docker
 
 # Change git reference for a specific version of the vespa.spec file.
 # Use a tag or SHA to allow for reproducible builds.
