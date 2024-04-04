@@ -20,6 +20,7 @@ dnf -y module enable maven:3.8
 dnf -y install \
     awscli \
     ccache \
+    createrepo \
     curl \
     git-core \
     iputils \
