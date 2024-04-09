@@ -95,6 +95,8 @@ dnf -y install docker-ce docker-ce-cli containerd.io
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
+dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')-1.$(arch).rpm
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum
