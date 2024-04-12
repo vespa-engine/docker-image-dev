@@ -97,6 +97,14 @@ cp -a /include/ssh-env-config.sh /usr/local/bin
 
 dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')-1.$(arch).rpm
 
+
+TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
+if [[ $(arch) == x86_64 ]]; then
+  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm
+else
+  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm
+fi
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum
