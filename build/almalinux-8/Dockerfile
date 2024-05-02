@@ -7,6 +7,6 @@ ENV LANG=C.UTF-8 container=docker
 
 # Change git reference for a specific version of the vespa.spec file.
 # Use a tag or SHA to allow for reproducible builds.
-ENV VESPA_SRC_REF="49a7ce41bb8306bd9ae6b35469b82f5a41ffb889"
+ENV VESPA_SRC_REF="e5d7246b898c66c7b7f24a15eb8e9d9d793ae03e"
 
 RUN --mount=type=bind,target=/include/,source=include/,rw /bin/sh /include/install-build-dependencies.sh
