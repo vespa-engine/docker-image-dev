@@ -28,7 +28,8 @@ dnf -y install \
     pinentry \
     rpmdevtools \
     ShellCheck \
-    sudo
+    sudo \
+    time
 
 # we need valgrind 3.22, available from CentOS stream 8 but not yet in almalinux 8
 mycpu=$(uname -m)
