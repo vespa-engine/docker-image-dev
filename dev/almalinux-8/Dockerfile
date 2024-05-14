@@ -16,6 +16,7 @@ RUN dnf -y install \
         hunspell-en \
         kdesdk-kcachegrind \
         graphviz && \
+    pip3 install xgboost scikit-learn --user && \
     dnf clean all --enablerepo=\* 
 
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
