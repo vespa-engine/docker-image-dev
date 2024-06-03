@@ -29,11 +29,8 @@ dnf -y install \
     rpmdevtools \
     ShellCheck \
     sudo \
-    time
-
-# we need valgrind 3.22, available from CentOS stream 8 but not yet in almalinux 8
-mycpu=$(uname -m)
-dnf -y install http://mirror.centos.org/centos/8-stream/AppStream/${mycpu}/os/Packages/valgrind-3.22.0-1.el8.${mycpu}.rpm
+    time \
+    valgrind
 
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
