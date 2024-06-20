@@ -87,3 +87,13 @@ jobs:
       CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-dev-almalinux-8'
       CONTAINER_TAG: 'latest'
     <<: *common-steps
+
+  publish-build-almalinux-9:
+    sourcePaths: ["screwdriver.yaml", "build/almalinux-9/"]
+    requires: [~pr, ~commit]
+    environment:
+      CONTAINER_ARCH: "amd64,arm64"
+      CONTAINER_DIR: 'build/almalinux-9'
+      CONTAINER_IMAGE: 'docker.io/vespaengine/vespa-build-almalinux-9'
+      CONTAINER_TAG: 'latest'
+    <<: *common-steps
