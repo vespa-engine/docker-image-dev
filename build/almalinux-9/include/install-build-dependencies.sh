@@ -82,6 +82,19 @@ printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
+if [[ $(arch) == x86_64 ]]; then
+  GOARCH=amd64
+else
+  GOARCH=arm64
+fi
+
+GOTGZ="go1.22.4.linux-$GOARCH.tar.gz"
+curl -sSL -O "https://go.dev/dl/$GOTGZ"
+rm -rf /usr/local/go && tar -C /usr/local -xzf $GOTGZ
+rm -f $GOTGZ
+ln -sf /usr/local/go/bin/go /usr/local/bin/go
+ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
+
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 dnf -y install docker-ce docker-ce-cli containerd.io
