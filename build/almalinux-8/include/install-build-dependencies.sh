@@ -103,6 +103,9 @@ else
   dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm
 fi
 
+# Install crane for image management
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@latest
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum
