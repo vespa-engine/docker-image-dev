@@ -5,6 +5,11 @@ Initialize docker swarm if not already initialized
 
     docker swarm init
 
+It might be necessary to use the `--default-address-pool` option to
+avoid conflict with addresses on the local network, e.g.
+
+    docker swarm init --default-addr-pool 10.2.0.0/15
+
 Specify that current node can run vespanode service tasks.
 
 On Linux hosts:
@@ -40,10 +45,53 @@ or build a vespanode baseline image before building the vespanode image:
 
 If the changes between each test iteration is small, rebuilding the vespanode image on top of a longer lived vespanode baseline image is faster, e.g. a few seconds.
 
-If vespanode service task has been enabled on multiple swarm nodes then the
-vespanode image should be distributed to those nodes. Scripts for that is
-not included here.
+### Multi node setup
 
+Enable selected swarm nodes:
+
+    ./enable-vespanode-host.sh <hostname>
+
+Disable selected swarm nodes:
+
+    ./disable-vespanode-host.sh <hostname>
+
+List what nodes are used for testing:
+
+    ./list-vespanode-hosts.sh
+
+Host name specified above must match one of the host names shown in the
+output of
+
+    docker node ls
+
+#### Distributing system test images to multiple nodes
+
+If vespanode service task has been enabled on multiple swarm nodes then the
+vespanode image should be distributed to those nodes. The method described
+below should be adapted to use a secure docker registry when used in an
+environment where hardening is required.
+
+Ensure that all relevant swarm nodes have checked out this repository at
+$HOME/git/docker-image-dev.
+
+Start an unsecure local docker registry
+
+    ./run-vespanode-registry.sh
+
+Distribute the baseline base image
+
+    make distribute-vespanode-baselinebase
+
+Distribute the baseline image
+
+    make distribute-vespanode-baseline
+
+Distribute the test image:
+
+    make distribute-vespanode
+
+
+### Running system tests
 Run basic search system test on swarm:
 
     ./run-basic-search-test.sh
