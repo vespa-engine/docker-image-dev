@@ -2,10 +2,21 @@
   
 set -xeu
 
+VESPADEV_RPM_SOURCE="${1:-external}"
+
+case "$VESPADEV_RPM_SOURCE" in
+    external|test) ;;
+    *) echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
+       exit 1;;
+esac
+
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
-dnf -y copr enable @vespa/vespa epel-8-$(arch)
+case "$VESPADEV_RPM_SOURCE" in
+    external) dnf -y copr enable @vespa/vespa epel-8-$(arch);;
+    test) /work/setup-test-repo;;
+esac
 dnf config-manager --enable powertools
 
 # Java requires proper locale for unicode
