@@ -38,9 +38,9 @@ This is a shell scripts that runs in the host environment, builds an rpm inside 
 | Options | |
 | :-- | :-- |
 | -a      | automatic build, starts container and runs /work/build-rpm-inner.sh inside the container. |
-| -m      | manual build, -r and -s options are ignored. Container is started but /work/build-rpm-inner.sh must be called manually inside the container. ]
+| -m      | manual build, -r and -s options are ignored. Container is started but /work/build-rpm-inner.sh must be called manually inside the container. |
 | -r      | rebuild from source rpm in same directory as build-rpm.sh script |
-| -s      | split mode. Creates new container after making source rpm to miniminze initial set of installed rpms. Used to catch missing dependencies. ]
+| -s      | split mode. Creates new container after making source rpm to miniminze initial set of installed rpms. Used to catch missing dependencies. |
 
 The directory containing the build-rpm.sh script is mounted as `/work` inside
 the container. The directory containing build-rpm-common.sh script is mounted as `/shared-work` inside the container. When building packages defined in vespa-3rdparty-deps repo, that repository is mounted as `/src` inside the container.
@@ -66,3 +66,34 @@ Builds an rpm inside a container. The first argument is the package name, the op
 
 Configures a vespa-test rpm repository mounted from host.
 `/work/vespa-test.repo` is used as rpm repository config file.
+
+# Example usage
+
+Build all packages needed for building test docker image for vespa development or for building vespa rpms.
+
+    cd $HOME/git/docker-image-dev/build/almalinux-8/rpmbuild
+    ./build-rpm.sh -a toolset-12
+    ./build-rpm.sh -a toolset-13
+    ./build-rpm.sh -a lz4
+    ./build-rpm.sh -a zstd
+    ./build-rpm.sh -a openssl
+    ./build-rpm.sh -a cmake
+    ./build-rpm.sh -a gtest
+    ./build-rpm.sh -a gradle
+    ./build-rpm.sh -a onnxruntime
+    ./build-rpm.sh -a abseil-cpp
+    ./build-rpm.sh -a openblas
+    ./build-rpm.sh -a protobuf
+    ./build-rpm.sh -a build-dependencies
+    ./build-rpm.sh -a jllama
+    ./build-rpm.sh -a boost
+
+Build test docker image for vespa development (assumes that packages above have been built)
+
+    cd $HOME/git/docker-image-dev/build/almalinux-8
+    ./build-test-docker-image.sh
+
+Build vespa rpms (assumes that packages above have been built)
+
+    cd $HOME/git/docker-image-dev/build/almalinux-8/rpmbuild
+    ./build-rpm.sh -a vespa
