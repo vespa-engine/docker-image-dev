@@ -15,6 +15,7 @@ RUN dnf -y install \
         man-pages \
         hunspell-en \
         kdesdk-kcachegrind \
+        python3-pip \
         graphviz && \
     pip3 install --upgrade pip && \
     pip3 install numpy xgboost scikit-learn && \
