@@ -36,6 +36,7 @@ dnf -y install \
     iputils \
     jq \
     pinentry \
+    python3-pip \
     rpmdevtools \
     ShellCheck \
     sudo \
