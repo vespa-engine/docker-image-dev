@@ -331,9 +331,50 @@ build in your Vespa install tree. Vespa startup scripts will implicitly pick up 
 vespamalloc if it's present, regardless of instrumentation status. The easiest way to get
 around this is to wipe the install tree and re-run `make install`.
 
-### Use CLion or IntelliJ via X11 forwarding from macOS
+### Use CLion or IntelliJ natively in the development container via JetBrains Gateway
 
-#### Install XQuartz for macOS
+Recent versions of the JetBrains IDEs natively support _remote development_, where
+the IDE frontend runs on the native OS, while the compilation and analysis backend
+runs on a remote host (or in our case, a local Podman container). This works out of
+the box for both macOS and Linux as the frontend OS.
+
+Note that remote development is not supported on the IntelliJ IDEA Community edition.
+
+#### Use the JetBrains Toolbox app to install IDEs
+
+The easiest way to manage (and update) multiple installed IDEs is via the
+[JetBrains Toolbox app](https://www.jetbrains.com/toolbox-app/).
+
+Via the Toolbox, install and launch the desired IDE application(s).
+
+#### Set up Remote Development mode
+
+ 1. Launch the desired IDE from the Toolbox
+ 2. Navigate to `Remote Development` --> `SSH`.
+ 3. Set up a new connection. Specify your username and the host/port configured
+    earlier when setting up the Podman container (by default 127.0.0.1 and 3334).
+    It is recommended to use an SSH agent (for instance via 1Password) to manage
+    SSH private keys, as this streamlines the SSH authentication process considerably.
+ 4. Once the connection is established, add a new project. Specify the IDE version
+    (generally the latest, non-early access build is preferred) and the root directory
+    of the project (e.g. `/home/<username>/git/vespa`).
+ 5. Launch the IDE from the `Recent SSH Projects` view. The IDE should now be usable
+    as if it were natively running on the host OS.
+
+### Use CLion or IntelliJ via X11 forwarding
+
+This is an alternative approach to developing remotely, which uses X11 forwarding
+over SSH instead of having the IDE split into distinct frontend and backend parts.
+It therefore also works with the IntelliJ IDEA Community edition.
+
+This is expected to work natively on Linux, though empirical observations indicate
+that Wayland-based compositors may experience performance regressions over X11-based
+compositors.
+
+macOS does not have native X11 capabilities, so a dedicated program (XQuartz) must
+be used.
+
+#### macOS specific: install XQuartz
 XQuartz is a version of the X.Org X Window System for macOS. Download
 [here](https://www.xquartz.org/).
 
@@ -342,8 +383,8 @@ Set ```AddressFamily inet``` inside ```/etc/ssh/sshd_config``` and restart sshd:
 
     sudo kill -HUP <sshd-pid>
 
-#### ssh into container with X11 forwarding
-Open a XQuartz terminal and run:
+#### SSH into container with X11 forwarding
+Open a terminal (for macOS, this must be an XQuartz terminal) and run:
 
     ssh -Y -A 127.0.0.1 -p 3334
 
