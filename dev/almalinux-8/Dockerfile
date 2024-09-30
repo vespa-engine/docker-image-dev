@@ -11,6 +11,7 @@ RUN dnf -y install \
         nmap-ncat \
         vim \
         emacs \
+        gcc-toolset-13-gdb \
         man-db \
         man-pages \
         hunspell-en \
