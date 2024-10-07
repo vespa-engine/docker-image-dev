@@ -5,11 +5,13 @@
 
 DEBUG_IMAGE=false
 
-args=`getopt d $*`
+args=$(getopt d "$@")
+# shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
     echo "Usage: build-vespanode-baselinebase.sh [-d]" 1>&2
     exit 1
 fi
+# shellcheck disable=SC2086
 set -- $args
 while :; do
     case "$1" in
@@ -43,24 +45,24 @@ fi
 CONTAINER_NAME=$USER-build-vespanode-baselinebase-almalinux-8
 BASELINEBASE_NAME=$USER-vespanode-baselinebase-almalinux-8
 
-docker stop $CONTAINER_NAME
-docker container rm $CONTAINER_NAME
+docker stop "$CONTAINER_NAME"
+docker container rm "$CONTAINER_NAME"
 
 if docker run \
-	  --name $CONTAINER_NAME \
-	  --env RUBYLIB=/home/$USER/git/system-test/lib:/home/$USER/git/system-test/tests \
-	  --env USER=$USER \
-	  --env VESPA_HOME=/home/$USER/vespa \
-	  --env VESPA_SYSTEM_TEST_HOME=/home/$USER/git/system-test \
+	  --name "$CONTAINER_NAME" \
+	  --env RUBYLIB="/home/$USER/git/system-test/lib:/home/$USER/git/system-test/tests" \
+	  --env USER="$USER" \
+	  --env VESPA_HOME=/home/"$USER"/vespa \
+	  --env VESPA_SYSTEM_TEST_HOME=/home/"$USER"/git/system-test \
 	  --env VESPA_SYSTEM_TEST_USE_TLS=true \
-	  --env VESPA_USER=$USER \
-	  $DEVIMAGE \
+	  --env VESPA_USER="$USER" \
+	  "$DEVIMAGE" \
 	  bash -cxe "(groupadd -g $(id -g) $(id -gn) || true) && useradd -M -g $(id -g) -u $(id -u) -c 'vespanode user' $USER && mkdir /home/$USER && chown $(id -u):$(id -g) /home/$USER && echo '$USER ALL=(ALL) NOPASSWD: ALL' >>/etc/sudoers"
 then
     echo "Created user $USER"
-    docker commit --change "USER $USER" --change "WORKDIR /home/$USER" $CONTAINER_NAME $BASELINEBASE_NAME
+    docker commit --change "USER $USER" --change "WORKDIR /home/$USER" "$CONTAINER_NAME" "$BASELINEBASE_NAME"
 else
     echo "Failed creating user $USER" 1>&2
     exit 1
 fi
-docker container rm $CONTAINER_NAME
+docker container rm "$CONTAINER_NAME"

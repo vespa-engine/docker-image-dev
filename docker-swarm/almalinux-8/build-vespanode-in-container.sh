@@ -25,7 +25,9 @@ rsync -aHvSx --delete /mnt/.m2/ .m2/
 
 set +x
 set +e
+# shellcheck disable=SC1091
 . ./.bash_profile
+# shellcheck disable=SC1091
 test -f .bashrc && . ./.bashrc
 set -e
 set -x

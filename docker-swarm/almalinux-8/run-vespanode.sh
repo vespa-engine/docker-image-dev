@@ -12,19 +12,19 @@ if sudo -n echo non-interactive sudo works
 then
     fixup_owner()
     {
-	sudo -n chown $(id -u):$(id -g) $1
+	sudo -n chown "$(id -u):$(id -g)" "$1"
     }
 else
     fixup_owner()
     {
-	echo no fixup owner for $1 due to non-interactive sudo not working
+	echo "no fixup owner for $1 due to non-interactive sudo not working"
     }
 fi
 
 fixup_dir()
 {
-    test -O $1 || fixup_owner $1
-    test -O $1 && chmod $2 $1
+    test -O "$1" || fixup_owner "$1"
+    test -O "$1" && chmod "$2" "$1"
 }
 
 # Workaround for tmpfs-mode not working for docker service mounts.
@@ -41,4 +41,5 @@ fixup_dir vespa/var/zookeeper 1777
 # If vespa/var/db/vespa is tmpfs mounted then create logcontrol directory
 mkdir -p vespa/var/db/vespa/logcontrol
 
+# shellcheck disable=SC2086
 nodeserver.sh $NODE_SERVER_OPTS

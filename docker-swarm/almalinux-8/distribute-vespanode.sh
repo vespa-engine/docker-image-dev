@@ -3,5 +3,6 @@
 
 host=$1
 DOCKER_IMAGE=$2
-. $(dirname $0)/vespanode-common.sh
-ssh -a $SSH_REGISTRY_TUNNEL_ARG -o ExitOnForwardFailure=yes $host bash -lc "'git/docker-image-dev/docker-swarm/almalinux-8/download-vespanode.sh $DOCKER_IMAGE $TUNNELED_REGISTRY'"
+. "$(dirname "$0")"/vespanode-common.sh
+# shellcheck disable=SC2086
+ssh -a $SSH_REGISTRY_TUNNEL_ARG -o ExitOnForwardFailure=yes "$host" bash -lc "'git/docker-image-dev/docker-swarm/almalinux-8/download-vespanode.sh $DOCKER_IMAGE $TUNNELED_REGISTRY'"
