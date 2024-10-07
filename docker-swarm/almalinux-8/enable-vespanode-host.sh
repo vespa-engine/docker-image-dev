@@ -5,9 +5,9 @@ node=$1
 NODELIST=$(docker node ls --format '{{.Hostname}}' | tr '\n' ' ')
 
 for checknode in $NODELIST; do
-    if test $checknode = $node
+    if test "$checknode" = "$node"
     then
-	docker node update --label-add enable-$USER-vespanode=true $node
+	docker node update --label-add enable-"$USER"-vespanode=true "$node"
 	exit 0
     fi
 done

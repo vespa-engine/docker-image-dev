@@ -6,10 +6,10 @@ TUNNELED_REGISTRY=$2
 if test -z "$TUNNELED_REGISTRY"
 then
     # No tunneling, use local registry
-    . $(dirname $0)/vespanode-common.sh
+    . "$(dirname "$0")"/vespanode-common.sh
     TUNNELED_REGISTRY=$LOCAL_REGISTRY
 fi
 echo "Downloading vespanode image ${DOCKER_IMAGE} on $(hostname)"
-docker pull ${TUNNELED_REGISTRY}/${DOCKER_IMAGE}
-docker tag ${TUNNELED_REGISTRY}/${DOCKER_IMAGE} ${DOCKER_IMAGE}
-docker image rm ${TUNNELED_REGISTRY}/${DOCKER_IMAGE}
+docker pull "${TUNNELED_REGISTRY}/${DOCKER_IMAGE}"
+docker tag "${TUNNELED_REGISTRY}/${DOCKER_IMAGE}" "${DOCKER_IMAGE}"
+docker image rm "${TUNNELED_REGISTRY}/${DOCKER_IMAGE}"

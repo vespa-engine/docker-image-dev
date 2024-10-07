@@ -10,4 +10,5 @@ SERVICE_RAMDISK="--service-ramdisk"
 SERVICE_RESERVE_MEMORY="--service-reserve-memory 6GB"
 TEST_SELECTION="--file search/basicsearch/basic_search.rb"
 
-$HOME/git/system-test/bin/run-tests-on-swarm.sh -i $USER-vespanode-almalinux-8 -n $NUMNODES $SERVICE_CONSTRAINT $SERVICE_RAMDISK $SERVICE_RESERVE_MEMORY --resultdir $(pwd)/systemtests-swarm -c -d 5 $TEST_SELECTION
+# shellcheck disable=SC2086
+"$HOME"/git/system-test/bin/run-tests-on-swarm.sh -i "$USER"-vespanode-almalinux-8 -n "$NUMNODES" $SERVICE_CONSTRAINT $SERVICE_RAMDISK $SERVICE_RESERVE_MEMORY --resultdir "$(pwd)"/systemtests-swarm -c -d 5 $TEST_SELECTION

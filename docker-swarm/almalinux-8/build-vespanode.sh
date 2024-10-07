@@ -6,11 +6,13 @@
 VOLUME=
 buildmode=normal
 
-args=`getopt m:v: $*`
+args=$(getopt m:v: "$@")
+# shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
     echo "Usage: build-vespanode.sh [-m (normal|baseline|fixup)] [-v homevolume]" 1>&2
     exit 1
 fi
+# shellcheck disable=SC2086
 set -- $args
 while :; do
     case "$1" in
@@ -30,7 +32,7 @@ then
     exit 1
 fi
 
-. $(dirname $0)/vespanode-common.sh
+. "$(dirname "$0")"/vespanode-common.sh
 
 if test -z "$VOLUME"
 then
@@ -38,7 +40,7 @@ then
 fi
 
 case "$VOLUME" in
-    /*) if test -d $VOLUME -a -d $VOLUME/git/system-test -a -d $VOLUME/bin -a -d $VOLUME/vespa
+    /*) if test -d "$VOLUME" -a -d "$VOLUME"/git/system-test -a -d "$VOLUME"/bin -a -d "$VOLUME"/vespa
 	then
 	    :
 	else
@@ -49,7 +51,7 @@ case "$VOLUME" in
 	found=false
 	for v in ${VOLUMELIST}
 	do
-	    test $v = $VOLUME && found=true
+	    test "$v" = "$VOLUME" && found=true
 	done
 	if $found
 	then
@@ -71,22 +73,22 @@ BUILD_CONTAINER_NAME=$USER-build-vespanode-almalinux-8-$$
 
 echo "Making vespanode image"
 
-docker stop $BUILD_CONTAINER_NAME || true
-docker container rm $BUILD_CONTAINER_NAME || true
+docker stop "$BUILD_CONTAINER_NAME" || true
+docker container rm "$BUILD_CONTAINER_NAME" || true
 
 if docker run \
-  --name $BUILD_CONTAINER_NAME \
-  -v ${VOLUME}:/mnt \
-  -v $(pwd):/mnt2 \
-  ${DOCKER_IMAGE} \
+  --name "$BUILD_CONTAINER_NAME" \
+  -v "${VOLUME}":/mnt \
+  -v "$(pwd)":/mnt2 \
+  "${DOCKER_IMAGE}" \
   /mnt2/build-vespanode-in-container.sh
 then
   echo "Made vespanode image"
   docker commit \
 	 --change "ENV VESPA_TLS_CONFIG_FILE=/home/$USER/vespa/conf/vespa/tls/tls_config.json" \
 	 --change 'CMD [ "bash", "-lc", "bin/run-vespanode.sh" ]' \
-	 $BUILD_CONTAINER_NAME $DOCKER_NEW_IMAGE
+	 "$BUILD_CONTAINER_NAME" "$DOCKER_NEW_IMAGE"
 else
   echo "Failed creating vespanode image"
 fi
-docker container rm $BUILD_CONTAINER_NAME
+docker container rm "$BUILD_CONTAINER_NAME"
