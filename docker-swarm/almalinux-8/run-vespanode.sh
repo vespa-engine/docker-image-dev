@@ -12,7 +12,7 @@ if sudo -n echo non-interactive sudo works
 then
     fixup_owner()
     {
-	sudo -n chown "$(id -u)":"$(id -g)" "$1"
+	sudo -n chown "$(id -u):$(id -g)" "$1"
     }
 else
     fixup_owner()

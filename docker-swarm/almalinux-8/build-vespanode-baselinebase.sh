@@ -50,7 +50,7 @@ docker container rm "$CONTAINER_NAME"
 
 if docker run \
 	  --name "$CONTAINER_NAME" \
-	  --env RUBYLIB=/home/"$USER"/git/system-test/lib:/home/"$USER"/git/system-test/tests \
+	  --env RUBYLIB="/home/$USER/git/system-test/lib:/home/$USER/git/system-test/tests" \
 	  --env USER="$USER" \
 	  --env VESPA_HOME=/home/"$USER"/vespa \
 	  --env VESPA_SYSTEM_TEST_HOME=/home/"$USER"/git/system-test \
