@@ -3,21 +3,22 @@
 
 run_container()
 {
+    # shellcheck disable=SC2086
     $CONTAINER_ENGINE run \
-		      -v $(env pwd):/work \
-		      -v $(cd ../../.. && env pwd)/shared-rpmbuild:/shared-work \
-		      -v $SRC_DIR:/src \
+		      -v "$(env pwd):/work" \
+		      -v "$(cd ../../.. && env pwd)/shared-rpmbuild:/shared-work" \
+		      -v "$SRC_DIR:/src" \
 		      --tmpfs /tmp \
 		      --tmpfs /var/tmp \
 		      --tmpfs /run \
 		      $DOCKER_CREATE_ARGS \
-		      --hostname ${CONTAINER_HOSTNAME} \
-		      --network ${CONTAINER_NETWORK} \
-		      --name ${CONTAINER_NAME} \
+		      --hostname "${CONTAINER_HOSTNAME}" \
+		      --network "${CONTAINER_NETWORK}" \
+		      --name "${CONTAINER_NAME}" \
 		      --privileged \
-		      $CONTAINER_FOREGROUND \
+		      "$CONTAINER_FOREGROUND" \
 		      --init \
-		      ${DOCKER_IMAGE} \
+		      "${DOCKER_IMAGE}" \
 		      $CONTAINER_COMMAND $1
 }
 
@@ -29,11 +30,13 @@ build_rpm_common()
     unset CONTAINER_COMMAND
     unset CONTAINER_FOREGROUND
 
-    args=`getopt amrs $*`
+    args=$(getopt amrs "$@")
+    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
 	echo "Usage: build-rpm.sh (-a | -m) [-r] [-s] packagename" 1>&2
 	exit 1
     fi
+    # shellcheck disable=SC2086
     set -- $args
     while :; do
 	case "$1" in
@@ -59,7 +62,7 @@ build_rpm_common()
 	    ;;
 	*)
 	    SRC_DIR=$HOME/git/vespa-3rdparty-deps
-	    if test -d $SRC_DIR/"$package"
+	    if test -d "$SRC_DIR/$package"
 	    then
 		:
 	    else
@@ -86,12 +89,14 @@ build_rpm_common()
 	    ;;
     esac
 
+    # shellcheck source=../shared/common.sh
     . ../../../shared/common.sh
+    # shellcheck disable=2153
     CONTAINER_NAME=rpmbuild-${CONTAINER_SHORTNAME}${CONTAINER_SUFFIX}
     CONTAINER_HOSTNAME=${CONTAINER_NAME}${DOMAIN_SUFFIX}
     VOLUMES=${VOLUMESBASE}/${CONTAINER_NAME}
-    $CONTAINER_ENGINE stop ${CONTAINER_NAME} || true
-    $CONTAINER_ENGINE rm ${CONTAINER_NAME} || true
+    $CONTAINER_ENGINE stop "${CONTAINER_NAME}" || true
+    $CONTAINER_ENGINE rm "${CONTAINER_NAME}" || true
     if test -z "$VOLUMESBASE"
     then
 	DOCKER_CREATE_ARGS="\

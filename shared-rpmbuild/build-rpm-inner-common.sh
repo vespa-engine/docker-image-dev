@@ -30,7 +30,7 @@ enable_cuda_repos_helper()
 	aarch64) arch=sbsa;;
 	*) arch=$cpu_arch;;
     esac
-    dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-$distro.repo
+    dnf config-manager --add-repo "https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-$distro.repo"
 }
 
 build_rpm_inner_common()
@@ -95,9 +95,10 @@ build_rpm_inner_common()
 		both|srpm)
 		    git config --global --add safe.directory /src
 		    vespaversion=$(cd /src && git tag -l | sed -n -r -e 's,^v([0-9]+\.[0-9]+\.[0-9]+)$,\1,p' | sort -V | tail -1)
-		    ( cd /src && ./dist.sh $vespaversion )
+		    ( cd /src && ./dist.sh "$vespaversion" )
 		    ;;
 		rebuild)
+		    # shellcheck disable=SC2086
 		    vespaversion=$(cd ~/rpmbuild/SPECS && echo $package-[0-9]*.spec | sed -n -e 's,^'$package'-\([0-9.]*\)\.spec$,\1,p')
 		    if test -z "$vespaversion"
 		    then
@@ -113,8 +114,8 @@ build_rpm_inner_common()
 		both|srpm)
 		    SRC=/src-copy
 		    rsync -aHvSx --delete /src/ $SRC/
-		    make -C $SRC/$package -f .copr/Makefile srpm outdir=~/rpmbuild/SRPMS
-		    rm -rf $SRC/$package/.copr/rpmbuild
+		    make -C "$SRC/$package" -f .copr/Makefile srpm outdir=~/rpmbuild/SRPMS
+		    rm -rf "$SRC/$package/.copr/rpmbuild"
 		    ;;
 	    esac
 	    case "$mode" in
@@ -122,8 +123,10 @@ build_rpm_inner_common()
 		    rmdir ~/rpmbuild/SRPMS 2>/dev/null || true
 		    if test -d ~/rpmbuild/SRPMS
 		    then
+			# shellcheck disable=SC2086
 			rpm -i ~/rpmbuild/SRPMS/vespa-$package-*.src.rpm
 		    else
+			# shellcheck disable=SC2086
 			rpm -i /work/vespa-$package-*.src.rpm
 		    fi
 		    specname=vespa-$package
@@ -139,22 +142,24 @@ build_rpm_inner_common()
 		    ;;
 	    esac
 	    legacy_dnf -y install 'dnf-command(builddep)'
-	    legacy_dnf -y builddep ~/rpmbuild/SPECS/$specname.spec
+	    legacy_dnf -y builddep ~/rpmbuild/SPECS/"$specname".spec
 	    if test -x /usr/bin/go
 	    then
 		go env -w GOPROXY="https://proxy.golang.org,direct"
 		mkdir -p ~/tmp
 		export GOTMPDIR=~/tmp
 	    fi
+	    # shellcheck disable=SC2015
 	    rpm -q ccache >/dev/null 2>&1 && ccache -M 16G || true
-	    ( ulimit -Sc 0; rpmbuild -ba ~/rpmbuild/SPECS/$specname.spec )
+	    # shellcheck disable=SC3045
+	    ( ulimit -Sc 0; rpmbuild -ba ~/rpmbuild/SPECS/"$specname".spec )
 	    ;;
     esac
     ARCH=$(arch)
-    mkdir -p /work/RPMS/${ARCH} /work/SRPMS
+    mkdir -p "/work/RPMS/${ARCH}" /work/SRPMS
     case "$mode" in
 	both|rebuild)
-	    cp -p ~/rpmbuild/RPMS/*/*.rpm /work/RPMS/${ARCH}
+	    cp -p ~/rpmbuild/RPMS/*/*.rpm "/work/RPMS/${ARCH}"
 	    cp -p ~/rpmbuild/SRPMS/*.src.rpm /work/SRPMS
 	    chown --reference=/work/build-rpm-inner.sh -R /work/RPMS /work/SRPMS
 	    rm -rf ~/rpmbuild/*

@@ -1,8 +1,9 @@
+#!/bin/sh
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
 # Common code to get settings
 
-if test -f $HOME/.config/vespa/docker-setups
+if test -f "$HOME"/.config/vespa/docker-setups
 then
     # get default values, e.g.
     # CONTAINER_SUFFIX="-mac"
@@ -10,7 +11,8 @@ then
     # CONTAINER_NETWORK=default
     # CONTAINER_ENGINE=podman
     # VOLUMESBASE=
-    . $HOME/.config/vespa/docker-setups
+    # shellcheck disable=SC1091
+    . "$HOME"/.config/vespa/docker-setups
 fi
 
 if test -z "$CONTAINER_ENGINE"
