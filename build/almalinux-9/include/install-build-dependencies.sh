@@ -5,7 +5,7 @@ set -xeu
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core 
-dnf -y copr enable "@vespa/vespa epel-9-$(arch)"
+dnf -y copr enable @vespa/vespa "epel-9-$(arch)"
 dnf config-manager --enable crb
 
 # Java requires proper locale for unicode

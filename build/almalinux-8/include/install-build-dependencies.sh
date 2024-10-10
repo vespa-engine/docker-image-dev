@@ -14,7 +14,7 @@ esac
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
 case "$VESPADEV_RPM_SOURCE" in
-    external) dnf -y copr enable "@vespa/vespa epel-8-$(arch)";;
+    external) dnf -y copr enable @vespa/vespa "epel-8-$(arch)";;
     test) /work/setup-test-repo;;
 esac
 dnf config-manager --enable powertools
