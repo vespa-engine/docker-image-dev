@@ -14,7 +14,7 @@ esac
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
 case "$VESPADEV_RPM_SOURCE" in
-    external) dnf -y copr enable @vespa/vespa epel-8-$(arch);;
+    external) dnf -y copr enable "@vespa/vespa epel-8-$(arch)";;
     test) /work/setup-test-repo;;
 esac
 dnf config-manager --enable powertools
@@ -50,7 +50,7 @@ unzip awscliv2.zip
 rm -rf aws awscliv2.zip
 
 # Install session manager
-if [[ $(arch) == x86_64 ]]; then
+if [ "$(arch)" = x86_64 ]; then
     dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
 else
     dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
@@ -77,11 +77,12 @@ gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
 #  Install extra compiler tools
 dnf -y install \
     clang \
-    gcc-toolset-$gcc_version-libasan-devel \
-    gcc-toolset-$gcc_version-libtsan-devel \
-    gcc-toolset-$gcc_version-libubsan-devel
+    "gcc-toolset-$gcc_version-libasan-devel" \
+    "gcc-toolset-$gcc_version-libtsan-devel" \
+    "gcc-toolset-$gcc_version-libubsan-devel"
 
-source /opt/rh/gcc-toolset/enable
+# shellcheck disable=SC1091
+. /opt/rh/gcc-toolset/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
@@ -117,16 +118,16 @@ dnf -y install docker-ce docker-ce-cli containerd.io
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
-dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')-1.$(arch).rpm
+dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-"$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')"-1."$(arch)".rpm
 
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.31.1"
-if [[ $(arch) == x86_64 ]]; then
-  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm
+if [ "$(arch)" = x86_64 ]; then
+  dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
   curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 else
-  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm
+  dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm"
   curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl"
 fi
 chmod 755 /usr/local/bin/kubectl
@@ -138,10 +139,11 @@ GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@la
 ATHENZ_VERSION="1.11.65"
 curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
 tar zxvf v${ATHENZ_VERSION}.tar.gz
-pushd /athenz-${ATHENZ_VERSION}/provider/buildkite/sia-buildkite
-GOTOOLCHAIN=auto /usr/bin/go build -v ./cmd/siad
-mv ./siad /usr/local/bin
-popd
+(
+  cd "/athenz-${ATHENZ_VERSION}/provider/buildkite/sia-buildkite"
+  GOTOOLCHAIN=auto /usr/bin/go build -v ./cmd/siad
+  mv ./siad /usr/local/bin
+)
 rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 
 # Cleanup
