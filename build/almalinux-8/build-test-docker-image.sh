@@ -3,6 +3,7 @@
 
 ALMALINUX_VERSION=8test
 
+# shellcheck disable=SC2209
 VESPADEV_RPM_SOURCE=test
 
 case "$1" in
@@ -17,12 +18,12 @@ esac
 
 IMG="vespaengine/vespa-build-almalinux-${ALMALINUX_VERSION}:latest"
 
-WORKDIR=$(cd $(dirname $0) && env pwd)
-cd $WORKDIR
+WORKDIR=$(cd "$(dirname "$0")" && env pwd)
+cd "$WORKDIR" || exit 1
 
+# shellcheck disable=SC1091
 . ../../shared/common.sh
 
-MOUNTS_CMD_BUILDARG=
 MOUNTS_CMD=
 
 case "$CONTAINER_ENGINE" in
@@ -36,5 +37,7 @@ esac
 
 sed -e "s;@@MOUNTS_CMD@@;$DOCKERFILE_MOUNTS_CMD;" -e "s,@@VESPADEV_RPM_SOURCE@@,$VESPADEV_RPM_SOURCE," Dockerfile.test.tmpl > Dockerfile.test
 
-echo BUILDING: docker build --progress plain $MOUNTS_CMD -t ${IMG} -f Dockerfile.test "$@" $WORKDIR
-$CONTAINER_ENGINE build --progress plain $MOUNTS_CMD -t ${IMG} -f Dockerfile.test "$@" $WORKDIR
+# shellcheck disable=SC2086
+echo BUILDING: docker build --progress plain $MOUNTS_CMD -t "${IMG}" -f Dockerfile.test "$@" "$WORKDIR"
+# shellcheck disable=SC2086
+$CONTAINER_ENGINE build --progress plain $MOUNTS_CMD -t "${IMG}" -f Dockerfile.test "$@" "$WORKDIR"

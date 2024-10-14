@@ -5,7 +5,7 @@ set -xeu
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core 
-dnf -y copr enable @vespa/vespa epel-9-$(arch)
+dnf -y copr enable @vespa/vespa "epel-9-$(arch)"
 dnf config-manager --enable crb
 
 # Java requires proper locale for unicode
@@ -52,11 +52,12 @@ gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
 #  Install extra compiler tools
 dnf -y install \
     clang \
-    gcc-toolset-$gcc_version-libasan-devel \
-    gcc-toolset-$gcc_version-libtsan-devel \
-    gcc-toolset-$gcc_version-libubsan-devel
+    "gcc-toolset-$gcc_version-libasan-devel" \
+    "gcc-toolset-$gcc_version-libtsan-devel" \
+    "gcc-toolset-$gcc_version-libubsan-devel"
 
-source /opt/rh/gcc-toolset/enable
+# shellcheck disable=SC1091
+. /opt/rh/gcc-toolset/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
@@ -82,7 +83,7 @@ printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
-if [[ $(arch) == x86_64 ]]; then
+if [ "$(arch)" = x86_64 ]; then
   GOARCH=amd64
 else
   GOARCH=arm64
@@ -102,13 +103,13 @@ dnf -y install docker-ce docker-ce-cli containerd.io
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
-dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')-1.$(arch).rpm
+dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-"$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')"-1."$(arch)".rpm
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
-if [[ $(arch) == x86_64 ]]; then
-  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm
+if [ "$(arch)" = x86_64 ]; then
+  dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
 else
-  dnf install -y https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm
+  dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm"
 fi
 
 # Cleanup
