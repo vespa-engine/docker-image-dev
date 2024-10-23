@@ -418,3 +418,49 @@ into the container again with the appropriate level of verbosity, e.g.
 
     ssh -vvv -A 127.0.0.1 -p 3334
 
+### CLion configuration (MacOS client)
+
+* CLion > Settings > Build, Execution, Deployment > Toolchains
+    * CMake: /usr/bin/cmake
+    * Build Tools: /usr/bin/make
+    * Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+* File > New project setup > Settings for new projects
+    * Editor > Code Style
+        * CMake
+            * continuation indent: 4
+        * C++
+            * continuous line indent: Single
+            * Indent namespace members: Do not indent
+    * Build, Execution, Deployment
+        * CMake
+            * Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
+            * Cmake build directory: .
+        * Build Tools > Make
+            * Path to make executable: /usr/bin/make
+
+### Environment variable tuning to avoid excessive ccache miss rate
+
+The following environment variables are checked by ccache: `GCC_COLORS`, `LANG`, `LC_ALL`, `LC_CTYPE` and `LC_MESSAGES`
+
+The `CMAKE_COLOR_DIAGNOSTICS` environment variable affects how CMake generates makefiles and what arguments are passed to
+compiler, thus indirectly affecting caching.
+
+If compilation on command line uses different settings for the above environment variables than what CLion is using then
+the ccache miss rate will be higher. CLion sets `CMAKE_COLOR_DIAGNOSTICS` and `GCC_COLORS` internally, thus shell startup
+files should also set them to the same values.
+
+Adjust `.bashrc` to ensure that the relevant environment variables are always set, also for non-interative shells, e.g.
+```
+if [[ "$SHLVL" < 2 ]]; then
+    export CMAKE_COLOR_DIAGNOSTICS=ON
+    export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+    export LANG=en_US.UTF-8
+    export LC_CTYPE=en_US.UTF-8
+fi
+```
+
+Note that emacs also need some tuning to handle colors in output. A web search for
+```
+emacs compilation buffer ansi colors
+```
+might provide some hints about how to adjust the emacs configuration.
