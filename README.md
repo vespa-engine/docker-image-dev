@@ -420,23 +420,23 @@ into the container again with the appropriate level of verbosity, e.g.
 
 ### CLion configuration (MacOS client)
 
-* CLion > Settings > Build, Execution, Deployment > Toolchains
-    * CMake: /usr/bin/cmake
-    * Build Tools: /usr/bin/make
-    * Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
-* File > New project setup > Settings for new projects
-    * Editor > Code Style
-        * CMake
-            * continuation indent: 4
-        * C++
-            * continuous line indent: Single
-            * Indent namespace members: Do not indent
-    * Build, Execution, Deployment
-        * CMake
-            * Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
-            * Cmake build directory: .
-        * Build Tools > Make
-            * Path to make executable: /usr/bin/make
+*   CLion > Settings > Build, Execution, Deployment > Toolchains
+    *   CMake: /usr/bin/cmake
+    *   Build Tools: /usr/bin/make
+    *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+*   File > New project setup > Settings for new projects
+    *   Editor > Code Style
+        *   CMake
+            *   continuation indent: 4
+        *   C++
+            *   continuous line indent: Single
+            *   Indent namespace members: Do not indent
+    *   Build, Execution, Deployment
+        *   CMake
+            *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
+            *   Cmake build directory: .
+        *   Build Tools > Make
+            *   Path to make executable: /usr/bin/make
 
 ### Environment variable tuning to avoid excessive ccache miss rate
 
