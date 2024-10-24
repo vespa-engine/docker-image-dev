@@ -438,6 +438,26 @@ into the container again with the appropriate level of verbosity, e.g.
         *   Build Tools > Make
             *   Path to make executable: /usr/bin/make
 
+### CLion configuration (Linux client)
+
+*   Settings > Build, Execution, Deployment > Toolchains
+    *   CMake: /usr/bin/cmake
+    *   Build Tools: /usr/bin/make
+    *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+*   File > New project setup > Settings for new projects
+    *   Editor > Code Style
+        *   C++
+            *   continuation indent: 4
+            *   Indent members of namespace: 0
+        *   CMake
+            *   continuation indent: 4
+    *   Build, Execution, Deployment
+        *   CMake
+            *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
+            *   Cmake build directory: .
+        *   Build Tools > Make
+            *   Path to make executable: /usr/bin/make
+
 ### Environment variable tuning to avoid excessive ccache miss rate
 
 The following environment variables are checked by ccache: `GCC_COLORS`, `LANG`, `LC_ALL`, `LC_CTYPE` and `LC_MESSAGES`
