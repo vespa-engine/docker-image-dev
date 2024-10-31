@@ -10,6 +10,7 @@ RUN dnf -y install \
         rsync \
         nmap-ncat \
         vim \
+        wget \
         emacs \
         gcc-toolset-13-gdb \
         man-db \
