@@ -2,7 +2,7 @@
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
 IDENT=${1-"0"}
-ALMALINUX_VERSION=8
+ALMALINUX_VERSION=9
 FORWARD_SSH_PORT=$((3900 + 10 * ${ALMALINUX_VERSION} + ${IDENT}))
 
 cname="vespa-almalinux-${ALMALINUX_VERSION}"
