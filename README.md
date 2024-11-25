@@ -418,14 +418,17 @@ into the container again with the appropriate level of verbosity, e.g.
 
     ssh -vvv -A 127.0.0.1 -p 3334
 
-### CLion configuration (MacOS client)
+### CLion 2024.3 configuration (MacOS client)
 
-*   CLion > Settings > Build, Execution, Deployment > Toolchains
-    *   CMake: /usr/bin/cmake
-    *   Build Tools: /usr/bin/make
-    *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
-*   File > New project setup > Settings for new projects
-    *   Editor > Code Style
+*   CLion | Settings
+    *   Build, Execution, Deployment | Toolchains
+        *   CMake: /usr/bin/cmake
+        *   Build Tools: /usr/bin/make
+        *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+    *   Advanced Settings (Host)
+        *   Automatically import CMake Presets: None
+*   File | New project setup | Settings for new projects
+    *   Editor | Code Style
         *   CMake
             *   continuation indent: 4
         *   C++
@@ -435,27 +438,30 @@ into the container again with the appropriate level of verbosity, e.g.
         *   CMake
             *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
             *   Cmake build directory: .
-        *   Build Tools > Make
+        *   Build Tools | Make
             *   Path to make executable: /usr/bin/make
 
-### CLion configuration (Linux client)
+### CLion 2024.3 configuration (Linux client)
 
-*   Settings > Build, Execution, Deployment > Toolchains
-    *   CMake: /usr/bin/cmake
-    *   Build Tools: /usr/bin/make
-    *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
-*   File > New project setup > Settings for new projects
-    *   Editor > Code Style
-        *   C++
-            *   continuation indent: 4
-            *   Indent members of namespace: 0
+*   File | Settings
+    *   Build, Execution, Deployment | Toolchains
+        *   CMake: /usr/bin/cmake
+        *   Build Tools: /usr/bin/make
+        *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+    *   Advanced Settings (Host)
+        *   Automatically import CMake Presets: None
+*   File | New project setup | Settings for new projects
+    *   Editor | Code Style
         *   CMake
             *   continuation indent: 4
+        *   C++
+            *   continuation indent: Single
+            *   Indent members of namespace: Do not indent
     *   Build, Execution, Deployment
         *   CMake
             *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
             *   Cmake build directory: .
-        *   Build Tools > Make
+        *   Build Tools | Make
             *   Path to make executable: /usr/bin/make
 
 ### Environment variable tuning to avoid excessive ccache miss rate
