@@ -9,7 +9,7 @@ enable_repos()
     dnf -y install epel-release
     dnf -y install dnf-plugin-ovl
     dnf -y install 'dnf-command(config-manager)'
-    dnf config-manager --set-enabled powertools
+    /usr/bin/crb enable
 }
 
 enable_modules()

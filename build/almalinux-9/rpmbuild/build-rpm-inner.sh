@@ -6,11 +6,9 @@
 
 enable_repos()
 {
-    dnf -y install \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+    dnf -y install epel-release
     dnf -y install 'dnf-command(config-manager)'
-    dnf config-manager --set-enabled crb
+    /usr/bin/crb enable
 }
 
 enable_modules()
