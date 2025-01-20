@@ -133,7 +133,7 @@ fi
 chmod 755 /usr/local/bin/kubectl
 
 # Install crane for image management
-GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@latest
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.2
 
 # Install siad for Buildkite provider
 ATHENZ_VERSION="1.11.65"
