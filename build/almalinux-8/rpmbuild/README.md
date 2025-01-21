@@ -74,6 +74,7 @@ Build all packages needed for building test docker image for vespa development o
     cd $HOME/git/docker-image-dev/build/almalinux-8/rpmbuild
     ./build-rpm.sh -a toolset-12
     ./build-rpm.sh -a toolset-13
+    ./build-rpm.sh -a toolset-14
     ./build-rpm.sh -a lz4
     ./build-rpm.sh -a zstd
     ./build-rpm.sh -a openssl

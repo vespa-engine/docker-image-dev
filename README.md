@@ -424,7 +424,7 @@ into the container again with the appropriate level of verbosity, e.g.
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /usr/bin/cmake
         *   Build Tools: /usr/bin/make
-        *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+        *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
 *   File | New project setup | Settings for new projects
@@ -447,7 +447,7 @@ into the container again with the appropriate level of verbosity, e.g.
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /usr/bin/cmake
         *   Build Tools: /usr/bin/make
-        *   Debugger: /opt/rh/gcc-toolset-13/root/usr/bin/gdb
+        *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
 *   File | New project setup | Settings for new projects
