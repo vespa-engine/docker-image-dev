@@ -21,6 +21,7 @@ RUN dnf -y install \
         graphviz && \
     pip3 install --upgrade pip && \
     pip3 install numpy xgboost scikit-learn && \
+    printf '%s\n'  "# gdb"  "source /opt/rh/gcc-toolset-13/enable"  > /etc/profile.d/enable-gcc-toolset-13-gdb.sh && \
     dnf clean all --enablerepo=\* 
 
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
