@@ -76,7 +76,6 @@ gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
 
 #  Install extra compiler tools
 dnf -y install \
-    clang \
     "gcc-toolset-$gcc_version-libasan-devel" \
     "gcc-toolset-$gcc_version-libtsan-devel" \
     "gcc-toolset-$gcc_version-libubsan-devel"
