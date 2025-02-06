@@ -86,8 +86,8 @@ RUN apt-get -y install ruby-ffi ruby-libxml
 RUN apt-get -y install file
 
 RUN \
-    printf "%s\n%s\n" "* soft nproc 409600"  "* hard nproc 409600"  > /etc/security/limits.d/99-nproc.conf && \
-    printf "%s\n%s\n" "* soft nofile 262144" "* hard nofile 262144" > /etc/security/limits.d/99-nofile.conf
+    printf "%s\n%s\n" "* soft nproc 120000"  "* hard nproc 120000"  > /etc/security/limits.d/99-nproc.conf && \
+    printf "%s\n%s\n" "* soft nofile 200000" "* hard nofile 200000" > /etc/security/limits.d/99-nofile.conf
 
 STOPSIGNAL SIGRTMIN+3
 

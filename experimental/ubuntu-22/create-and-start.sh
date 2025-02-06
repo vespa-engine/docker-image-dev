@@ -18,7 +18,7 @@ docker create \
         --privileged \
         -p 127.0.0.1:3922:22 \
         -v ${vol}:/home/${myuname} \
-        --ulimit nofile=450000:524288 \
+        --ulimit nofile=200000:200000 \
         --shm-size 2G \
         --name ${container_name} \
         --network ${network_name} \
