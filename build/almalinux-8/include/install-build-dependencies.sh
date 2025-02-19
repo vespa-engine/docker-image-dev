@@ -146,6 +146,11 @@ tar zxvf v${ATHENZ_VERSION}.tar.gz
 )
 rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 
+
+# Add factory command
+curl -L -O /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
+chmod 755 /usr/local/bin/factory-command
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum

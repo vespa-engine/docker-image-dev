@@ -123,6 +123,10 @@ else
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm"
 fi
 
+# Add factory command
+curl -L -O /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
+chmod 755 /usr/local/bin/factory-command
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum
