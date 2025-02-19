@@ -124,7 +124,7 @@ else
 fi
 
 # Add factory command
-curl -L -O /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
+curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
 chmod 755 /usr/local/bin/factory-command
 
 # Cleanup
