@@ -125,7 +125,7 @@ fi
 
 # Set default python to the newes installed and make sure it has pip
 PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
-alternatives --set python3 "$PYBIN"
+alternatives --set python3 "$PYBIN" || true  # If the newest/default is not set via alternatives this is ok
 dnf install -y "$(basename "$PYBIN")"-pip
 
 # Add factory command
