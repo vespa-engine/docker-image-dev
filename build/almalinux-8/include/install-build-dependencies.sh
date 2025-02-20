@@ -146,6 +146,10 @@ tar zxvf v${ATHENZ_VERSION}.tar.gz
 )
 rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 
+# Set default python to the newes installed and make sure it has pip
+PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
+alternatives --set python3 "$PYBIN"
+dnf install -y "$(basename "$PYBIN")"-pip
 
 # Add factory command
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
