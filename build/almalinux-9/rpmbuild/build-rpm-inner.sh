@@ -14,7 +14,7 @@ enable_repos()
 enable_modules()
 {
     dnf -y module enable maven:3.8
-    dnf -y module enable ruby:3.1
+    dnf -y module enable ruby:3.3
 }
 
 enable_cuda_repos()
