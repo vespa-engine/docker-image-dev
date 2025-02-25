@@ -42,6 +42,19 @@ dnf -y install \
     time \
     valgrind
 
+# Install recent aws CLI
+curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+rm -rf aws awscliv2.zip
+
+# Install session manager
+if [ "$(arch)" = x86_64 ]; then
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+else
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
+fi
+
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
@@ -117,11 +130,31 @@ cp -a /include/ssh-env-config.sh /usr/local/bin
 dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-"$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')"-1."$(arch)".rpm
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
+KUBECTL_VERSION="1.31.1"
 if [ "$(arch)" = x86_64 ]; then
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
+  curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 else
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm"
+  curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl"
 fi
+
+chmod 755 /usr/local/bin/kubectl
+
+# Install crane for image management
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.2
+
+# Install siad for Buildkite provider
+ATHENZ_VERSION="1.11.65"
+curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
+tar zxvf v${ATHENZ_VERSION}.tar.gz
+(
+  cd "/athenz-${ATHENZ_VERSION}/provider/buildkite/sia-buildkite"
+  GOTOOLCHAIN=auto /usr/bin/go build -v ./cmd/siad
+  mv ./siad /usr/local/bin
+)
+rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
+
 
 # Set default python to the newes installed and make sure it has pip
 PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
