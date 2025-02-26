@@ -401,7 +401,9 @@ then, execute an interactive shell on the container:
 
     docker exec -it vespa-dev-almalinux-8 /bin/bash
 
-Inside the shell, check if there are any host keys:
+Inside the shell, make sure that the home directory, .ssh directory and the authorized_keys file are readable by the ssh daemon.
+
+Still problems? Inside the shell, check if there are any host keys:
 
     ls -l /etc/ssh
 
