@@ -33,6 +33,7 @@ else
   echo "ERROR: No authorized keys found in $HOME/.ssh"
   exit 1
 fi
+$engine exec -it ${container_name} bash -c "chown $(id -un) /home/$(id -un)/.ssh/authorized_keys"
 
 # Set environment variables
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
