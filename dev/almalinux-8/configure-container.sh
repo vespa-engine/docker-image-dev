@@ -23,14 +23,12 @@ $engine exec -it $container_name bash -c "chmod 755 /home/$(id -un)"
 # Copy authorized keys
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c "mkdir -p /home/$(id -un)/.ssh"
 
-if test -f $HOME/.ssh/authorized_keys; then
-  $engine cp -a $HOME/.ssh/authorized_keys $container_name:/home/$(id -un)/.ssh/
-elif test -f $HOME/.ssh/id_rsa.pub; then
+if test -f $HOME/.ssh/id_rsa.pub; then
   $engine cp -a $HOME/.ssh/id_rsa.pub $container_name:/home/$(id -un)/.ssh/authorized_keys
 elif test -f $HOME/.ssh/id_ed25519.pub; then
   $engine cp -a $HOME/.ssh/id_ed25519.pub $container_name:/home/$(id -un)/.ssh/authorized_keys
 else
-  echo "ERROR: No authorized keys found in $HOME/.ssh"
+  echo "ERROR: No public SSH keys found in $HOME/.ssh"
   exit 1
 fi
 $engine exec -it ${container_name} bash -c "chown $(id -un) /home/$(id -un)/.ssh/authorized_keys"
