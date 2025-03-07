@@ -135,7 +135,7 @@ If not, use the following guide
 
     mkdir -p $HOME/git
     cd $HOME/git
-    git clone git@github.com:vespa-engine/docker-image-dev.git
+    git clone https://github.com/vespa-engine/docker-image-dev.git
     cd $HOME/git/docker-image-dev/dev/almalinux-8
 
 If using Docker:
@@ -235,7 +235,7 @@ Default install directory is $HOME/vespa ($VESPA_HOME).
 #### Checkout system-test repo
 
     cd $HOME/git
-    git clone git@github.com:vespa-engine/system-test.git
+    git clone https://github.com/vespa-engine/system-test.git
 
 Note that the system test scrips are already in your PATH inside the Docker container.
 
@@ -251,8 +251,7 @@ Some system tests depend on feature flag overrides.
 
 #### Run system test in another terminal
 
-    cd $HOME/git/system-test/tests/search/basicsearch
-    runtest.sh basic_search.rb
+    runtest.sh $HOME/git/system-test/tests/search/basicsearch/basic_search.rb
 
 ### Building and running Vespa with sanitizer instrumentation
 
