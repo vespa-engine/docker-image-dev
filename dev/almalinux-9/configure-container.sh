@@ -44,7 +44,7 @@ $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 'export PATH' \
 'export MAVEN_OPTS=\"-Xms128m -Xmx1024m\"' \
 'alias ctest=ctest3' \
-> ~/.docker_profile"
+>> ~/.docker_profile"
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 "grep -q '.docker_profile' ~/.bash_profile || echo 'test -f ~/.docker_profile && source ~/.docker_profile || true' >> ~/.bash_profile"
 
