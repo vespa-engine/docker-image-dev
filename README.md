@@ -463,6 +463,13 @@ into the container again with the appropriate level of verbosity, e.g.
         *   Build Tools | Make
             *   Path to make executable: /usr/bin/make
 
+Opening the project in CLion might fail with the CMake output `[No CMake profiles]` even though the default CMake profile is defined and enabled in the settings for new projects. When that happens, exit CLion, execute the following commands in the container
+
+    cd "$HOME/git/vespa"
+    rm -rf .cmake .idea CMakeCache.txt Makefile
+
+and then open the project again in CLion.
+
 ### Environment variable tuning to avoid excessive ccache miss rate
 
 The following environment variables are checked by ccache: `GCC_COLORS`, `LANG`, `LC_ALL`, `LC_CTYPE` and `LC_MESSAGES`
