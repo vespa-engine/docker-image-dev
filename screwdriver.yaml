@@ -38,7 +38,7 @@ shared:
           PLATFORMS=$(for A in ${PARSED[@]}; do echo "linux/$A"; done | xargs | sed 's/\ /,/g')
           if [[ -z $SD_PULL_REQUEST ]]; then
             set +x
-            docker login -u aressem -p $DOCKER_HUB_DEPLOY_KEY
+            docker login -u msaglia -p $DOCKER_HUB_DEPLOY_KEY
             set -x
             DOCKER_BUILDX_PUSH="--push"
           fi
