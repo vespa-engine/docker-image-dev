@@ -392,30 +392,38 @@ Then start CLion or IntelliJ from this terminal.
 
 ### SSH troubleshooting
 
-If the ssh command fails, e.g. with the following message:
+*   If the ssh command fails, e.g. with the following message:
 
-`ssh kex_exchange_identification: Connection closed by remote host`
+    ```ssh kex_exchange_identification: Connection closed by remote host```
 
-then, execute an interactive shell on the container:
+    then, execute an interactive shell on the container:
 
-    docker exec -it vespa-dev-almalinux-8 /bin/bash
+        docker exec -it vespa-dev-almalinux-8 /bin/bash
 
-Inside the shell, check if there are any host keys:
+    Inside the shell, check if there are any host keys:
 
-    ls -l /etc/ssh
+        ls -l /etc/ssh
 
-If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
+    If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
 
-    sudo ssh-keygen -A
+        sudo ssh-keygen -A
 
-Then, start the ssh daemon:
+    Then, start the ssh daemon:
 
-    $(which sshd)
+        $(which sshd)
 
-If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
-into the container again with the appropriate level of verbosity, e.g.
+    If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
+    into the container again with the appropriate level of verbosity, e.g.
 
-    ssh -vvv -A 127.0.0.1 -p 3334
+        ssh -vvv -A 127.0.0.1 -p 3334
+
+*   If container is removed and recreated with the same volume, ssh into that container will fail with the following message:
+
+    ```Host key for [127.0.0.1]:3334 has changed and you have requested strict checking.```
+
+    To fix that you need to remove old references to the host in the `known_hosts` file:
+
+        ssh-keygen -R '[127.0.0.1]:3334'
 
 ### CLion 2024.3 configuration (MacOS client)
 
