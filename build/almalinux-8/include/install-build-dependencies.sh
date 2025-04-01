@@ -33,6 +33,7 @@ dnf -y install \
     createrepo \
     curl \
     git-core \
+    google-cloud-cli \
     iputils \
     jq \
     pinentry \
