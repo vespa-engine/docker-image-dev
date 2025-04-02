@@ -232,7 +232,7 @@ Default install directory is $HOME/vespa ($VESPA_HOME).
 
 ### Run system tests
 
-#### Checkout system-test repo
+#### Checkout [system-test](https://github.com/vespa-engine/system-test.git) repo
 
     cd $HOME/git
     git clone https://github.com/vespa-engine/system-test.git
