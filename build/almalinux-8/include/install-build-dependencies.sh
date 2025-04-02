@@ -10,6 +10,19 @@ case "$VESPADEV_RPM_SOURCE" in
        exit 1;;
 esac
 
+# Install DNF repo for gcloud
+CLOUD_SDK_REPO="cloud-sdk-el9-$(uname -m)"
+export CLOUD_SDK_REPO
+tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+[google-cloud-cli]
+name=Google Cloud CLI
+baseurl=https://packages.cloud.google.com/yum/repos/${CLOUD_SDK_REPO}
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
@@ -33,6 +46,7 @@ dnf -y install \
     createrepo \
     curl \
     git-core \
+    google-cloud-cli \
     iputils \
     jq \
     pinentry \
