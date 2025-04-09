@@ -430,17 +430,18 @@ Then start CLion or IntelliJ from this terminal.
 *   CLion | Settings
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /usr/bin/cmake
-        *   Build Tools: /usr/bin/make
+        *   Build Tool: /usr/bin/make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
-*   File | New project setup | Settings for new projects
+*   File | New projects setup | Settings for new projects
     *   Editor | Code Style
         *   CMake
             *   continuation indent: 4
-        *   C++
-            *   continuous line indent: Single
-            *   Indent namespace members: Do not indent
+        *   C/C++
+            * Indentation and Alignment
+               *   Continuous line indent: Single
+               *   Indent namespace members: Do not indent
     *   Build, Execution, Deployment
         *   CMake
             *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
