@@ -1,6 +1,13 @@
 #!/usr/bin/env perl
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
+# Usage is still somewhat rough:
+# $ convert-vespa-test-to-gtest-helper.pl < some_test.cpp > foo
+# $ mv foo some_test.cpp
+# Edit CMakeLists.txt and add GTest::gtest as a dependency for the test if not already
+# a direct or indirect dependency.
+# Edit some_test.cpp to complete any other changes needed for it to work with gtest.
+
 while (<STDIN>) {
     chomp;
     s/^#include <vespa\/vespalib\/testkit\/test_kit.h>/#include <vespa\/vespalib\/gtest\/gtest.h>/;
