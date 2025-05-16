@@ -4,6 +4,8 @@ FROM docker.io/vespaengine/vespa-build-almalinux-8:latest
 
 # Install sshd, man-db, nice-to-have packages and system test dependencies
 RUN dnf -y install \
+        vespa-cmake \
+        vespa-ccache \
         bind-utils \
         openssh-server \
         xorg-x11-xauth \
@@ -21,7 +23,7 @@ RUN dnf -y install \
         graphviz && \
     pip3 install --upgrade pip && \
     pip3 install numpy xgboost scikit-learn && \
-    dnf clean all --enablerepo=\* 
+    dnf clean all --enablerepo=\*
 
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
 
