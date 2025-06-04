@@ -10,6 +10,19 @@ case "$VESPADEV_RPM_SOURCE" in
        exit 1;;
 esac
 
+# Install DNF repo for gcloud
+CLOUD_SDK_REPO="cloud-sdk-el9-$(uname -m)"
+export CLOUD_SDK_REPO
+tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+[google-cloud-cli]
+name=Google Cloud CLI
+baseurl=https://packages.cloud.google.com/yum/repos/${CLOUD_SDK_REPO}
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core dnf-plugin-ovl
@@ -33,6 +46,7 @@ dnf -y install \
     createrepo \
     curl \
     git-core \
+    google-cloud-cli \
     iputils \
     jq \
     pinentry \
@@ -59,7 +73,7 @@ fi
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="69299e1ca432e9dec6711dcc0fe7af60b8c58f5b"
+VESPA_SRC_REF="c6a66e6a3bf9982020c67d37498cf8cae59cb501"
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec

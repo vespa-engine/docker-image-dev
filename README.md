@@ -135,7 +135,7 @@ If not, use the following guide
 
     mkdir -p $HOME/git
     cd $HOME/git
-    git clone git@github.com:vespa-engine/docker-image-dev.git
+    git clone https://github.com/vespa-engine/docker-image-dev.git
     cd $HOME/git/docker-image-dev/dev/almalinux-8
 
 If using Docker:
@@ -235,7 +235,7 @@ Default install directory is $HOME/vespa ($VESPA_HOME).
 #### Checkout system-test repo
 
     cd $HOME/git
-    git clone git@github.com:vespa-engine/system-test.git
+    git clone https://github.com/vespa-engine/system-test.git
 
 Note that the system test scrips are already in your PATH inside the Docker container.
 
@@ -251,8 +251,7 @@ Some system tests depend on feature flag overrides.
 
 #### Run system test in another terminal
 
-    cd $HOME/git/system-test/tests/search/basicsearch
-    runtest.sh basic_search.rb
+    runtest.sh $HOME/git/system-test/tests/search/basicsearch/basic_search.rb
 
 ### Building and running Vespa with sanitizer instrumentation
 
@@ -393,49 +392,58 @@ Then start CLion or IntelliJ from this terminal.
 
 ### SSH troubleshooting
 
-If the ssh command fails, e.g. with the following message:
+*   If the ssh command fails, e.g. with the following message:
 
-`ssh kex_exchange_identification: Connection closed by remote host`
+    ```ssh kex_exchange_identification: Connection closed by remote host```
 
-then, execute an interactive shell on the container:
+    then, execute an interactive shell on the container:
 
-    docker exec -it vespa-dev-almalinux-8 /bin/bash
+        docker exec -it vespa-dev-almalinux-8 /bin/bash
 
 Inside the shell, make sure that the home directory, .ssh directory and the authorized_keys file are readable by the ssh daemon.
 
 Still problems? Inside the shell, check if there are any host keys:
 
-    ls -l /etc/ssh
+        ls -l /etc/ssh
 
-If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
+    If the folder does not contain any `ssh_host_*` files, use this command to generate host keys:
 
-    sudo ssh-keygen -A
+        sudo ssh-keygen -A
 
-Then, start the ssh daemon:
+    Then, start the ssh daemon:
 
-    $(which sshd)
+        $(which sshd)
 
-If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
-into the container again with the appropriate level of verbosity, e.g.
+    If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
+    into the container again with the appropriate level of verbosity, e.g.
 
-    ssh -vvv -A 127.0.0.1 -p 3334
+        ssh -vvv -A 127.0.0.1 -p 3334
+
+*   If container is removed and recreated with the same volume, ssh into that container will fail with the following message:
+
+    ```Host key for [127.0.0.1]:3334 has changed and you have requested strict checking.```
+
+    To fix that you need to remove old references to the host in the `known_hosts` file:
+
+        ssh-keygen -R '[127.0.0.1]:3334'
 
 ### CLion 2024.3 configuration (MacOS client)
 
 *   CLion | Settings
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /usr/bin/cmake
-        *   Build Tools: /usr/bin/make
+        *   Build Tool: /usr/bin/make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
-*   File | New project setup | Settings for new projects
+*   File | New projects setup | Settings for new projects
     *   Editor | Code Style
         *   CMake
             *   continuation indent: 4
-        *   C++
-            *   continuous line indent: Single
-            *   Indent namespace members: Do not indent
+        *   C/C++
+            * Indentation and Alignment
+               *   Continuous line indent: Single
+               *   Indent namespace members: Do not indent
     *   Build, Execution, Deployment
         *   CMake
             *   Cmake profile: Default (add new ones until Default appears, and disable all other profiles).
@@ -465,6 +473,13 @@ into the container again with the appropriate level of verbosity, e.g.
             *   Cmake build directory: .
         *   Build Tools | Make
             *   Path to make executable: /usr/bin/make
+
+Opening the project in CLion might fail with the CMake output `[No CMake profiles]` even though the default CMake profile is defined and enabled in the settings for new projects. When that happens, exit CLion, execute the following commands in the container
+
+    cd "$HOME/git/vespa"
+    rm -rf .cmake .idea CMakeCache.txt Makefile
+
+and then open the project again in CLion.
 
 ### Environment variable tuning to avoid excessive ccache miss rate
 
