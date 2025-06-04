@@ -36,18 +36,17 @@ RUN \
 
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-# with podman on MacOS, use: --build-arg BINDMOUNTARG=z
-ARG BINDMOUNTARG=rw
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/code-server.sh
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/cli.sh
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/lsp.sh
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/rest-client.sh
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/labs.sh
+# with podman on MacOS, replace ,rw with ,z below:
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/code-server.sh
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/cli.sh
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/lsp.sh
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/rest-client.sh
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/labs.sh
 
 RUN mkdir $USER_HOME/.cache
 RUN touch $USER_HOME/.cache/motd.legal-displayed
 RUN chown -R ${TARGET_USER}:${TARGET_USER} ${USER_HOME}
 
-RUN --mount=type=bind,target=/include/,source=include/,${BINDMOUNTARG} /bin/bash /include/motd.sh
+RUN --mount=type=bind,target=/include/,source=include/,rw /bin/bash /include/motd.sh
 
 # run with  "docker run --hostname console -ti -p 5050:5000 uni101:v006 /bin/sh -c '/bin/login -f student'"
