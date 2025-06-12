@@ -90,7 +90,7 @@ dnf -y install \
 # Compile two rubygems
 gem install ffi parallel
 
-printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
+printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 

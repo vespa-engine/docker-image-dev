@@ -77,6 +77,7 @@ gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
 #  Install extra compiler tools
 dnf -y install \
     clang \
+    "gcc-toolset-$gcc_version-dwz" \
     "gcc-toolset-$gcc_version-libasan-devel" \
     "gcc-toolset-$gcc_version-libtsan-devel" \
     "gcc-toolset-$gcc_version-libubsan-devel"
@@ -107,7 +108,7 @@ dnf -y install \
 # Compile two rubygems
 gem install ffi libxml-ruby
 
-printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
+printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 

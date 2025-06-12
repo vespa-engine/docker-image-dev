@@ -100,37 +100,36 @@ RUN wget --progress=dot:mega https://github.com/protocolbuffers/protobuf/release
 RUN wget --progress=dot:mega https://github.com/google/re2/releases/download/2024-07-02/re2-2024-07-02.tar.gz
 
 RUN tar xzf abseil-cpp-20250512.0.tar.gz
-
 RUN cmake -S abseil-cpp-20250512.0 -B build.absl \
-	-DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-	-DCMAKE_CXX_STANDARD=20 \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
-	-DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_CXX_STANDARD=20 \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
+    -DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
 RUN cmake --build build.absl -j 8
 RUN make -C build.absl install
 
 RUN tar xzf protobuf-31.1.tar.gz
 RUN cmake -S protobuf-31.1 -B build.protobuf \
-	-DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-	-DCMAKE_CXX_STANDARD=20 \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
-       	-Dprotobuf_BUILD_TESTS=OFF \
-	-DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_CXX_STANDARD=20 \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
+    -Dprotobuf_BUILD_TESTS=OFF \
+    -DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
 RUN cmake --build build.protobuf -j 8
 RUN make -C build.protobuf install
 
 RUN tar xzf re2-2024-07-02.tar.gz
 RUN cmake -S re2-2024-07-02 -B build.re2 \
-	-DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       	-DCMAKE_CXX_STANDARD=20 \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
-	-DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_CXX_STANDARD=20 \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_RPATH=/opt/vespa-deps/lib \
+    -DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
 RUN cmake --build build.re2 -j 8
 RUN make -C build.re2 install
 
