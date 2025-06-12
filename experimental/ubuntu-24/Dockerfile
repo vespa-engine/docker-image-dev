@@ -98,6 +98,7 @@ RUN cd && rm -rf .m2 ai
 RUN wget --progress=dot:mega https://github.com/abseil/abseil-cpp/releases/download/20250512.0/abseil-cpp-20250512.0.tar.gz
 RUN wget --progress=dot:mega https://github.com/protocolbuffers/protobuf/releases/download/v31.1/protobuf-31.1.tar.gz
 RUN wget --progress=dot:mega https://github.com/google/re2/releases/download/2024-07-02/re2-2024-07-02.tar.gz
+RUN wget --progress=dot:mega -Ojava-llama.cpp-4.1.0.tar.gz https://github.com/kherud/java-llama.cpp/archive/refs/tags/v4.1.0.tar.gz
 
 RUN tar xzf abseil-cpp-20250512.0.tar.gz
 RUN cmake -S abseil-cpp-20250512.0 -B build.absl \
@@ -132,8 +133,6 @@ RUN cmake -S re2-2024-07-02 -B build.re2 \
     -DCMAKE_INSTALL_PREFIX=/opt/vespa-deps
 RUN cmake --build build.re2 -j 8
 RUN make -C build.re2 install
-
-RUN wget --progress=dot:mega -Ojava-llama.cpp-4.1.0.tar.gz https://github.com/kherud/java-llama.cpp/archive/refs/tags/v4.1.0.tar.gz
 
 RUN tar xzf java-llama.cpp-4.1.0.tar.gz
 RUN cd java-llama.cpp-4.1.0 && mvn compile
