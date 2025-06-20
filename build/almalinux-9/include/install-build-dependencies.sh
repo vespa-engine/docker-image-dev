@@ -29,7 +29,6 @@ dnf -y upgrade
 dnf -y module enable maven:3.8
 
 dnf -y install \
-    awscli \
     ccache \
     createrepo \
     git-core \
@@ -41,19 +40,6 @@ dnf -y install \
     sudo \
     time \
     valgrind
-
-# Install recent aws CLI
-curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-./aws/install
-rm -rf aws awscliv2.zip
-
-# Install session manager
-if [ "$(arch)" = x86_64 ]; then
-    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
-else
-    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
-fi
 
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
@@ -71,23 +57,12 @@ sed -e '/^BuildRequires:/d' \
 # Install vespa build and runtime dependencies
 dnf builddep --nobest -y vespa.spec vesparun.spec
 rm -f vespa.spec vesparun.spec
-gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
-
-#  Install extra compiler tools
-dnf -y install \
-    clang \
-    "gcc-toolset-$gcc_version-libasan-devel" \
-    "gcc-toolset-$gcc_version-libtsan-devel" \
-    "gcc-toolset-$gcc_version-libubsan-devel"
-
-# shellcheck disable=SC1091
-. /opt/rh/gcc-toolset/enable
-/usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 dnf -y module enable ruby:3.3
 dnf -y install \
     libffi-devel \
+    libxml2-devel \
     ruby \
     ruby-devel \
     rubygems \
@@ -100,8 +75,21 @@ dnf -y install \
     rubygem-rexml \
     rubygem-test-unit
 
-# Compile two rubygems
-gem install ffi parallel
+# Compile three rubygems
+gem install ffi parallel libxml-ruby
+
+#  Install extra compiler tools
+gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
+dnf -y install \
+    clang \
+    "gcc-toolset-$gcc_version-libasan-devel" \
+    "gcc-toolset-$gcc_version-libtsan-devel" \
+    "gcc-toolset-$gcc_version-libubsan-devel"
+
+# shellcheck disable=SC1091
+. /opt/rh/gcc-toolset/enable
+/usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
+
 
 printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
@@ -119,6 +107,19 @@ rm -rf /usr/local/go && tar -C /usr/local -xzf $GOTGZ
 rm -f $GOTGZ
 ln -sf /usr/local/go/bin/go /usr/local/bin/go
 ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
+
+# Install recent aws CLI
+curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+rm -rf aws awscliv2.zip
+
+# Install session manager
+if [ "$(arch)" = x86_64 ]; then
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+else
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
+fi
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -155,11 +156,8 @@ tar zxvf v${ATHENZ_VERSION}.tar.gz
 )
 rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 
-
-# Set default python to the newes installed and make sure it has pip
-PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
-alternatives --set python3 "$PYBIN" || true  # If the newest/default is not set via alternatives this is ok
-dnf install -y "$(basename "$PYBIN")"-pip
+# EL9 has python3.9 already, should be OK
+dnf install -y python3-pip
 
 # Add factory command
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
