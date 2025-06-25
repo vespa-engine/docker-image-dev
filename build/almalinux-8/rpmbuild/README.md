@@ -79,6 +79,7 @@ Build all packages needed for building test docker image for vespa development o
     ./build-rpm.sh -a zstd
     ./build-rpm.sh -a openssl
     ./build-rpm.sh -a cmake
+    ./build-rpm.sh -a ccache
     ./build-rpm.sh -a gtest
     ./build-rpm.sh -a gradle
     ./build-rpm.sh -a onnxruntime
