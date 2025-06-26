@@ -73,7 +73,7 @@ fi
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="a5176658832716992b223327d9f0632fb5706a96"
+VESPA_SRC_REF="65009c5f26b3cf24c2ba056f70f0a9ed1be3773f"
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
