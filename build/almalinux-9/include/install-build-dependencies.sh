@@ -113,7 +113,7 @@ ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
 
 # Install recent aws CLI
 curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
-unzip awscliv2.zip
+unzip -q awscliv2.zip
 ./aws/install
 rm -rf aws awscliv2.zip
 

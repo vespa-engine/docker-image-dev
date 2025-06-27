@@ -59,7 +59,7 @@ dnf -y install \
 
 # Install recent aws CLI
 curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
-unzip awscliv2.zip
+unzip -q awscliv2.zip
 ./aws/install
 rm -rf aws awscliv2.zip
 
