@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-  
+
 set -xeu
 
 VESPADEV_RPM_SOURCE="${1:-external}"
@@ -120,6 +120,10 @@ dnf -y install \
 
 # Compile two rubygems
 gem install ffi libxml-ruby
+
+printf '%s\n' \
+       '# for cmake, ccache, protobuf etc:' \
+       'export PATH="/opt/vespa-deps/bin:${PATH}"'              >  /etc/profile.d/enable-vespa-deps.sh
 
 printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
