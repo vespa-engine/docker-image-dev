@@ -1,6 +1,6 @@
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ARG TARGET_USER=student
 
