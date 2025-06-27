@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-  
+
 set -xeu
 
 VESPADEV_RPM_SOURCE="${1:-external}"
@@ -12,7 +12,7 @@ esac
 
 # Enable and install repositories
 dnf -y install epel-release
-dnf -y install dnf-plugins-core 
+dnf -y install dnf-plugins-core
 case "$VESPADEV_RPM_SOURCE" in
     external) dnf -y copr enable @vespa/vespa "epel-9-$(arch)";;
     test) /work/setup-test-repo;;
@@ -90,6 +90,9 @@ dnf -y install \
 . /opt/rh/gcc-toolset/enable
 /usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
+printf '%s\n' \
+       '# for cmake, ccache, protobuf etc:' \
+       'export PATH="/opt/vespa-deps/bin:${PATH}"'              >  /etc/profile.d/enable-vespa-deps.sh
 
 printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
