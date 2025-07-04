@@ -71,7 +71,7 @@ build_rpm_inner_common()
 	both|rebuild)
 	    /work/setup-test-repo
 	    case $package in
-		onnxruntime|jllama-cuda)
+		onnxruntime|jllama)
 		    enable_cuda_repos
 		    ;;
 		vespa)
