@@ -431,7 +431,7 @@ Still problems? Inside the shell, check if there are any host keys:
 
 *   CLion | Settings
     *   Build, Execution, Deployment | Toolchains
-        *   CMake: /usr/bin/cmake
+        *   CMake: /opt/vespa-deps/bin/cmake
         *   Build Tool: /usr/bin/make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
@@ -455,7 +455,7 @@ Still problems? Inside the shell, check if there are any host keys:
 
 *   File | Settings
     *   Build, Execution, Deployment | Toolchains
-        *   CMake: /usr/bin/cmake
+        *   CMake: /opt/vespa-deps/bin/cmake
         *   Build Tools: /usr/bin/make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
