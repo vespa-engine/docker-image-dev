@@ -23,6 +23,7 @@ cd "$WORKDIR" || exit 1
 
 # shellcheck disable=SC1091
 . ../../shared/common.sh
+set - "--build-arg" $(cat ../vespa-src-ref.txt) "$@"
 
 MOUNTS_CMD=
 
