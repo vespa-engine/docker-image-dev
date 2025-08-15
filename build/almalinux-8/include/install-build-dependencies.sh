@@ -73,10 +73,10 @@ fi
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-VESPA_SRC_REF="65009c5f26b3cf24c2ba056f70f0a9ed1be3773f"
+: ${GIT_REF:="master"}
 
 # Fetch the RPM spec for vespa
-curl -Lf -O $GIT_REPO/raw/$VESPA_SRC_REF/dist/vespa.spec
+curl -Lf -O $GIT_REPO/raw/$GIT_REF/dist/vespa.spec
 
 # Pick runtime dependencies
 sed -e '/^BuildRequires:/d' \
@@ -156,7 +156,7 @@ GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0
 # Install siad for Buildkite provider
 ATHENZ_VERSION="1.11.65"
 curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
-tar zxvf v${ATHENZ_VERSION}.tar.gz
+tar zxf v${ATHENZ_VERSION}.tar.gz
 (
   cd "/athenz-${ATHENZ_VERSION}/provider/buildkite/sia-buildkite"
   GOTOOLCHAIN=auto /usr/bin/go build -v ./cmd/siad
