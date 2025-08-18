@@ -129,7 +129,10 @@ build_rpm_inner_common()
 			# shellcheck disable=SC2086
 			rpm -i /work/vespa-$package-*.src.rpm
 		    fi
-		    specname=vespa-$package
+		    case "$package" in
+			datasketches) specname=vespa-$package-cpp;;
+		        *) specname=vespa-$package;;
+		    esac
 		    ;;
 	    esac
 	    ;;
