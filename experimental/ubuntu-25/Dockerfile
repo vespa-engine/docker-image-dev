@@ -1,6 +1,6 @@
 # Copyright Yahoo. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
-FROM ubuntu:25.04
+FROM ubuntu:plucky-20250730
 
 ARG MYUSERNAME=myuser
 ARG ONNXCPU=x64
