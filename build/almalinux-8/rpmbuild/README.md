@@ -89,6 +89,7 @@ Build all packages needed for building test docker image for vespa development o
     ./build-rpm.sh -a build-dependencies
     ./build-rpm.sh -a jllama
     ./build-rpm.sh -a boost
+    ./build-rpm.sh -a datasketches
 
 Build test docker image for vespa development (assumes that packages above have been built)
 
