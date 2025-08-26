@@ -10,6 +10,9 @@ case "$VESPADEV_RPM_SOURCE" in
        exit 1;;
 esac
 
+# Install OpenTofu in the Build
+/include/install-opentofu.sh
+
 # Install DNF repo for gcloud
 CLOUD_SDK_REPO="cloud-sdk-el9-$(uname -m)"
 export CLOUD_SDK_REPO
