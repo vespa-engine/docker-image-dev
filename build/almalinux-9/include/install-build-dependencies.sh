@@ -25,6 +25,9 @@ export LANG=C.UTF-8
 # Use newest packages
 dnf -y upgrade
 
+# Install OpenTofu in the Build
+/include/install-opentofu.sh
+
 # Use newer maven
 dnf -y module enable maven:3.8
 
