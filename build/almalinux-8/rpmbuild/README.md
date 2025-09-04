@@ -85,6 +85,8 @@ Build all packages needed for building test docker image for vespa development o
     ./build-rpm.sh -a onnxruntime
     ./build-rpm.sh -a abseil-cpp
     ./build-rpm.sh -a openblas
+    ./build-rpm.sh -a highway
+    ./build-rpm.sh -a mimalloc
     ./build-rpm.sh -a protobuf
     ./build-rpm.sh -a build-dependencies
     ./build-rpm.sh -a jllama
