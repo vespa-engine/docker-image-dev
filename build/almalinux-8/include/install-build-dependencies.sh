@@ -176,6 +176,9 @@ dnf install -y "$(basename "$PYBIN")"-pip
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
 chmod 755 /usr/local/bin/factory-command
 
+# Install helm for package management in Kubernetes
+/include/get_helm.sh --version 3.17.0
+
 # Cleanup
 dnf clean all --enablerepo='*'
 rm -rf /var/cache/yum
