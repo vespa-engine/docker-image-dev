@@ -177,7 +177,6 @@ curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/ves
 chmod 755 /usr/local/bin/factory-command
 
 # Install helm for package management in Kubernetes
-chmod 700 get_helm.sh
 /include/get_helm.sh --version 3.17.0
 
 # Cleanup
