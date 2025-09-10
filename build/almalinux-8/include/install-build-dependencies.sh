@@ -178,7 +178,7 @@ chmod 755 /usr/local/bin/factory-command
 
 # Install helm for package management in Kubernetes
 chmod 700 get_helm.sh
-./get_helm.sh --version 3.17.0
+/include/get_helm.sh --version 3.17.0
 
 # Cleanup
 dnf clean all --enablerepo='*'
