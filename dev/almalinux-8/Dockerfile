@@ -22,7 +22,7 @@ RUN dnf -y install \
         python3-pip \
         graphviz && \
     pip3 install --upgrade pip && \
-    pip3 install numpy xgboost scikit-learn && \
+    pip3 install numpy xgboost scikit-learn requests && \
     dnf clean all --enablerepo=\*
 
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
