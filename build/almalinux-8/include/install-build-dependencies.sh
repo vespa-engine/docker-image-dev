@@ -54,6 +54,7 @@ dnf -y install \
     jq \
     pinentry \
     python3-pip \
+    python3-requests \
     rpmdevtools \
     ShellCheck \
     sudo \
