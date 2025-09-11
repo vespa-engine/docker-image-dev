@@ -10,4 +10,7 @@ ENV LANG=C.UTF-8 container=docker
 ARG VESPA_SRC_REF=master
 ENV GIT_REF=$VESPA_SRC_REF
 
+# Install UV
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 RUN --mount=type=bind,target=/include/,source=include/,rw /bin/sh /include/install-build-dependencies.sh
