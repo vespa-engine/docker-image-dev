@@ -53,8 +53,6 @@ dnf -y install \
     iputils \
     jq \
     pinentry \
-    python3-pip \
-    python3-requests \
     rpmdevtools \
     ShellCheck \
     sudo \
@@ -172,6 +170,10 @@ rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
 alternatives --set python3 "$PYBIN"
 dnf install -y "$(basename "$PYBIN")"-pip
+
+# Install pip dependencies
+pip3 install --upgrade pip 
+pip3 install requests
 
 # Add factory command
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
