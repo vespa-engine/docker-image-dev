@@ -138,7 +138,11 @@ dnf -y install docker-ce docker-ce-cli containerd.io
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
-COSIGN_VERSION=$(curl https://api.github.com/repos/sigstore/cosign/releases/latest | grep tag_name | cut -d : -f2 | tr -d "v\", ")
+# FIXME @marlon remove hardcoded versions and fetch latest after updating usage
+# Refer to https://blog.sigstore.dev/cosign-3-0-available/
+# COSIGN_VERSION=$(curl https://api.github.com/repos/sigstore/cosign/releases/latest | grep tag_name | cut -d : -f2 | tr -d "v\", ")
+COSIGN_VERSION=v2.6.1
+echo "✍️ Installing cosign version ${COSIGN_VERSION}"
 curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-${COSIGN_VERSION}-1.x86_64.rpm"
 rpm -ivh "cosign-${COSIGN_VERSION}-1.x86_64.rpm" && rm "cosign-${COSIGN_VERSION}-1.x86_64.rpm"
 
