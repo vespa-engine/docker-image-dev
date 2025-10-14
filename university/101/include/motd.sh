@@ -1,4 +1,12 @@
-set -euxo pipefail
+#!/usr/bin/env bash
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 echo "Creating MOTD files..."
 # Create the 00-header file
@@ -30,6 +38,3 @@ chmod +x /etc/update-motd.d/10-help-text
 # Remove unused MOTD scripts (optional, only if needed)
 rm -f /etc/update-motd.d/50-motd-news
 rm -f /etc/update-motd.d/60-unminimize
-
-
-

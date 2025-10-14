@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 #
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
+
+#
 # Installs OpenTofu
 #
 # Ref: https://opentofu.org/docs/intro/install/rpm/
@@ -69,11 +78,6 @@ log_error() {
   fi
   echo "${red}$1${normal}" 1>&2
 }
-set -o errexit
-set -o nounset
-set -o pipefail
-set -o xtrace
-
 install_repos() {
   if ! tee /etc/yum.repos.d/opentofu.repo; then
     log_error "Failed to write /etc/yum.repos.d/opentofu.repo"

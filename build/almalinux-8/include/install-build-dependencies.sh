@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-if [[ -n "${DEBUG:-}" ]]; then
+if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
