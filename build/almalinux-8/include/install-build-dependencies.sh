@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-
+#!/usr/bin/env bash
+#
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -149,7 +149,7 @@ cp -a /include/ssh-env-config.sh /usr/local/bin
 # COSIGN_VERSION=$(curl https://api.github.com/repos/sigstore/cosign/releases/latest | grep tag_name | cut -d : -f2 | tr -d "v\", ")
 COSIGN_VERSION=2.6.1
 echo "✍️ Installing cosign version ${COSIGN_VERSION}"
-curl -O -L "https://github.com/sigstore/cosign/releases/v${COSIGN_VERSION}/download/cosign-${COSIGN_VERSION}-1.x86_64.rpm"
+curl -O -L "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.x86_64.rpm"
 rpm -ivh "cosign-${COSIGN_VERSION}-1.x86_64.rpm" && rm "cosign-${COSIGN_VERSION}-1.x86_64.rpm"
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
@@ -189,7 +189,7 @@ alternatives --set python3 "$PYBIN"
 dnf install -y "$(basename "$PYBIN")"-pip
 
 # Install pip dependencies
-pip3 install --upgrade pip 
+pip3 install --upgrade pip
 pip3 install requests
 
 # Add factory command
