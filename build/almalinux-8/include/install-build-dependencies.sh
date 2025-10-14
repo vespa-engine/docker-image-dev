@@ -150,7 +150,7 @@ cp -a /include/ssh-env-config.sh /usr/local/bin
 COSIGN_VERSION=2.6.1
 echo "✍️ Installing cosign version ${COSIGN_VERSION}"
 curl -O -L "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.x86_64.rpm"
-rpm -ivh "cosign-${COSIGN_VERSION}-1.x86_64.rpm" && rm "cosign-${COSIGN_VERSION}-1.x86_64.rpm"
+rpm -ivh "cosign-${COSIGN_VERSION}-1.x86_64.rpm" && rm "cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.31.1"
