@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-
+#
 set -o errexit
 set -o nounset
 set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <python-version>"

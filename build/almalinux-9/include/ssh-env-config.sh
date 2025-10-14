@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 # This command wrapper sets up SSH config files based on the following
 # environment variables:
@@ -11,8 +19,6 @@
 #
 # The environment variables are unset after the files are created to help
 # prevent accidental output in logs
-
-set -e
 
 if [ -z "$SSH_CONFIG" ] && \
   [ -z "$SSH_CONFIG_B64" ] && \

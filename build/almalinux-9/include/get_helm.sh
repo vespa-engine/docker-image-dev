@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 # Copyright The Helm Authors.
 #
@@ -218,7 +226,7 @@ verifySignatures() {
   local gpg_homedir="${HELM_TMP_ROOT}/gnupg"
   mkdir -p -m 0700 "${gpg_homedir}"
   local gpg_stderr_device="/dev/null"
-  if [ "${DEBUG}" == "true" ]; then
+  if [ "${DEBUG:-no}" == "true" ]; then
     gpg_stderr_device="/dev/stderr"
   fi
   gpg --batch --quiet --homedir="${gpg_homedir}" --import "${HELM_TMP_ROOT}/${keys_filename}" 2> "${gpg_stderr_device}"
@@ -272,7 +280,6 @@ testVersion() {
     echo "$BINARY_NAME not found. Is $HELM_INSTALL_DIR on your "'$PATH?'
     exit 1
   fi
-  set -e
 }
 
 # help provides possible cli installation arguments
@@ -295,16 +302,13 @@ cleanup() {
 
 #Stop execution on any error
 trap "fail_trap" EXIT
-set -e
-
 # Set debug if desired
-if [ "${DEBUG}" == "true" ]; then
+if [ "${DEBUG:-no}" == "true" ]; then
   set -x
 fi
 
 # Parsing input arguments (if any)
 export INPUT_ARGUMENTS="${@}"
-set -u
 while [[ $# -gt 0 ]]; do
   case $1 in
     '--version'|-v)
