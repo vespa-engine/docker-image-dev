@@ -1,0 +1,35 @@
+name: Scan
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Weekly on Sundays at midnight
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  scan:
+    uses: vespa-engine/gh-actions/.github/workflows/mend.yml@marlon/feat/add-mend-scan-workflow
+    secrets: inherit
+    with:
+      mend-app-name: "vespa-engine"
+      scan-type: "image"
+      image-list: |
+        # Almalinux 8
+        docker.io/vespaengine/vespa-build-almalinux-8:latest
+        docker.io/vespaengine/vespa-dev-almalinux-8:latest
+        # Almalinux 9
+        docker.io/vespaengine/vespa-build-almalinux-9:latest
+        docker.io/vespaengine/vespa-dev-almalinux-9:latest
+
+        # Systemtest Preview
+        docker.io/vespaengine/university-101:latest
+
+        # Vespa OSS
+        docker.io/vespaengine/vespa:8
+
+        # Query Builder
+        ghcr.io/vespa-engine/vespa/query-builder:dev-latest
+
+        # Jekyll Build JSON (actions)
+        ghcr.io/vespa-engine/gh-actions/jekyll-build-json:latest
