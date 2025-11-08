@@ -18,6 +18,6 @@ fi
 . "$(dirname "$0")"/vespanode-common.sh
 CONTAINER_NAME=$USER-vespanode-registry
 VOLUME_NAME=${CONTAINER_NAME}
-docker container stop "${CONTAINER_NAME}"
-docker container rm "${CONTAINER_NAME}"
+docker container stop "${CONTAINER_NAME}" || true
+docker container rm "${CONTAINER_NAME}" || true
 docker run -d -p "${LOCAL_REGISTRY}:5000" -v "${VOLUME_NAME}":/var/lib/registry --name "${CONTAINER_NAME}" registry:3

@@ -53,8 +53,8 @@ fi
 CONTAINER_NAME=$USER-build-vespanode-baselinebase-almalinux-8
 BASELINEBASE_NAME=$USER-vespanode-baselinebase-almalinux-8
 
-docker stop "$CONTAINER_NAME"
-docker container rm "$CONTAINER_NAME"
+docker stop "$CONTAINER_NAME" || true
+docker container rm "$CONTAINER_NAME" || true
 
 if docker run \
 	  --name "$CONTAINER_NAME" \
