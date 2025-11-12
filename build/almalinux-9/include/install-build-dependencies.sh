@@ -137,7 +137,22 @@ fi
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf -y install docker-ce docker-ce-cli containerd.io
+# dnf -y install docker-ce docker-ce-cli containerd.io
+
+#
+# TODO
+# Temporarily pin docker versions to avoid issues with latest versions in the build
+# Versions obtained from almalinux8 image:
+# $ echo `rpm -q --queryformat '%{Name}-%{Version}\n' $(dnf list installed | grep docker-ce-stable | awk '{print $1}')`
+#
+dnf install -y \
+  containerd.io-1.6.32 \
+  docker-buildx-plugin-0.14.0 \
+  docker-ce-26.1.3 \
+  docker-ce-cli-26.1.3 \
+  docker-ce-rootless-extras-26.1.3 \
+  docker-compose-plugin-2.27.0
+# ENDTODO
 
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
