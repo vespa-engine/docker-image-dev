@@ -18,7 +18,7 @@ engine=$1
 container_name=$2
 
 # Add yourself as user
-$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)"
+$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)" || true
 $engine exec -it $container_name bash -c "useradd -g $(id -g) -u $(id -u) $(id -un)"
 $engine exec -it $container_name bash -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 
