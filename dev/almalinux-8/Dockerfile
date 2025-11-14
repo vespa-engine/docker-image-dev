@@ -25,6 +25,7 @@ RUN dnf -y install \
     pip3 install numpy xgboost scikit-learn cbor2 requests && \
     dnf -y module install nodejs:18 && \
     npm install -g @anthropic-ai/claude-code && \
+    npm install -g @openai/codex && \
     dnf clean all --enablerepo=\*
 
 RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
