@@ -33,11 +33,13 @@ rsync -aHvSx --delete /mnt/.m2/ .m2/
 
 set +x
 set +e
+set +o nounset
 # shellcheck disable=SC1091
 . ./.bash_profile
 # shellcheck disable=SC1091
 test -f .bashrc && . ./.bashrc
 set -x
+set -o nounset
 vespa-remove-index -force && echo indexes removed
 vespa-configserver-remove-state -force
 

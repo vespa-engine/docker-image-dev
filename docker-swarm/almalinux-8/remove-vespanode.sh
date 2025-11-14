@@ -12,7 +12,7 @@ fi
 DOCKER_IMAGE=$1
 . "$(dirname "$0")"/vespanode-common.sh
 echo "Removing vespanode image ${DOCKER_IMAGE} on $(hostname)"
-docker image rm "${TUNNELED_REGISTRY}/${DOCKER_IMAGE}"
-docker image rm "${LOCAL_REGISTRY}/${DOCKER_IMAGE}"
-docker image rm "${DOCKER_IMAGE}"
+docker image rm "${TUNNELED_REGISTRY}/${DOCKER_IMAGE}" || true
+docker image rm "${LOCAL_REGISTRY}/${DOCKER_IMAGE}" || true
+docker image rm "${DOCKER_IMAGE}" || true
 true
