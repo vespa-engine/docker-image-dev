@@ -22,7 +22,7 @@ RUN dnf -y install \
         python3-pip \
         graphviz && \
     pip3 install --upgrade pip && \
-    pip3 install numpy xgboost scikit-learn requests && \
+    pip3 install numpy xgboost scikit-learn cbor2 requests && \
     dnf -y module install nodejs:18 && \
     npm install -g @anthropic-ai/claude-code && \
     dnf clean all --enablerepo=\*
