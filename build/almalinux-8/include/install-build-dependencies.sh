@@ -167,11 +167,11 @@ chmod 755 /usr/local/bin/kubectl
 /include/get_helm.sh --version 3.17.0
 
 # Install crane for image management
-GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.2
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.7
 
 # Install siad for Buildkite provider
 # FIXME @marlon remove hardcoded version and fetch latest after updating usage
-ATHENZ_VERSION="1.11.65"
+ATHENZ_VERSION="1.11.67"
 echo "🔑 Installing athenz version ${ATHENZ_VERSION} and building siad for buildkite"
 curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
 tar zxf v${ATHENZ_VERSION}.tar.gz
