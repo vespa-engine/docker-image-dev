@@ -164,7 +164,7 @@ fi
 chmod 755 /usr/local/bin/kubectl
 
 # Install helm for package management in Kubernetes
-/include/get_helm.sh --version 3.17.0
+/include/get_helm.sh --version 3.19.4
 
 # Install crane for image management
 GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.7
