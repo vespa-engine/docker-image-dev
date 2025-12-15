@@ -152,7 +152,7 @@ echo "✍️ Installing cosign version ${COSIGN_VERSION}"
 dnf install -y "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
-KUBECTL_VERSION="1.31.1"
+KUBECTL_VERSION="1.34.3"
 echo "⎈ Installing trivy version ${TRIVY_VERSION} and kubectl version ${KUBECTL_VERSION}"
 if [ "$(arch)" = x86_64 ]; then
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
@@ -164,14 +164,14 @@ fi
 chmod 755 /usr/local/bin/kubectl
 
 # Install helm for package management in Kubernetes
-/include/get_helm.sh --version 3.17.0
+/include/get_helm.sh --version 3.19.4
 
 # Install crane for image management
-GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.2
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.7
 
 # Install siad for Buildkite provider
 # FIXME @marlon remove hardcoded version and fetch latest after updating usage
-ATHENZ_VERSION="1.11.65"
+ATHENZ_VERSION="1.11.67"
 echo "🔑 Installing athenz version ${ATHENZ_VERSION} and building siad for buildkite"
 curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
 tar zxf v${ATHENZ_VERSION}.tar.gz
