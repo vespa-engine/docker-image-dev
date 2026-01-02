@@ -27,7 +27,7 @@ run_container()
 		      "$CONTAINER_FOREGROUND" \
 		      --init \
 		      "${DOCKER_IMAGE}" \
-		      $CONTAINER_COMMAND $1
+		      $CONTAINER_COMMAND ${1-}
 }
 
 build_rpm_common()
