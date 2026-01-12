@@ -21,7 +21,7 @@ enable_repos()
 
 enable_modules()
 {
-    dnf -y module enable maven:3.8
+    dnf -y module enable maven:3.9/openjdk21
     dnf -y module enable ruby:3.3
 }
 
