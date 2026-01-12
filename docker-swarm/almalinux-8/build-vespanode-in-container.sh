@@ -1,5 +1,13 @@
-#!/bin/sh -ex
+#!/usr/bin/env bash
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 # Build image for running vespa system tests using docker swarm.
 
@@ -25,12 +33,13 @@ rsync -aHvSx --delete /mnt/.m2/ .m2/
 
 set +x
 set +e
+set +o nounset
 # shellcheck disable=SC1091
 . ./.bash_profile
 # shellcheck disable=SC1091
 test -f .bashrc && . ./.bashrc
-set -e
 set -x
+set -o nounset
 vespa-remove-index -force && echo indexes removed
 vespa-configserver-remove-state -force
 

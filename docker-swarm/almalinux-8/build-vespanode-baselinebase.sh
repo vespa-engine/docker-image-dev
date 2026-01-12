@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 # Build baseline base image for running vespa system tests using docker swarm.
 
@@ -45,8 +53,8 @@ fi
 CONTAINER_NAME=$USER-build-vespanode-baselinebase-almalinux-8
 BASELINEBASE_NAME=$USER-vespanode-baselinebase-almalinux-8
 
-docker stop "$CONTAINER_NAME"
-docker container rm "$CONTAINER_NAME"
+docker stop "$CONTAINER_NAME" || true
+docker container rm "$CONTAINER_NAME" || true
 
 if docker run \
 	  --name "$CONTAINER_NAME" \

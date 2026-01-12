@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 run_container()
 {
@@ -19,7 +27,7 @@ run_container()
 		      "$CONTAINER_FOREGROUND" \
 		      --init \
 		      "${DOCKER_IMAGE}" \
-		      $CONTAINER_COMMAND $1
+		      $CONTAINER_COMMAND ${1-}
 }
 
 build_rpm_common()

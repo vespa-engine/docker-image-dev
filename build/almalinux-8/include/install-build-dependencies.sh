@@ -1,6 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+#
+set -o errexit
+set -o nounset
+set -o pipefail
 
-set -xeu
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 VESPADEV_RPM_SOURCE="${1:-external}"
 
@@ -9,6 +15,9 @@ case "$VESPADEV_RPM_SOURCE" in
     *) echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
        exit 1;;
 esac
+
+# Install OpenTofu in the Build
+/include/install-opentofu.sh
 
 # Install DNF repo for gcloud
 CLOUD_SDK_REPO="cloud-sdk-el9-$(uname -m)"
@@ -50,7 +59,6 @@ dnf -y install \
     iputils \
     jq \
     pinentry \
-    python3-pip \
     rpmdevtools \
     ShellCheck \
     sudo \
@@ -125,7 +133,7 @@ printf '%s\n' \
        '# for cmake, ccache, protobuf etc:' \
        'export PATH="/opt/vespa-deps/bin:${PATH}"'              >  /etc/profile.d/enable-vespa-deps.sh
 
-printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
+printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
@@ -136,11 +144,16 @@ dnf -y install docker-ce docker-ce-cli containerd.io
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
-dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-"$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')"-1."$(arch)".rpm
-
+# FIXME @marlon remove hardcoded versions and fetch latest after updating usage
+# Refer to https://blog.sigstore.dev/cosign-3-0-available/
+# COSIGN_VERSION=$(curl https://api.github.com/repos/sigstore/cosign/releases/latest | grep tag_name | cut -d : -f2 | tr -d "v\", ")
+COSIGN_VERSION=2.6.1
+echo "✍️ Installing cosign version ${COSIGN_VERSION}"
+dnf install -y "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.31.1"
+echo "⎈ Installing trivy version ${TRIVY_VERSION} and kubectl version ${KUBECTL_VERSION}"
 if [ "$(arch)" = x86_64 ]; then
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
   curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
@@ -150,11 +163,16 @@ else
 fi
 chmod 755 /usr/local/bin/kubectl
 
+# Install helm for package management in Kubernetes
+/include/get_helm.sh --version 3.17.0
+
 # Install crane for image management
 GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.2
 
 # Install siad for Buildkite provider
+# FIXME @marlon remove hardcoded version and fetch latest after updating usage
 ATHENZ_VERSION="1.11.65"
+echo "🔑 Installing athenz version ${ATHENZ_VERSION} and building siad for buildkite"
 curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
 tar zxf v${ATHENZ_VERSION}.tar.gz
 (
@@ -164,10 +182,14 @@ tar zxf v${ATHENZ_VERSION}.tar.gz
 )
 rm -rf v${ATHENZ_VERSION}.tar.gz athenz-${ATHENZ_VERSION} /root/go
 
-# Set default python to the newes installed and make sure it has pip
+echo "🐍 Set default python to the newest installed and make sure it has pip"
 PYBIN="$(ls /usr/bin/python3* | grep -E "/usr/bin/python3.[0-9]+$" |sort -n -k2 -t.|tail -1)"
 alternatives --set python3 "$PYBIN"
 dnf install -y "$(basename "$PYBIN")"-pip
+
+# Install pip dependencies
+pip3 install --upgrade pip
+pip3 install requests
 
 # Add factory command
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"

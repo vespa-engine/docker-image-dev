@@ -1,5 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 if [ $# -lt 2 ]; then
   echo "Usage: $0 <container-engine> <container-name>"
@@ -10,7 +18,7 @@ engine=$1
 container_name=$2
 
 # Add yourself as user
-$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)"
+$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)" || true
 $engine exec -it $container_name bash -c "useradd -g $(id -g) -u $(id -u) $(id -un)"
 $engine exec -it $container_name bash -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 
@@ -42,8 +50,7 @@ $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin:/opt/vespa-deps/bin' \
 'export PATH' \
 'export MAVEN_OPTS=\"-Xms128m -Xmx1024m\"' \
-'alias ctest=ctest3' \
->> ~/.docker_profile"
+> ~/.docker_profile"
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 "grep -q '.docker_profile' ~/.bash_profile || echo 'test -f ~/.docker_profile && source ~/.docker_profile || true' >> ~/.bash_profile"
 

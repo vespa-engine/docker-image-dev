@@ -1,4 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+#
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ "${DEBUG:-no}" == "true" ]]; then
+    set -o xtrace
+fi
 
 set -xeu
 
@@ -24,6 +32,9 @@ export LANG=C.UTF-8
 
 # Use newest packages
 dnf -y upgrade
+
+# Install OpenTofu in the Build
+/include/install-opentofu.sh
 
 # Use newer maven
 dnf -y module enable maven:3.9/openjdk21
@@ -94,7 +105,7 @@ printf '%s\n' \
        '# for cmake, ccache, protobuf etc:' \
        'export PATH="/opt/vespa-deps/bin:${PATH}"'              >  /etc/profile.d/enable-vespa-deps.sh
 
-printf '%s\n'  "* soft nproc 409600"   "* hard nproc 409600"    > /etc/security/limits.d/99-nproc.conf
+printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
@@ -126,12 +137,32 @@ fi
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf -y install docker-ce docker-ce-cli containerd.io
+# dnf -y install docker-ce docker-ce-cli containerd.io
+
+#
+# TODO
+# Temporarily pin docker versions to avoid issues with latest versions in the build
+# Versions obtained from almalinux8 image:
+# $ echo `rpm -q --queryformat '%{Name}-%{Version}\n' $(dnf list installed | grep docker-ce-stable | awk '{print $1}')`
+#
+dnf install -y \
+  containerd.io-1.6.32 \
+  docker-buildx-plugin-0.14.0 \
+  docker-ce-26.1.3 \
+  docker-ce-cli-26.1.3 \
+  docker-ce-rootless-extras-26.1.3 \
+  docker-compose-plugin-2.27.0
+# ENDTODO
 
 # Env wrapper for git access via ssh
 cp -a /include/ssh-env-config.sh /usr/local/bin
 
-dnf install -y https://github.com/sigstore/cosign/releases/latest/download/cosign-"$(curl -sSL https://api.github.com/repos/sigstore/cosign/releases/latest | jq -re '.tag_name|sub("^v";"")')"-1."$(arch)".rpm
+# FIXME @marlon remove hardcoded versions and fetch latest after updating usage
+# Refer to https://blog.sigstore.dev/cosign-3-0-available/
+# COSIGN_VERSION=$(curl https://api.github.com/repos/sigstore/cosign/releases/latest | grep tag_name | cut -d : -f2 | tr -d "v\", ")
+COSIGN_VERSION=2.6.1
+echo "✍️ Installing cosign version ${COSIGN_VERSION}"
+dnf install -y "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.31.1"
@@ -165,6 +196,9 @@ dnf install -y python3-pip
 # Add factory command
 curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
 chmod 755 /usr/local/bin/factory-command
+
+# Install helm for package management in Kubernetes
+/include/get_helm.sh --version 3.17.0
 
 # Cleanup
 dnf clean all --enablerepo='*'

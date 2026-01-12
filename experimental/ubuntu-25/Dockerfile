@@ -4,7 +4,7 @@ FROM ubuntu:25.04
 
 ARG MYUSERNAME=myuser
 ARG ONNXCPU=x64
-ARG ONNXVER=1.20.0
+ARG ONNXVER=1.23.2
 
 RUN apt-get update
 

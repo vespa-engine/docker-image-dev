@@ -189,7 +189,7 @@ of build tools will be used:
 #### Build C++ modules
 
     cd $HOME/git/vespa
-    cmake3 .
+    cmake .
     make -j 9
 
 Set the number of compilation threads (-j argument) to the number of CPU cores + 1.
@@ -202,7 +202,7 @@ The below command will setup building with the instruction set available on the 
 and optimize code generation for the even newer Intel Icelake CPU generation,
 but still use only the instruction set available on Haswell.
 
-    cmake3 -DVESPA_CPU_ARCH_FLAGS="-march=haswell -mtune=skylake" .
+    cmake -DVESPA_CPU_ARCH_FLAGS="-march=haswell -mtune=skylake" .
 
 #### Install modules
 
@@ -271,7 +271,7 @@ must be one of the following:
 Example for generating build-files that instrument Vespa using ThreadSanitizer:
 
 ```
-cmake3 -DVESPA_USE_SANITIZER=thread .
+cmake -DVESPA_USE_SANITIZER=thread .
 ```
 
 Note that vespamalloc is not built when sanitizers are configured, as both vespamalloc
@@ -432,7 +432,7 @@ Still problems? Inside the shell, check if there are any host keys:
 *   CLion | Settings
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /opt/vespa-deps/bin/cmake
-        *   Build Tool: /usr/bin/make
+        *   Build Tool: make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
@@ -456,7 +456,7 @@ Still problems? Inside the shell, check if there are any host keys:
 *   File | Settings
     *   Build, Execution, Deployment | Toolchains
         *   CMake: /opt/vespa-deps/bin/cmake
-        *   Build Tools: /usr/bin/make
+        *   Build Tool: make
         *   Debugger: /opt/rh/gcc-toolset-14/root/usr/bin/gdb
     *   Advanced Settings (Host)
         *   Automatically import CMake Presets: None
