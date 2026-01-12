@@ -26,7 +26,7 @@ export LANG=C.UTF-8
 dnf -y upgrade
 
 # Use newer maven
-dnf -y module install maven:3.9/openjdk21
+dnf -y module enable maven:3.9/openjdk21
 
 dnf -y install \
     ccache \
