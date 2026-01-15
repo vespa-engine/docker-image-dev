@@ -42,6 +42,12 @@ else
   exit 1
 fi
 
+if [ $(arch) = arm64 ] || [ $(arch) = aarch64 ]; then
+    mvn_options="-Xms128m -Xmx2g -XX:UseSVE=0"
+else
+    mvn_options="-Xms128m -Xmx2g"
+fi
+
 # Set environment variables
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 "printf \"%s\n\" \
@@ -50,7 +56,7 @@ $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 'export VESPA_HOME=\$HOME/vespa' \
 'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin:/opt/vespa-deps/bin' \
 'export PATH' \
-'export MAVEN_OPTS=\"-Xms128m -Xmx1024m\"' \
+'export MAVEN_OPTS=\"${mvn_options}\"' \
 > ~/.docker_profile"
 $engine exec -u "$(id -u):$(id -g)" -it $container_name bash -c \
 "grep -q '.docker_profile' ~/.bash_profile || echo 'test -f ~/.docker_profile && source ~/.docker_profile || true' >> ~/.bash_profile"

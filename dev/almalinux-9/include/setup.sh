@@ -21,6 +21,8 @@ dnf -y install \
   kdesdk-kcachegrind \
   graphviz
 
+dnf -y install openssh-server
+
 # Manage System Python
 "$(dirname "$0")/setup-python.sh" 3.12
 
