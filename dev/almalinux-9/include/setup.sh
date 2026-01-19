@@ -15,6 +15,7 @@ dnf -y install \
   rsync \
   nmap-ncat \
   vim \
+  emacs-nox \
   wget \
   gdb \
   hunspell-en \
