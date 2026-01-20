@@ -36,6 +36,7 @@ myuname=$(id -un)
 echo "Creating ${engine} container ${container_name}"
 ${engine} create \
         --privileged \
+        --pids-limit -1 \
         -p 127.0.0.1:${FORWARD_SSH_PORT}:22 \
         -v ${vol}:/home/${myuname} \
         --name ${container_name} \
