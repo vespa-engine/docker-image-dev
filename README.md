@@ -427,6 +427,15 @@ Still problems? Inside the shell, check if there are any host keys:
 
         ssh-keygen -R '[127.0.0.1]:3334'
 
+* If ssh command seems to succeed but immediately exits, try this:
+
+```
+  # Make pam_limits.so optional instead of required (it fails in containers)
+  podman exec vespa-dev-almalinux-8 sed -i 's/^session\s\+required\s\+pam_limits.so/session     optional      pam_limits.so/' /etc/pam.d/password-auth
+  # Make pam_loginuid.so optional instead of required (it fails in containers)
+  podman exec vespa-dev-almalinux-8 sed -i 's/^session\s\+required\s\+pam_loginuid.so/-session    optional      pam_loginuid.so/' /etc/pam.d/sshd
+```
+
 ### CLion 2024.3 configuration (MacOS client)
 
 *   CLion | Settings
