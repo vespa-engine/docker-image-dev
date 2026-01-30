@@ -12,9 +12,7 @@ echo "Installing RedHat XML plugin (helps Vespa Language Server parse services.x
 sudo -u ${TARGET_USER} /usr/bin/code-server --install-extension redhat.vscode-xml
 
 echo "Installing Vespa Language Support plugin..."
-LANGUAGE_SERVER_VERSION=$(curl -s https://api.github.com/repos/vespa-engine/vespa/releases | jq -r '.[].name' | grep Vespa.Language.Server | head -n 1 | sed 's|.*\ ||')
-wget --progress=dot:giga https://github.com/vespa-engine/vespa/releases/download/lsp-v${LANGUAGE_SERVER_VERSION}/vespa-language-support-${LANGUAGE_SERVER_VERSION}.vsix -O /opt/vespa/vespa-language-support.vsix
-sudo -u ${TARGET_USER} /usr/bin/code-server --install-extension /opt/vespa/vespa-language-support.vsix
+sudo -u ${TARGET_USER} /usr/bin/code-server --install-extension vespaai.vespa-language-support
 
 # pointing language server to the correct java home
 # also pre-trust the contents of the lab files and pre-fill Rest Client certificate config
