@@ -65,19 +65,6 @@ dnf -y install \
     time \
     valgrind
 
-# Install recent aws CLI
-curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
-unzip -q awscliv2.zip
-./aws/install
-rm -rf aws awscliv2.zip
-
-# Install session manager
-if [ "$(arch)" = x86_64 ]; then
-    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
-else
-    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
-fi
-
 GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
@@ -94,18 +81,6 @@ sed -e '/^BuildRequires:/d' \
 # Install vespa build and runtime dependencies
 dnf builddep --nobest -y vespa.spec vesparun.spec
 rm -f vespa.spec vesparun.spec
-gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
-
-#  Install extra compiler tools
-dnf -y install \
-    clang \
-    "gcc-toolset-$gcc_version-libasan-devel" \
-    "gcc-toolset-$gcc_version-libtsan-devel" \
-    "gcc-toolset-$gcc_version-libubsan-devel"
-
-# shellcheck disable=SC1091
-. /opt/rh/gcc-toolset/enable
-/usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
 
 # Install Ruby in build image that is required for running system test in PR jobs for both Vespa and system tests
 dnf -y module enable ruby:3.1
@@ -129,6 +104,18 @@ dnf -y install \
 # Compile two rubygems
 gem install ffi libxml-ruby
 
+#  Install extra compiler tools
+gcc_version=$(rpm -qa | sed -ne "s/vespa-toolset-\([0-9][0-9]\)-meta.*/\1/p")
+dnf -y install \
+    clang \
+    "gcc-toolset-$gcc_version-libasan-devel" \
+    "gcc-toolset-$gcc_version-libtsan-devel" \
+    "gcc-toolset-$gcc_version-libubsan-devel"
+
+# shellcheck disable=SC1091
+. /opt/rh/gcc-toolset/enable
+/usr/lib/rpm/redhat/redhat-annobin-plugin-select.sh
+
 printf '%s\n' \
        '# for cmake, ccache, protobuf etc:' \
        'export PATH="/opt/vespa-deps/bin:${PATH}"'              >  /etc/profile.d/enable-vespa-deps.sh
@@ -136,6 +123,19 @@ printf '%s\n' \
 printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/limits.d/99-nproc.conf
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
+
+# Install recent aws CLI
+curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
+unzip -q awscliv2.zip
+./aws/install
+rm -rf aws awscliv2.zip
+
+# Install session manager
+if [ "$(arch)" = x86_64 ]; then
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+else
+    dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_arm64/session-manager-plugin.rpm
+fi
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
