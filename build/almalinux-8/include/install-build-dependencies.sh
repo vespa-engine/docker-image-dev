@@ -124,6 +124,20 @@ printf '%s\n'  "* soft nproc 102400"   "* hard nproc 102400"    > /etc/security/
 printf '%s\n'  "* soft core 0"         "* hard core unlimited"  > /etc/security/limits.d/99-coredumps.conf
 printf '%s\n'  "* soft nofile 262144"  "* hard nofile 262144"   > /etc/security/limits.d/99-nofile.conf
 
+if [ "$(arch)" = x86_64 ]; then
+  GOARCH=amd64
+else
+  GOARCH=arm64
+fi
+
+# We want the newest version of golang:
+GOTGZ="go1.26.0.linux-$GOARCH.tar.gz"
+curl -sSL -O "https://go.dev/dl/$GOTGZ"
+rm -rf /usr/local/go && tar -C /usr/local -xzf $GOTGZ
+rm -f $GOTGZ
+ln -sf /usr/local/go/bin/go /usr/local/bin/go
+ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
+
 # Install recent aws CLI
 curl -sSLf "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
 unzip -q awscliv2.zip

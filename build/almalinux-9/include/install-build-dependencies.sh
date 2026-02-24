@@ -115,7 +115,8 @@ else
   GOARCH=arm64
 fi
 
-GOTGZ="go1.22.4.linux-$GOARCH.tar.gz"
+# We want the newest version of golang:
+GOTGZ="go1.26.0.linux-$GOARCH.tar.gz"
 curl -sSL -O "https://go.dev/dl/$GOTGZ"
 rm -rf /usr/local/go && tar -C /usr/local -xzf $GOTGZ
 rm -f $GOTGZ
