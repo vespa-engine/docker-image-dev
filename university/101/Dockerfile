@@ -1,6 +1,6 @@
 # Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ARG TARGET_USER=student
 
@@ -23,6 +23,7 @@ RUN apt-get -y install unzip
 RUN apt-get -y install jq
 RUN apt-get -y install less
 RUN apt-get -y install vim emacs nano
+RUN apt-get -y install python3-venv
 
 ENV TARGET_USER=student
 ENV USER_HOME=/home/$TARGET_USER
