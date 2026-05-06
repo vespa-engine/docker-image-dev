@@ -34,28 +34,3 @@ echo "Upgrade pip.."
 pip3 install --upgrade pip
 
 echo "Python ${PYTHON_VERSION} and pip3 have been installed successfully."
-
-f=/usr/local/bin/cfmt
-cat > $f << 'EOF'
-#!/bin/sh
-echo "Formatting C++ code in" $(pwd)
-suff=".$$.reformatted"
-dofmt() {
-	if [ -f $1 ]; then
-		clang-format $1 > $1.$suff
-		if cmp -s $1 $1.$suff; then
-			rm "$1.$suff"
-		else
-			echo "Updated $1"
-			diff -w -U 1 "$1" "$1.$suff"
-			mv "$1.$suff" "$1"
-		fi
-	fi
-}
-for fn in $(find . -name '*.h' -o -name '*.hpp' -o -name '*.cpp')
-do
-	dofmt $fn &
-done
-wait
-EOF
-chmod +x $f
