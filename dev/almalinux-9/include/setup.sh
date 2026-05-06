@@ -27,5 +27,31 @@ dnf -y install openssh-server
 # Manage System Python
 "$(dirname "$0")/setup-python.sh" 3.12
 
+f=/usr/local/bin/cfmt
+cat > $f << 'EOF'
+#!/bin/sh
+echo "Formatting C++ code in" $(pwd)
+suff=".$$.reformatted"
+dofmt() {
+	if [ -f $1 ]; then
+		out=$1.$suff
+		clang-format $1 > $out
+		if cmp -s $1 $out; then
+			rm "$out"
+		else
+			echo "Updated $1"
+			diff -w -U 1 "$1" "$out"
+			mv "$out" "$1"
+		fi
+	fi
+}
+for fn in $(find . -name '*.h' -o -name '*.hpp' -o -name '*.cpp')
+do
+	dofmt $fn &
+done
+wait
+EOF
+chmod +x $f
+
 echo "Clean up..."
 dnf clean all --enablerepo=\*
