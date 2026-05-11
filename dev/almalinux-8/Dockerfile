@@ -28,7 +28,7 @@ RUN dnf -y install \
     npm install -g @openai/codex && \
     dnf clean all --enablerepo=\*
 
-RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
+RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin -G root vespa
 
 STOPSIGNAL SIGRTMIN+3
 

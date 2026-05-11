@@ -5,7 +5,7 @@ FROM docker.io/vespaengine/vespa-build-almalinux-9:latest
 RUN --mount=type=bind,target=/include/,source=include/,rw /bin/sh /include/setup.sh
 
 # Add default user
-RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin vespa
+RUN useradd -M -d /opt/vespa -s /usr/sbin/nologin -G root vespa
 
 STOPSIGNAL SIGRTMIN+3
 
