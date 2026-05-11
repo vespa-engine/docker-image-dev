@@ -181,7 +181,7 @@ chmod 755 /usr/local/bin/kubectl
 /include/get_helm.sh --version 3.19.4
 
 # Install crane for image management
-GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.7
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.21.5
 
 # Install siad for Buildkite provider
 # FIXME @marlon remove hardcoded version and fetch latest after updating usage
