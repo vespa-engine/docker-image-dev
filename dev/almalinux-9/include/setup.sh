@@ -27,6 +27,7 @@ dnf -y install openssh-server
 # Manage System Python
 "$(dirname "$0")/setup-python.sh" 3.12
 
+dnf -y install clang-tools-extra
 cp /include/cfmt.sh /usr/local/bin/cfmt
 pip3 install pre_commit
 cp /include/setup-pre-commit.sh /usr/local/bin/setup-pre-commit
