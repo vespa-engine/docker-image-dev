@@ -18,7 +18,7 @@ engine=$1
 container_name=$2
 
 # Add yourself as user
-$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)"
+$engine exec -it $container_name bash -c "groupadd -g $(id -g) $(id -gn)" || true
 $engine exec -it $container_name bash -c "useradd -g $(id -g) -u $(id -u) $(id -un)"
 $engine exec -it $container_name bash -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 
@@ -41,6 +41,7 @@ else
   echo "ERROR: No authorized keys found in $HOME/.ssh"
   exit 1
 fi
+$engine exec -it ${container_name} bash -c "chown $(id -un) /home/$(id -un)/.ssh/authorized_keys"
 
 if [ $(arch) = arm64 ] || [ $(arch) = aarch64 ]; then
     mvn_options="-Xms128m -Xmx2g -XX:UseSVE=0"
