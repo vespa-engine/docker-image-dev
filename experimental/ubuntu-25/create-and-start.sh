@@ -15,7 +15,7 @@ container_name="vespa-ubuntu-dev-${MAJOR_V}"
 img="vespa-ubuntu-dev:${UBUNTU_VERSION}"
 
 vol="volume-${container_name}"
-docker volume list | grep -q $vol || docker volume create $vol
+docker volume list | grep $vol >/dev/null || docker volume create $vol
 
 network_name=vespa-testing
 docker network ls | grep -q $network_name || docker network create $network_name

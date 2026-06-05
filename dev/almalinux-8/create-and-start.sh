@@ -26,7 +26,7 @@ img="docker.io/vespaengine/vespa-dev-almalinux-${ALMALINUX_VERSION}:latest"
 ${engine} pull $img
 
 vol="volume-${container_name}"
-${engine} volume ls | grep -q $vol || ${engine} volume create $vol
+${engine} volume ls | grep $vol >/dev/null || ${engine} volume create $vol
 
 network_name=vespa-testing
 ${engine} network ls | grep -q $network_name || ${engine} network create $network_name
