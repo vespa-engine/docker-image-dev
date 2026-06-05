@@ -91,10 +91,10 @@ printf '%s\n' \
 	'export PATH' \
 	'export JAVA_HOME=$(echo /usr/lib/jvm/java-21-openjdk-*)' \
 	"export MAVEN_OPTS='${mvn_options}'" \
-	> tmp.docker.profile
+	> tmp.${engine}.profile
 
-${engine} cp -a tmp.docker.profile "${container_name}:/home/${myuname}/.${engine}_profile"
-rm -f tmp.docker.profile
+${engine} cp -a tmp.${engine}.profile "${container_name}:/home/${myuname}/.${engine}_profile"
+rm -f tmp.${engine}.profile
 
 ${engine} exec -u "${myuname}" -it ${container_name} bash -c \
         "grep -q '.${engine}_profile' ~/.bash_profile || echo 'test -f ~/.${engine}_profile && source ~/.${engine}_profile || true' >> ~/.bash_profile"
