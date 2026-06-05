@@ -73,14 +73,17 @@ docker exec -it ${container_name} bash -c "chown ${myuname}:${myuname} /home/${m
 
 echo "Creating .docker_profile with appropriate environment variables"
 # Set environment variables
-docker exec -u "${myuname}" -it ${container_name} bash -c \
-	"printf \"%s\n\" \
-	'export VESPA_HOME=\$HOME/vespa' \
-	'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin:/opt/vespa-deps/bin' \
+mvn_options="-Xms128m -Xmx2g"
+printf '%s\n' \
+	'export VESPA_HOME="$HOME/vespa"' \
+	'PATH="$PATH:$HOME/bin:$VESPA_HOME/bin:$HOME/git/system-test/bin:/opt/vespa-deps/bin"' \
 	'export PATH' \
-	'export JAVA_HOME='\`echo /usr/lib/jvm/java-17-openjdk-*\` \
-	'export MAVEN_OPTS=\"-Xms128m -Xmx1024m\"' \
-	> ~/.docker_profile; cat ~/.docker_profile"
+	'export JAVA_HOME=$(echo /usr/lib/jvm/java-17-openjdk-*)' \
+	"export MAVEN_OPTS='${mvn_options}'" \
+	> tmp.docker.profile
+
+docker cp -a tmp.docker.profile "${container_name}:/home/${myuname}/.docker_profile"
+rm -f tmp.docker.profile
 
 docker exec -u "${myuname}" -it ${container_name} bash -c \
         "grep -q '.docker_profile' ~/.bash_profile || echo 'test -f ~/.docker_profile && source ~/.docker_profile || true' >> ~/.bash_profile"
