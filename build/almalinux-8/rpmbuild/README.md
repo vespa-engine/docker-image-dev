@@ -72,9 +72,7 @@ Configures a vespa-test rpm repository mounted from host.
 Build all packages needed for building test docker image for vespa development or for building vespa rpms.
 
     cd $HOME/git/docker-image-dev/build/almalinux-8/rpmbuild
-    ./build-rpm.sh -a toolset-12
-    ./build-rpm.sh -a toolset-13
-    ./build-rpm.sh -a toolset-14
+    ./build-rpm.sh -a toolset-15
     ./build-rpm.sh -a lz4
     ./build-rpm.sh -a zstd
     ./build-rpm.sh -a openssl
@@ -88,10 +86,11 @@ Build all packages needed for building test docker image for vespa development o
     ./build-rpm.sh -a highway
     ./build-rpm.sh -a mimalloc
     ./build-rpm.sh -a protobuf
-    ./build-rpm.sh -a build-dependencies
     ./build-rpm.sh -a jllama
-    ./build-rpm.sh -a boost
     ./build-rpm.sh -a datasketches
+    ./build-rpm.sh -a icu
+    ./build-rpm.sh -a re2
+    ./build-rpm.sh -a build-dependencies
 
 Build test docker image for vespa development (assumes that packages above have been built)
 
