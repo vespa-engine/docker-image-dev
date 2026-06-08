@@ -24,9 +24,9 @@ enable_cuda_repos()
     :
 }
 
-legacy_dnf()
+setup_dnf_builddep()
 {
-    dnf "$@"
+    dnf -y install 'dnf-command(builddep)'
 }
 
 enable_cuda_repos_helper()
@@ -152,8 +152,8 @@ build_rpm_inner_common()
 		    enable_modules
 		    ;;
 	    esac
-	    legacy_dnf -y install 'dnf-command(builddep)'
-	    legacy_dnf -y builddep ~/rpmbuild/SPECS/"$specname".spec
+	    setup_dnf_builddep
+	    dnf -y builddep ~/rpmbuild/SPECS/"$specname".spec
 	    if test -x /usr/bin/go
 	    then
 		go env -w GOPROXY="https://proxy.golang.org,direct"
