@@ -20,7 +20,7 @@ is_el8()
 is_el9()
 {
     case "${CONTAINER_SHORTNAME}" in
-	a9|cs8) return 0;;
+	a9|cs9) return 0;;
 	*) return 1;;
     esac
 }
@@ -79,7 +79,7 @@ should_build_rpm()
 	xxhash) is_amzn2023;;
 	build-dependencies) return 0;;
 	pybind11) is_el8;;
-	*) echo "Bad pacckage '$1'" 1>&2; exit 1;;
+	*) echo "Bad package '$1'" 1>&2; exit 1;;
     esac
 }
 
