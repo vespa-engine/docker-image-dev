@@ -17,4 +17,6 @@ setup_dnf_builddep()
     :
 }
 
+autosign_rpms=true
+
 build_rpm_inner_common "$@"

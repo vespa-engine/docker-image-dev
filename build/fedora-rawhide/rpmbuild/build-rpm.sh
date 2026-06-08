@@ -16,4 +16,6 @@ cd "$(cd "$(dirname "$0")" && env pwd)" || exit 1
 DOCKER_IMAGE=registry.fedoraproject.org/fedora:rawhide
 CONTAINER_SHORTNAME=rawhide
 
+autosign_rpms=true
+
 build_rpm_common "$@"
