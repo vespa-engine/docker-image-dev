@@ -10,11 +10,33 @@ fi
 
 VESPADEV_RPM_SOURCE="${1:-external}"
 
+# Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
+: ${GIT_REF:="master"}
+GIT_REPO="https://github.com/vespa-engine/vespa"
+
+# Enable and install repositories
+dnf -y install epel-release
+dnf -y install dnf-plugins-core dnf-plugin-ovl
+dnf -y install 'dnf-command(config-manager)'
+dnf config-manager --enable powertools
 case "$VESPADEV_RPM_SOURCE" in
-    external|test) ;;
-    *) echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
-       exit 1;;
+    external)
+        dnf config-manager --add-repo=$GIT_REPO/raw/$GIT_REF/dist/vespa-engine.repo
+        ;;
+    test)
+        /work/setup-test-repo
+        ;;
+    *)
+        echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
+        exit 1
+        ;;
 esac
+
+# Java requires proper locale for unicode
+export LANG=C.UTF-8
+
+# Use newest packages
+dnf -y upgrade
 
 # Install OpenTofu in the Build
 /include/install-opentofu.sh
@@ -31,21 +53,6 @@ gpgcheck=1
 repo_gpgcheck=0
 gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOM
-
-# Enable and install repositories
-dnf -y install epel-release
-dnf -y install dnf-plugins-core dnf-plugin-ovl
-case "$VESPADEV_RPM_SOURCE" in
-    external) dnf -y copr enable @vespa/vespa "epel-8-$(arch)";;
-    test) /work/setup-test-repo;;
-esac
-dnf config-manager --enable powertools
-
-# Java requires proper locale for unicode
-export LANG=C.UTF-8
-
-# Use newest packages
-dnf -y upgrade
 
 # Use newer maven
 dnf -y module enable maven:3.8
@@ -64,11 +71,6 @@ dnf -y install \
     sudo \
     time \
     valgrind
-
-GIT_REPO="https://github.com/vespa-engine/vespa"
-
-# Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-: ${GIT_REF:="master"}
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$GIT_REF/dist/vespa.spec
