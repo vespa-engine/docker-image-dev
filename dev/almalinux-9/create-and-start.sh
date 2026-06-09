@@ -26,7 +26,7 @@ img="docker.io/vespaengine/vespa-dev-almalinux-${ALMALINUX_VERSION}:latest"
 ${engine} pull $img
 
 vol="volume-${container_name}"
-${engine} volume ls | grep -q $vol || ${engine} volume create $vol
+${engine} volume ls | grep $vol >/dev/null || ${engine} volume create $vol
 
 network_name=vespa-testing
 ${engine} network ls | grep -q $network_name || ${engine} network create $network_name
@@ -85,14 +85,16 @@ fi
 
 echo "Creating .${engine}_profile with appropriate environment variables"
 # Set environment variables
-${engine} exec -u "${myuname}" -it ${container_name} bash -c \
-	"printf \"%s\n\" \
-	'export VESPA_HOME=\$HOME/vespa' \
-	'PATH=\$PATH:\$HOME/bin:\$VESPA_HOME/bin:\$HOME/git/system-test/bin:/opt/vespa-deps/bin' \
+printf '%s\n' \
+	'export VESPA_HOME="$HOME/vespa"' \
+	'PATH="$PATH:$HOME/bin:$VESPA_HOME/bin:$HOME/git/system-test/bin:/opt/vespa-deps/bin"' \
 	'export PATH' \
-	'export JAVA_HOME='\`echo /usr/lib/jvm/java-21-openjdk-*\` \
-	'export MAVEN_OPTS=\"${mvn_options}\"' \
-	> ~/.${engine}_profile; cat ~/.${engine}_profile"
+	'export JAVA_HOME=$(echo /usr/lib/jvm/java-21-openjdk-*)' \
+	"export MAVEN_OPTS='${mvn_options}'" \
+	> tmp.${engine}.profile
+
+${engine} cp -a tmp.${engine}.profile "${container_name}:/home/${myuname}/.${engine}_profile"
+rm -f tmp.${engine}.profile
 
 ${engine} exec -u "${myuname}" -it ${container_name} bash -c \
         "grep -q '.${engine}_profile' ~/.bash_profile || echo 'test -f ~/.${engine}_profile && source ~/.${engine}_profile || true' >> ~/.bash_profile"
