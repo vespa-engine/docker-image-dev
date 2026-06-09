@@ -21,7 +21,7 @@ dnf -y install 'dnf-command(config-manager)'
 dnf config-manager --enable powertools
 case "$VESPADEV_RPM_SOURCE" in
     external)
-        dnf config-manager --add-repo=$GIT_REPO/raw/$GIT_REF/dist/vespa-engine.repo
+        dnf -y config-manager --add-repo=$GIT_REPO/raw/$GIT_REF/dist/vespa-engine.repo
         ;;
     test)
         /work/setup-test-repo
