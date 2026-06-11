@@ -9,6 +9,8 @@ if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
+autosign_rpms=false
+
 run_container()
 {
     # shellcheck disable=SC2086
@@ -113,6 +115,13 @@ build_rpm_common()
 	-v ${CONTAINER_NAME}-go:/root/go \
 	-v ${CONTAINER_NAME}-ccache:/root/.ccache \
 	"
+	if $autosign_rpms
+	then
+	    DOCKER_CREATE_ARGS="$DOCKER_CREATE_ARGS \
+	    -v ${CONTAINER_NAME}-gnupg:/root/.gnupg \
+	    -v ${CONTAINER_NAME}-rpmconf:/root/.config/rpm \
+	    "
+	fi
     else
 	DOCKER_CREATE_ARGS="\
 	-v ${VOLUMES}/rpmbuild:/root/rpmbuild \
@@ -120,6 +129,13 @@ build_rpm_common()
 	-v ${VOLUMES}/go:/root/go \
 	-v ${VOLUMES}/ccache:/root/.ccache \
 	"
+	if $autosign_rpms
+	then
+	    DOCKER_CREATE_ARGS="$DOCKER_CREATE_ARGS \
+	    -v ${VOLUMES}/gnupg:/root/.gnupg \
+	    -v ${VOLUMES}/rpmconf:/root/.config/rpm \
+	    "
+	fi
     fi
 
     ./refresh-test-repo || exit 1

@@ -9,13 +9,5 @@ if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
-cd "$(cd "$(dirname "$0")" && env pwd)" || exit 1
-
-. ../../../shared-rpmbuild/build-rpm-common.sh
-
-DOCKER_IMAGE=registry.fedoraproject.org/fedora:rawhide
-CONTAINER_SHORTNAME=rawhide
-
-autosign_rpms=true
-
-build_rpm_common "$@"
+echo "List of vespanode hosts:"
+docker node ls  --filter "node.label=enable-$USER-vespanode=true" --format '{{.Hostname}}'

@@ -11,9 +11,8 @@ fi
 
 cd "$(cd "$(dirname "$0")" && env pwd)" || exit 1
 
-. ../../../shared-rpmbuild/build-rpm-common.sh
+. ../../../shared-rpmbuild/build-vespadep-rpms-common.sh
 
-DOCKER_IMAGE=registry.fedoraproject.org/fedora:42
-CONTAINER_SHORTNAME=fc42
+CONTAINER_SHORTNAME=cs10
 
-build_rpm_common "$@"
+build_vespadep_rpms_common "$@"

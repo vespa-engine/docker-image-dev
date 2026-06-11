@@ -9,6 +9,29 @@ if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
+autosign_rpms=false
+
+setup_autosign_rpms()
+{
+    if $autosign_rpms
+    then
+	: "${USER:=$(id -nu)}"
+	export USER
+	KEYFILE=/root/.config/rpm/rpmbuild-${USER}@$(uname -n).asc
+	if ! test -f "$KEYFILE"
+	then
+	    chmod 700 /root/.gnupg
+	    /usr/lib/rpm/rpm-setup-autosign
+	fi
+	rpmkeys --import "$KEYFILE"
+	KEYFILE2=/work/RPMS/vespa-test-pubkey.asc
+	if ! test -f "$KEYFILE2"
+	then
+	    cp -p "$KEYFILE" "$KEYFILE2"
+	fi
+    fi
+}
+
 enable_repos()
 {
     :
@@ -24,9 +47,9 @@ enable_cuda_repos()
     :
 }
 
-legacy_dnf()
+setup_dnf_builddep()
 {
-    dnf "$@"
+    dnf -y install 'dnf-command(builddep)'
 }
 
 enable_cuda_repos_helper()
@@ -73,6 +96,7 @@ build_rpm_inner_common()
 		dnf -y install dnf-utils rpm-build
 		;;
 	esac
+	setup_autosign_rpms
 	touch /tmp/.build-rpm-inner-installed-build-tools
     fi
     case "$mode" in
@@ -152,8 +176,8 @@ build_rpm_inner_common()
 		    enable_modules
 		    ;;
 	    esac
-	    legacy_dnf -y install 'dnf-command(builddep)'
-	    legacy_dnf -y builddep ~/rpmbuild/SPECS/"$specname".spec
+	    setup_dnf_builddep
+	    dnf -y builddep ~/rpmbuild/SPECS/"$specname".spec
 	    if test -x /usr/bin/go
 	    then
 		go env -w GOPROXY="https://proxy.golang.org,direct"

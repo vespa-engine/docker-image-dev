@@ -14,7 +14,7 @@ RUN dnf -y install \
         vim \
         wget \
         emacs \
-        gcc-toolset-14-gdb \
+        gcc-toolset-15-gdb \
         man-db \
         man-pages \
         hunspell-en \

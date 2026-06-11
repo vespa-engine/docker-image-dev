@@ -19,4 +19,9 @@ enable_repos()
     /usr/bin/crb enable
 }
 
+enable_cuda_repos()
+{
+    enable_cuda_repos_helper rhel10
+}
+
 build_rpm_inner_common "$@"

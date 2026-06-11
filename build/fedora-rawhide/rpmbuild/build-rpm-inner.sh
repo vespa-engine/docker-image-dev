@@ -12,9 +12,11 @@ fi
 # shellcheck source=../../../shared-rpmbuild/build-rpm-inner-common.sh
 . /shared-work/build-rpm-inner-common.sh
 
-legacy_dnf()
+setup_dnf_builddep()
 {
-    dnf-3 "$@"
+    :
 }
+
+autosign_rpms=true
 
 build_rpm_inner_common "$@"

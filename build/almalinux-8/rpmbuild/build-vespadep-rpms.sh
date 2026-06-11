@@ -11,11 +11,8 @@ fi
 
 cd "$(cd "$(dirname "$0")" && env pwd)" || exit 1
 
-. ../../../shared-rpmbuild/build-rpm-common.sh
+. ../../../shared-rpmbuild/build-vespadep-rpms-common.sh
 
-DOCKER_IMAGE=registry.fedoraproject.org/fedora:rawhide
-CONTAINER_SHORTNAME=rawhide
+CONTAINER_SHORTNAME=a8
 
-autosign_rpms=true
-
-build_rpm_common "$@"
+build_vespadep_rpms_common "$@"

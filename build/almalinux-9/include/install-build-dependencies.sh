@@ -8,24 +8,29 @@ if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
-set -xeu
-
 VESPADEV_RPM_SOURCE="${1:-external}"
 
-case "$VESPADEV_RPM_SOURCE" in
-    external|test) ;;
-    *) echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
-       exit 1;;
-esac
+# Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
+: ${GIT_REF:="master"}
+GIT_REPO="https://github.com/vespa-engine/vespa"
 
 # Enable and install repositories
 dnf -y install epel-release
 dnf -y install dnf-plugins-core
-case "$VESPADEV_RPM_SOURCE" in
-    external) dnf -y copr enable @vespa/vespa "epel-9-$(arch)";;
-    test) /work/setup-test-repo;;
-esac
+dnf -y install 'dnf-command(config-manager)'
 dnf config-manager --enable crb
+case "$VESPADEV_RPM_SOURCE" in
+    external)
+        dnf -y config-manager --add-repo=$GIT_REPO/raw/$GIT_REF/dist/vespa-engine.repo
+        ;;
+    test)
+        /work/setup-test-repo
+        ;;
+    *)
+        echo "Bad \$VESPADEV_RPM_SOURCE: $VESPADEV_RPM_SOURCE" 1>&2
+        exit 1
+        ;;
+esac
 
 # Java requires proper locale for unicode
 export LANG=C.UTF-8
@@ -51,11 +56,6 @@ dnf -y install \
     sudo \
     time \
     valgrind
-
-GIT_REPO="https://github.com/vespa-engine/vespa"
-
-# Change git reference for a specific version of the vespa.spec file. Use a tag or SHA to allow for reproducible builds.
-: ${GIT_REF:="master"}
 
 # Fetch the RPM spec for vespa
 curl -Lf -O $GIT_REPO/raw/$GIT_REF/dist/vespa.spec
@@ -182,7 +182,7 @@ chmod 755 /usr/local/bin/kubectl
 /include/get_helm.sh --version 3.19.4
 
 # Install crane for image management
-GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.20.7
+GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0.21.5
 
 # Install siad for Buildkite provider
 # FIXME @marlon remove hardcoded version and fetch latest after updating usage

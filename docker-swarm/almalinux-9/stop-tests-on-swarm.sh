@@ -9,12 +9,4 @@ if [[ "${DEBUG:-no}" == "true" ]]; then
     set -o xtrace
 fi
 
-# shellcheck source=../../../shared-rpmbuild/build-rpm-inner-common.sh
-. /shared-work/build-rpm-inner-common.sh
-
-legacy_dnf()
-{
-    dnf-3 "$@"
-}
-
-build_rpm_inner_common "$@"
+"$HOME"/git/system-test/bin/run-tests-on-swarm.sh --stop

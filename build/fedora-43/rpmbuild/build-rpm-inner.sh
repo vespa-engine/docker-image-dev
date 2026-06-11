@@ -12,9 +12,9 @@ fi
 # shellcheck source=../../../shared-rpmbuild/build-rpm-inner-common.sh
 . /shared-work/build-rpm-inner-common.sh
 
-legacy_dnf()
+setup_dnf_builddep()
 {
-    dnf-3 "$@"
+    :
 }
 
 build_rpm_inner_common "$@"
