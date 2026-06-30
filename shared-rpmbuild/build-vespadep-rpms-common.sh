@@ -61,6 +61,7 @@ should_build_rpm()
 	cmake) is_el8 || is_el9 || is_amzn2023;;
 	ccache) is_el8 || is_el9 || is_amzn2023;;
 	gtest) is_el8 || is_el9 || is_amzn2023;;
+	maven) is_el8 || is_el9 || is_el10;;
 	gradle) return 0;;
 	cuda-fix) is_el8 || is_el9 || is_el10;;
 	onnxruntime) return 0;;
@@ -116,6 +117,7 @@ build_vespadep_rpms_common()
     consider_build_rpm cmake
     consider_build_rpm ccache
     consider_build_rpm gtest
+    consider_build_rpm maven
     consider_build_rpm gradle
     consider_build_rpm cuda-fix
     consider_build_rpm onnxruntime
