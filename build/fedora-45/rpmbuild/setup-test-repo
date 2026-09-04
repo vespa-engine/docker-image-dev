@@ -1,0 +1,6 @@
+#!/bin/sh
+# Copyright Vespa.ai. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+
+# To be run inside a docker container
+dnf config-manager addrepo --from-repofile=file:///work/vespa-test.repo
+dnf config-manager setopt vespa-test.enabled=true
