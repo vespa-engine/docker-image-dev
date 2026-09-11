@@ -44,7 +44,7 @@ is_amzn2023()
 is_fedora()
 {
     case "${CONTAINER_SHORTNAME}" in
-	fc43|fc44|rawhide) return 0;;
+	fc43|fc44|fc45|rawhide) return 0;;
 	*) return 1;;
     esac
 }
@@ -58,15 +58,15 @@ should_build_rpm()
 	lz4) return 0;;
 	zstd) return 0;;
 	openssl) is_el8;;
-	cmake) is_el8 || is_el9 || is_amzn2023;;
-	ccache) is_el8 || is_el9 || is_amzn2023;;
-	gtest) is_el8 || is_el9 || is_amzn2023;;
+	cmake) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	ccache) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	gtest) is_el8 || is_el9 || is_el10 || is_amzn2023;;
 	maven) is_el8 || is_el9 || is_el10;;
 	gradle) return 0;;
 	cuda-fix) is_el8 || is_el9 || is_el10;;
 	onnxruntime) return 0;;
 	gcc14-annobin-plugin) is_amzn2023;;
-	abseil-cpp) is_el8 || is_el9 || is_amzn2023;;
+	abseil-cpp) is_el8 || is_el9 || is_el10 || is_amzn2023;;
 	openblas) return 0;;
 	gbenchmark) return 0;;
 	highway) return 0;;
