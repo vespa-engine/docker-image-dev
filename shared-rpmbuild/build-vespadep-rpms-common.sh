@@ -53,7 +53,6 @@ should_build_rpm()
 {
     # pkg argument
     case "$1" in
-	toolset-14) is_el8 || is_el9;;
 	toolset-15) is_el8 || is_el9 || is_el10;;
 	lz4) return 0;;
 	zstd) return 0;;
@@ -109,7 +108,6 @@ build_vespadep_rpms_common()
 	done
 	return 0
     fi
-    consider_build_rpm toolset-14
     consider_build_rpm toolset-15
     consider_build_rpm lz4
     consider_build_rpm zstd
