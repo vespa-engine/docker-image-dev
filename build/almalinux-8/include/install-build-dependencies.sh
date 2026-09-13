@@ -58,6 +58,7 @@ EOM
 dnf -y module enable maven:3.8
 
 dnf -y install \
+    rpm-sign \
     ccache \
     createrepo \
     curl \

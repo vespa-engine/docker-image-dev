@@ -24,6 +24,7 @@ dnf -y upgrade
 /include/install-opentofu.sh
 
 dnf -y install \
+    rpm-sign \
     ccache \
     createrepo_c \
     git-core \

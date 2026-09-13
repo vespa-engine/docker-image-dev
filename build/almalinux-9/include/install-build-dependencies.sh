@@ -45,6 +45,7 @@ dnf -y upgrade
 dnf -y module enable maven:3.9/openjdk21
 
 dnf -y install \
+    rpm-sign \
     ccache \
     createrepo \
     git-core \
