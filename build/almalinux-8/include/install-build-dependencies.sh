@@ -59,6 +59,7 @@ dnf -y module enable maven:3.8
 
 dnf -y install \
     rpm-sign \
+    gnupg2 \
     ccache \
     createrepo \
     curl \

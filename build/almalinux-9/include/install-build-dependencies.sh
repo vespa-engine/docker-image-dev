@@ -46,6 +46,7 @@ dnf -y module enable maven:3.9/openjdk21
 
 dnf -y install \
     rpm-sign \
+    gnupg2 \
     ccache \
     createrepo \
     git-core \

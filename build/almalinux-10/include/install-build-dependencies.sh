@@ -25,6 +25,7 @@ dnf -y upgrade
 
 dnf -y install \
     rpm-sign \
+    gnupg2 \
     ccache \
     createrepo_c \
     git-core \
