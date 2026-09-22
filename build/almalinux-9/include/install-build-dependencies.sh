@@ -139,6 +139,13 @@ fi
 
 # Install docker client  to avoid doing this in all pipelines.
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# docker-ce only requires "iptables". With EPEL enabled dnf resolves that to
+# EPEL's iptables-legacy, which needs the ip_tables/iptable_nat/iptable_filter
+# kernel modules loaded on the host. Newer hosts only load nf_tables, and the
+# legacy modules cannot be loaded from an unprivileged container, so dockerd
+# fails with "can't initialize iptables table `nat'". Install the nf_tables
+# frontend first so it satisfies the dependency (same backend AlmaLinux 8 uses).
+dnf install -y iptables-nft
 # dnf -y install docker-ce docker-ce-cli containerd.io
 
 #
