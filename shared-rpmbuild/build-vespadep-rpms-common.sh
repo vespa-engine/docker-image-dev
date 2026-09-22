@@ -41,6 +41,14 @@ is_amzn2023()
     esac
 }
 
+is_amzn2027()
+{
+    case "${CONTAINER_SHORTNAME}" in
+	amzn2027) return 0;;
+	*) return 1;;
+    esac
+}
+
 is_fedora()
 {
     case "${CONTAINER_SHORTNAME}" in
@@ -58,7 +66,7 @@ should_build_rpm()
 	zstd) return 0;;
 	openssl) is_el8;;
 	cmake) is_el8 || is_el9 || is_el10 || is_amzn2023;;
-	ccache) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	ccache) is_el8 || is_el9 || is_el10 || is_amzn2023 || is_amzn2027;;
 	gtest) is_el8 || is_el9 || is_el10 || is_amzn2023;;
 	maven) is_el8 || is_el9 || is_el10;;
 	gradle) return 0;;
