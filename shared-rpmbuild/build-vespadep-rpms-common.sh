@@ -80,6 +80,7 @@ should_build_rpm()
 	mimalloc) return 0;;
 	protobuf) return 0;;
 	grpc) return 0;;
+	opentelemetry-cpp) return 0;;
 	jllama) return 0;;
 	datasketches) return 0;;
 	icu) is_el8 || is_el9 || is_el10;;
@@ -136,6 +137,7 @@ build_vespadep_rpms_common()
     consider_build_rpm mimalloc
     consider_build_rpm protobuf
     consider_build_rpm grpc
+    consider_build_rpm opentelemetry-cpp
     consider_build_rpm jllama
     consider_build_rpm datasketches
     consider_build_rpm icu
