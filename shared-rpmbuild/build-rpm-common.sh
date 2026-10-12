@@ -82,7 +82,7 @@ build_rpm_common()
 	    ;;
     esac
 
-    case "$BUILD_MODE" in
+    case "${BUILD_MODE-}" in
 	automatic)
 	    CONTAINER_COMMAND="/work/build-rpm-inner.sh $package"
 	    CONTAINER_FOREGROUND="--rm"
