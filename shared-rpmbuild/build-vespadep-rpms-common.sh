@@ -136,12 +136,12 @@ build_vespadep_rpms_common()
     consider_build_rpm highway
     consider_build_rpm mimalloc
     consider_build_rpm protobuf
+    consider_build_rpm icu
+    consider_build_rpm re2
     consider_build_rpm grpc
     consider_build_rpm opentelemetry-cpp
     consider_build_rpm jllama
     consider_build_rpm datasketches
-    consider_build_rpm icu
-    consider_build_rpm re2
     consider_build_rpm valgrind
     consider_build_rpm xxhash
     consider_build_rpm build-dependencies
