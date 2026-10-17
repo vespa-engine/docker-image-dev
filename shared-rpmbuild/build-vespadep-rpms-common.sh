@@ -65,7 +65,7 @@ should_build_rpm()
 	lz4) return 0;;
 	zstd) return 0;;
 	openssl) is_el8 || is_el9 || is_el10;;
-	cmake) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	cmake) is_el8 || is_el9 || is_el10 || is_amzn2023 || is_amzn2027;;
 	ccache) is_el8 || is_el9 || is_el10 || is_amzn2023 || is_amzn2027;;
 	gtest) is_el8 || is_el9 || is_el10 || is_amzn2023;;
 	maven) is_el8 || is_el9 || is_el10;;
