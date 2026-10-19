@@ -67,13 +67,13 @@ should_build_rpm()
 	openssl) is_el8 || is_el9 || is_el10;;
 	cmake) is_el8 || is_el9 || is_el10 || is_amzn2023 || is_amzn2027;;
 	ccache) is_el8 || is_el9 || is_el10 || is_amzn2023 || is_amzn2027;;
-	gtest) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	gtest) return 0;;
 	maven) is_el8 || is_el9 || is_el10;;
 	gradle) return 0;;
 	cuda-fix) is_el8 || is_el9 || is_el10;;
 	onnxruntime) return 0;;
 	gcc14-annobin-plugin) is_amzn2023;;
-	abseil-cpp) is_el8 || is_el9 || is_el10 || is_amzn2023;;
+	abseil-cpp) return 0;;
 	openblas) return 0;;
 	gbenchmark) return 0;;
 	highway) return 0;;
@@ -84,7 +84,7 @@ should_build_rpm()
 	jllama) return 0;;
 	datasketches) return 0;;
 	icu) is_el8 || is_el9 || is_el10;;
-	re2) is_el8 || is_el9 || is_el10;;
+	re2) return 0;;
 	valgrind) is_el8;;
 	xxhash) is_amzn2023;;
 	build-dependencies) return 0;;
