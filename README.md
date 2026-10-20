@@ -80,7 +80,7 @@ If not, use the following guide
 [to generate a new SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 The `create-and-start.sh` script we are going to use will copy your SSH key to the container.
 
-Warning: The script will check if the file `.ssh/authorized_keys` is present on your system and copy it to the container if it is present; if it is not present, it will fall back to other common key locations.
+Warning: The script will check if the file `~/.ssh/authorized_keys` is present on your system and copy it to the container if it is present; if it is not present, it will fall back to other common key locations.
 If this file is present on your system but does not contain your key, the script will fail; you will have to manually edit the script to not use this file.
 
 ##### Forwarding additional ports (remote debugging, ...)
