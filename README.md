@@ -140,7 +140,10 @@ Use this for testing if doing changes to the Docker image.
 
 #### SSH into the container
 
-    ssh -A 127.0.0.1 -p 3990
+The setup script adds a convenience alias to `.ssh/config`, which lets you use
+the following command to SSH into the container:
+
+    ssh -A vespa-almalinux-9-dev-0
 
 If the ssh command fails, see [SSH troubleshooting](#ssh-troubleshooting)
 
@@ -330,7 +333,7 @@ Via the Toolbox, install and launch the desired IDE application(s).
  1. Launch the desired IDE from the Toolbox
  2. Navigate to `Remote Development` --> `SSH`.
  3. Set up a new connection. Specify your username and the host/port configured
-    earlier when setting up the Podman container (by default 127.0.0.1 and 3334).
+    earlier when setting up the Podman container (by default 127.0.0.1 and 3990).
     It is recommended to use an SSH agent (for instance via 1Password) to manage
     SSH private keys, as this streamlines the SSH authentication process considerably.
  4. Once the connection is established, add a new project. Specify the IDE version
@@ -364,7 +367,7 @@ Set ```AddressFamily inet``` inside ```/etc/ssh/sshd_config``` and restart sshd:
 #### SSH into container with X11 forwarding
 Open a terminal (for macOS, this must be an XQuartz terminal) and run:
 
-    ssh -Y -A 127.0.0.1 -p 3334
+    ssh -Y -A 127.0.0.1 -p 3990
 
 Then start CLion or IntelliJ from this terminal.
 
@@ -396,15 +399,15 @@ Still problems? Inside the shell, check if there are any host keys:
     If you need to debug further, add the flags `-Ddp` to the above command. In another terminal, try to ssh
     into the container again with the appropriate level of verbosity, e.g.
 
-        ssh -vvv -A 127.0.0.1 -p 3334
+        ssh -vvv -A 127.0.0.1 -p 3990
 
 *   If container is removed and recreated with the same volume, ssh into that container will fail with the following message:
 
-    ```Host key for [127.0.0.1]:3334 has changed and you have requested strict checking.```
+    ```Host key for [127.0.0.1]:3990 has changed and you have requested strict checking.```
 
     To fix that you need to remove old references to the host in the `known_hosts` file:
 
-        ssh-keygen -R '[127.0.0.1]:3334'
+        ssh-keygen -R '[127.0.0.1]:3990'
 
 * If ssh command seems to succeed but immediately exits, try this:
 
