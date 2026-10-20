@@ -403,7 +403,7 @@ Still problems? Inside the shell, check if there are any host keys:
 
         ssh -vvv -A 127.0.0.1 -p 3990
 
-*   If container is removed and recreated with the same volume, ssh into that container will fail with the following message:
+*   If container is removed and recreated with the same volume, ssh into that container may fail with the following message:
 
     ```Host key for [127.0.0.1]:3990 has changed and you have requested strict checking.```
 
