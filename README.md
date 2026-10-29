@@ -365,7 +365,7 @@ Then start CLion or IntelliJ from this terminal.
 
     then, execute an interactive shell on the container:
 
-        docker exec -it vespa-dev-almalinux-8 /bin/bash
+        docker exec -it vespa-almalinux-9-dev-0 /bin/bash
 
 Inside the shell, make sure that the home directory, .ssh directory and the authorized_keys file are readable by the ssh daemon.
 
@@ -398,9 +398,9 @@ Still problems? Inside the shell, check if there are any host keys:
 
 ```
   # Make pam_limits.so optional instead of required (it fails in containers)
-  podman exec vespa-dev-almalinux-8 sed -i 's/^session\s\+required\s\+pam_limits.so/session     optional      pam_limits.so/' /etc/pam.d/password-auth
+  podman exec vespa-almalinux-9-dev-0 sed -i 's/^session\s\+required\s\+pam_limits.so/session     optional      pam_limits.so/' /etc/pam.d/password-auth
   # Make pam_loginuid.so optional instead of required (it fails in containers)
-  podman exec vespa-dev-almalinux-8 sed -i 's/^session\s\+required\s\+pam_loginuid.so/-session    optional      pam_loginuid.so/' /etc/pam.d/sshd
+  podman exec vespa-almalinux-9-dev-0 sed -i 's/^session\s\+required\s\+pam_loginuid.so/-session    optional      pam_loginuid.so/' /etc/pam.d/sshd
 ```
 
 ### CLion 2024.3 configuration (MacOS client)
