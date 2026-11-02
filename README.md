@@ -457,6 +457,18 @@ Opening the project in CLion might fail with the CMake output `[No CMake profile
 
 and then open the project again in CLion.
 
+### IntelliJ IDEA configuration
+
+Some of the generated java source files (e.g. `SearchProtocol.java`) exceeds the default limits for IntelliJ IDEA.
+
+Edit idea.properties, e.g. 'Help' -> 'Edit Custom Properties (On Host)' and
+'Help' -> 'Edit Custom Properties' and add the following properties:
+
+```
+idea.max.content.load.filesize=50000
+idea.max.intellisense.filesize=50000
+```
+
 ### Environment variable tuning to avoid excessive ccache miss rate
 
 The following environment variables are checked by ccache: `GCC_COLORS`, `LANG`, `LC_ALL`, `LC_CTYPE` and `LC_MESSAGES`
