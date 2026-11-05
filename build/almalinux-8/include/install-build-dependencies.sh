@@ -74,7 +74,7 @@ dnf -y install \
     valgrind
 
 # Fetch the RPM spec for vespa
-curl -Lf -O $GIT_REPO/raw/$GIT_REF/dist/vespa.spec
+curl --fail --silent --show-error -L -O $GIT_REPO/raw/$GIT_REF/dist/vespa.spec
 
 # Pick runtime dependencies
 sed -e '/^BuildRequires:/d' \
@@ -135,7 +135,7 @@ fi
 
 # We want the newest version of golang:
 GOTGZ="go1.26.0.linux-$GOARCH.tar.gz"
-curl -sSL -O "https://go.dev/dl/$GOTGZ"
+curl --fail --silent --show-error -L -O "https://go.dev/dl/$GOTGZ"
 rm -rf /usr/local/go && tar -C /usr/local -xzf $GOTGZ
 rm -f $GOTGZ
 ln -sf /usr/local/go/bin/go /usr/local/bin/go
@@ -168,15 +168,15 @@ COSIGN_VERSION=2.6.1
 echo "✍️ Installing cosign version ${COSIGN_VERSION}"
 dnf install -y "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
-TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
+TRIVY_VERSION=$(curl --fail --silent --show-error -L https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.34.3"
 echo "⎈ Installing trivy version ${TRIVY_VERSION} and kubectl version ${KUBECTL_VERSION}"
 if [ "$(arch)" = x86_64 ]; then
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.rpm"
-  curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+  curl --fail --silent --show-error -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 else
   dnf install -y "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-ARM64.rpm"
-  curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl"
+  curl --fail --silent --show-error -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl"
 fi
 chmod 755 /usr/local/bin/kubectl
 
@@ -190,7 +190,7 @@ GOPATH=/usr/local go install github.com/google/go-containerregistry/cmd/crane@v0
 # FIXME @marlon remove hardcoded version and fetch latest after updating usage
 ATHENZ_VERSION="1.11.67"
 echo "🔑 Installing athenz version ${ATHENZ_VERSION} and building siad for buildkite"
-curl -Lf -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
+curl --fail --silent --show-error -L -O https://github.com/AthenZ/athenz/archive/refs/tags/v${ATHENZ_VERSION}.tar.gz
 tar zxf v${ATHENZ_VERSION}.tar.gz
 (
   cd "/athenz-${ATHENZ_VERSION}/provider/buildkite/sia-buildkite"
@@ -209,7 +209,7 @@ pip3 install --upgrade pip
 pip3 install requests
 
 # Add factory command
-curl -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
+curl --fail --silent --show-error -L -o /usr/local/bin/factory-command "https://raw.githubusercontent.com/vespa-engine/vespa/refs/heads/master/.buildkite/factory-command.sh"
 chmod 755 /usr/local/bin/factory-command
 
 # Cleanup

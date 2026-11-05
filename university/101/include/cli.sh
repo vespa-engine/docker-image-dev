@@ -11,7 +11,7 @@ fi
 echo "Installing Vespa CLI..."
 
 # get the latest version of Vespa CLI
-VESPA_VERSION=$(curl -s https://api.github.com/repos/vespa-engine/vespa/releases | jq -r '.[].name' | grep Vespa.CLI | head -n 1 | sed 's|.*\ ||')
+VESPA_VERSION=$(curl --fail --silent --show-error https://api.github.com/repos/vespa-engine/vespa/releases | jq -r '.[].name' | grep Vespa.CLI | head -n 1 | sed 's|.*\ ||')
 PATH_TO_ADD="/opt/vespa/vespa-cli_${VESPA_VERSION}_linux_amd64/bin"
 
 curl -fsSL -o vespa-cli.tar.gz https://github.com/vespa-engine/vespa/releases/download/v${VESPA_VERSION}/vespa-cli_${VESPA_VERSION}_linux_amd64.tar.gz
