@@ -173,6 +173,18 @@ COSIGN_VERSION=2.6.1
 echo "✍️ Installing cosign version ${COSIGN_VERSION}"
 dnf install -y "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}-1.$(arch).rpm"
 
+# syft generates SBOMs for the container images built with this image
+SYFT_VERSION=1.56.0
+echo "📦 Installing syft version ${SYFT_VERSION}"
+case "$(arch)" in
+  x86_64)  SYFT_ARCH=amd64; SYFT_SHA256=536d114826817e44becf9ac7e19b9543685bbcad17a143624004a09b3f6579be ;;
+  aarch64) SYFT_ARCH=arm64; SYFT_SHA256=9faa25b9d9951a4e7314e04b3787e069d51a08ddb240a18b9a590bec183d2a94 ;;
+esac
+curl -sSfL -o /tmp/syft.rpm "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_linux_${SYFT_ARCH}.rpm"
+echo "${SYFT_SHA256}  /tmp/syft.rpm" | sha256sum --check --strict
+dnf install -y /tmp/syft.rpm
+rm -f /tmp/syft.rpm
+
 TRIVY_VERSION=$(curl -sSL https://api.github.com/repos/aquasecurity/trivy/releases/latest |  jq -re '.tag_name|sub("^v";"")')
 KUBECTL_VERSION="1.34.3"
 echo "⎈ Installing trivy version ${TRIVY_VERSION} and kubectl version ${KUBECTL_VERSION}"
